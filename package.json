@@ -1,0 +1,29 @@
+{
+    "name": "RESTful Server",
+    "version": "0.0.0",
+    "description": "RESTful using Node JS",
+    "author": {
+        "name": "Jacob Jensen",
+        "email": "jacob@jacobj.org"
+    },
+    "contributors": [
+        {
+            "name": "Jacob Jensen",
+            "email": "jacob@jacobj.org"
+        },
+        {
+            "name": "Rachel Dahl",
+            "email": ""
+        }
+    ],
+    "main": "server.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jacobjdev/Homework-3---RESTful-Server"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "sqlite3": "^4.1.0",
+        "js2xmlparser":"^4.0.0"
+    }
+}
