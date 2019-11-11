@@ -27,8 +27,8 @@ var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
 
 
 app.get('/codes', (req,res) => {
-    var JsonToSend = {codes:[]};
-    var stringToStringify = "";
+    //var JsonToSend = {codes:[]};
+    var stringToStringify = "{ ";
     //want the key to be the code string and the value being what the type is
     //SELECT * FROM Codes ORDER BY code
     db.each("SELECT * FROM Codes ORDER BY code", (err, row) =>{
@@ -37,19 +37,51 @@ app.get('/codes', (req,res) => {
         stringToStringify += "\""+ parseInt(row.code) +"\""+ ":" +"\""+ row.incident_type + "\""+ ",";
     }, () =>{
         // console.log(JSON.parse(stringToStringify));
-        stringToStringify = stringToStringify.substring(0,stringToStringify.length-1);
-        console.log(stringToStringify)
+		stringToStringify = stringToStringify.substring(0,stringToStringify.length-1)+ "}";
+		res.type('json').send(JSON.parse(stringToStringify));
+        //console.log(stringToStringify)
         console.log(JSON.parse(stringToStringify));
     });
 });
 
 
 app.get('/neighborhoods',(req,res) => {
-
+	var neighborhoodString = "{ ";
+	db.each("SELECT * FROM Neighborhoods ORDER BY neighborhood_number", (err, row) =>{
+        neighborhoodString += "\""+ parseInt(row.neighborhood_number) +"\""+ ":" +"\""+ row.neighborhood_name + "\""+ ",";
+    }, () =>{
+		neighborhoodString = neighborhoodString.substring(0,neighborhoodString.length-1)+ "}";
+		res.type('json').send(JSON.parse(neighborhoodString));
+        //console.log(JSON.parse(neighboorhoodString));
+    });
+	
 });
 
 
 app.get('/incidents', (req,res) => {
+	var incidentObject={};	
+	var thingsToAdd={};
+	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
+		var caseNum=row.case_number;
+		incidentObject = {caseNum:{}};
+		var dateStuff=row.date_time.substring(0,10);
+		var timeStuff=row.date_time.substring(11,19);
+		thingsToAdd={
+			date: dateStuff,
+			time:timeStuff,
+			code: row.code,
+			incident: row.incident,
+			police_grid: row.police_grid,
+			neighborhood_number: row.neighborhood_number,
+			block: row.block
+		};
+		//console.log(JSON.stringify(thingsToAdd));
+		incidentObject.caseNum.push(thingsToAdd);
+    }, () =>{
+		//incidentObject.caseNum.push(thingsToAdd);
+		console.log(JSON.stringify(incidentObject));
+    });
+	
 
 });
 
