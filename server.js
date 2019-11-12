@@ -15,7 +15,7 @@ var db_filename = path.join(__dirname, 'database', 'stpaul_crime.sqlite3');
 var app = express();
 var port = 8000;
 app.use(bodyParser.urlencoded({extended:true}));
-
+// need to change to not read only
 var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
     if (err) {
         console.log('Error opening ' + db_filename);
@@ -27,45 +27,17 @@ var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
 
 
 app.get('/codes', (req,res) => {
-    var JsonToSend = {codes:[]};
-    var stringToStringify = "{ ";
+    var JsonToSend = {};
     //want the key to be the code string and the value being what the type is
     //SELECT * FROM Codes ORDER BY code
     db.each("SELECT * FROM Codes ORDER BY code", (err, row) =>{
-        var newCode = parseInt(row.code);
+        var newCode = row.code;
         var newIncidntType = row.incident_type;
+        JsonToSend[newCode] = newIncidntType;
         //why no newJSONENTRY = {parseInt(row.code):newIncidentType}
-        var newJSONEntry = {newCode: newIncidntType};
-        JsonToSend.codes.push(newJSONEntry);
         // stringToStringify += "\""+ parseInt(row.code) +"\""+ ":" +"\""+ row.incident_type + "\""+ ",";
     }, () =>{
-        // console.log(JSON.parse(stringToStringify));
-		// stringToStringify = stringToStringify.substring(0,stringToStringify.length-1)+ "}";
-		// res.type('json').send(JSON.parse(stringToStringify));
-        //console.log(stringToStringify)
-        // console.log(JSON.parse(stringToStringify));
-        console.log(JSON.stringify(JsonToSend));
-    });
-});
-
-app.get('/codes2', (req,res) => {
-    var codesString = "{ ";
-    db.each('SELECT * FROM Codes ORDER BY code',(err, row) =>{
-        //console.log(rows);
-        codesString += "\"" + parseInt(row.code) + "\"" + ":" + "\"" + row.incident_type + "\"" + ",";
-        codesString = codesString.substring(0,codesString.length-1)+"}";
-    }, () =>{
-        res.type('json').send(JSON.parse(codesString))
-    });
-    // console.log(JSON.stringify(JsonToSend));
-});
-app.get('/codes3', (req,res)=> {
-    var JSONStuff;
-    db.each('SELECT * FROM Codes ORDER BY codes', (err, row) =>{
-
-        JSONStuff = JSONStuff + row.code
-    }, () => {
-
+        console.log(JSON.stringify(JsonToSend, null, 4));
     });
 });
 
@@ -139,6 +111,16 @@ app.put('/new-incident', (req,res) =>{
         var newPoliceGrid = req.neighborhood_num;
         var newBlock = req.block;
         //how to upload it?????????
+        db.run("INSERT INTO Incidents VALUES (?, ?, ?, ?, ?,?)", [newCaseNumber,newDateTime,newCode,newIncident,newPoliceGrid,newBlock], (err, row) => {
+            if(err){
+                console.log("update did not work sucesfully");
+            }else{
+                console.log("updated sucessfully")
+            }
+        });
+    
+    //https://github.com/mapbox/node-sqlite3/wiki/API#databaserunsql-param--callback
+    //https://www.w3schools.com/sql/sql_insert.asp
     }
     });
 
