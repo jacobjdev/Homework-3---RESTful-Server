@@ -88,7 +88,8 @@ app.get('/incidents', (req,res) => {
 	var thingsToAdd={};
 	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
 		var caseNum=row.case_number;
-		incidentObject = {caseNum:[]};
+		incidentObject = {};
+		
 		//incidentObject.push(row.case_number);
 		var dateStuff=row.date_time.substring(0,10);
 		var timeStuff=row.date_time.substring(11,19);
@@ -105,11 +106,12 @@ app.get('/incidents', (req,res) => {
 			//}
 		};
 		//console.log(JSON.stringify(thingsToAdd));
-		incidentObject.caseNum.push(thingsToAdd);
+		incidentObject[caseNum]=thingsToAdd;
 		//incidentObject.push(row.case_number);
     }, () =>{
 		//incidentObject.caseNum.push(row.case_number:thingsToAdd);
 		console.log(JSON.stringify(incidentObject));
+		//res.type('json').send(JSON.parse(incidentObject));
     });
 	
 
