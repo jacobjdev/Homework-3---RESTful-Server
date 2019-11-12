@@ -34,59 +34,48 @@ app.get('/codes', (req,res) => {
         var newCode = row.code;
         var newIncidntType = row.incident_type;
         JsonToSend[newCode] = newIncidntType;
-        //why no newJSONENTRY = {parseInt(row.code):newIncidentType}
-        // stringToStringify += "\""+ parseInt(row.code) +"\""+ ":" +"\""+ row.incident_type + "\""+ ",";
     }, () =>{
         console.log(JSON.stringify(JsonToSend, null, 4));
+        res.type('json').send(JsonToSend);
     });
 });
 
 
 app.get('/neighborhoods',(req,res) => {
-	var neighborhoodString = "{ ";
+	var neighborhoodJSONToSend = {};
 	db.each("SELECT * FROM Neighborhoods ORDER BY neighborhood_number", (err, row) =>{
-        neighborhoodString += "\""+ parseInt(row.neighborhood_number) +"\""+ ":" +"\""+ row.neighborhood_name + "\""+ ",";
+        var newNeighborhoodNumber = row.neighborhood_number;
+        var newNeighborhoodName = row.neighborhood_name;
+        neighborhoodJSONToSend[newNeighborhoodNumber] = newNeighborhoodName;
     }, () =>{
-		neighborhoodString = neighborhoodString.substring(0,neighborhoodString.length-1)+ "}";
-		res.type('json').send(JSON.parse(neighborhoodString));
-        //console.log(JSON.parse(neighboorhoodString));
-    });
-	
+        console.log(JSON.stringify(neighborhoodJSONToSend, null, 4));
+        res.type('json').send(neighborhoodJSONToSend);
+    });	
 });
 
 
 app.get('/incidents', (req,res) => {
 	var incidentObject={};	
-	var thingsToAdd={};
 	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
-		var caseNum=row.case_number;
-		incidentObject = {};
-		
-		//incidentObject.push(row.case_number);
-		var dateStuff=row.date_time.substring(0,10);
-		var timeStuff=row.date_time.substring(11,19);
-		//console.log(row.case_number);
-		thingsToAdd={
-			//row.case_number
-			date: dateStuff,
-				time:timeStuff,
-				code: row.code,
-				incident: row.incident,
-				police_grid: row.police_grid,
-				neighborhood_number: row.neighborhood_number,
-				block: row.block
-			//}
+        var caseToAdd={};
+        var caseNum=row.case_number;
+        // Separating the date and time out separately
+		var dateSeparated=row.date_time.substring(0,10);
+		var timeSeparated=row.date_time.substring(11,19);
+		caseToAdd={
+			date: dateSeparated,
+            time:timeSeparated,
+            code: row.code,
+            incident: row.incident,
+            police_grid: row.police_grid,
+            neighborhood_number: row.neighborhood_number,
+            block: row.block
 		};
-		//console.log(JSON.stringify(thingsToAdd));
-		incidentObject[caseNum]=thingsToAdd;
-		//incidentObject.push(row.case_number);
+		incidentObject[caseNum]=caseToAdd;
     }, () =>{
-		//incidentObject.caseNum.push(row.case_number:thingsToAdd);
-		console.log(JSON.stringify(incidentObject));
-		//res.type('json').send(JSON.parse(incidentObject));
+		console.log(JSON.stringify(incidentObject, null, 4));
+		res.type('json').send(incidentObject);
     });
-	
-
 });
 //curl -X PUT -d "case_number=[NUMBER]&date_time=2019-10-26T02:50:13.000&code=643&incident=Auto Theft&police_grid=62&neighborhood_num=12&block=2X RAYMOND PL" http://localhost:8000/new-incident
 app.put('/new-incident', (req,res) =>{
@@ -106,6 +95,7 @@ app.put('/new-incident', (req,res) =>{
         // do the processing to upload
         var newCaseNumber = req.body.case_number;
         var newDateTime = req.body.date_time;
+        //need to split the date time into two fields
         var newCode = req.body.code;
         var newIncident = req.body.incident;
         var newPoliceGrid = req.neighborhood_num;
