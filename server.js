@@ -15,8 +15,9 @@ var db_filename = path.join(__dirname, 'database', 'stpaul_crime.sqlite3');
 var app = express();
 var port = 8000;
 app.use(bodyParser.urlencoded({extended:true}));
-// need to change to not read only
-var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
+
+
+var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
         console.log('Error opening ' + db_filename);
     }
@@ -28,8 +29,6 @@ var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
 
 app.get('/codes', (req,res) => {
     var JsonToSend = {};
-    //want the key to be the code string and the value being what the type is
-    //SELECT * FROM Codes ORDER BY code
     db.each("SELECT * FROM Codes ORDER BY code", (err, row) =>{
         var newCode = row.code;
         var newIncidntType = row.incident_type;
@@ -79,9 +78,8 @@ app.get('/incidents', (req,res) => {
 });
 //curl -X PUT -d "case_number=[NUMBER]&date_time=2019-10-26T02:50:13.000&code=643&incident=Auto Theft&police_grid=62&neighborhood_num=12&block=2X RAYMOND PL" http://localhost:8000/new-incident
 app.put('/new-incident', (req,res) =>{
-    //WHAT FIELDS ARE REQUIRED TO PROCESS?  OR CAN JUST BE A CASE NUMBER AND THATS IT>
+    //WHAT FIELDS ARE REQUIRED TO PROCESS?  OR CAN JUST BE A CASE NUMBER AND THATS IT>  just a case number
     //how to add error checking to make sure contains all the required fields?
-    console.log(req.body)
     var duplicateCaseNumber = false;
     var case_number = req.body.case_number;
     db.each("SELECT case_number FROM Incidents", (err, row) =>{
@@ -98,23 +96,25 @@ app.put('/new-incident', (req,res) =>{
         //need to split the date time into two fields
         var newCode = req.body.code;
         var newIncident = req.body.incident;
-        var newPoliceGrid = req.neighborhood_num;
+        var newPoliceGrid = req.police_grid;
+        var newNeighborhoodNum = req.neighborhood_num;
         var newBlock = req.block;
-        //how to upload it?????????
-        db.run("INSERT INTO Incidents VALUES (?, ?, ?, ?, ?,?)", [newCaseNumber,newDateTime,newCode,newIncident,newPoliceGrid,newBlock], (err, row) => {
+        db.run("INSERT INTO Incidents VALUES (?, ?, ?, ?, ?, ?, ?)", [newCaseNumber,newDateTime,newCode,newIncident,newPoliceGrid,newNeighborhoodNum,newBlock], (err, row) => {
             if(err){
+                console.log(err);
                 console.log("update did not work sucesfully");
+                res.status(500).status('updating database failed for some reason');
             }else{
                 console.log("updated sucessfully")
+                res.status(200).status('database updated sucessfullyw');
             }
         });
     
-    //https://github.com/mapbox/node-sqlite3/wiki/API#databaserunsql-param--callback
-    //https://www.w3schools.com/sql/sql_insert.asp
     }
     });
-
 });
+//https://github.com/mapbox/node-sqlite3/wiki/API#databaserunsql-param--callback
+//https://www.w3schools.com/sql/sql_insert.asp
 
 console.log('Now listening on port ' + port);
 var server = app.listen(port);
