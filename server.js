@@ -12,7 +12,7 @@ var JSONtoXML = require('js2xmlparser');
 //var public_dir = path.join(__dirname, 'public');
 
 var db_filename = path.join(__dirname, 'database', 'stpaul_crime.sqlite3');
-var app = express();
+var app  = express();
 var port = 8000;
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -30,8 +30,8 @@ var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
 app.get('/codes', (req,res) => {
     var JsonToSend = {};
     db.each("SELECT * FROM Codes ORDER BY code", (err, row) =>{
-        var newCode = row.code;
-        var newIncidntType = row.incident_type;
+        var newCode         = row.code;
+        var newIncidntType  = row.incident_type;
         JsonToSend[newCode] = newIncidntType;
     }, () =>{
         console.log(JSON.stringify(JsonToSend, null, 4));
@@ -44,7 +44,7 @@ app.get('/neighborhoods',(req,res) => {
 	var neighborhoodJSONToSend = {};
 	db.each("SELECT * FROM Neighborhoods ORDER BY neighborhood_number", (err, row) =>{
         var newNeighborhoodNumber = row.neighborhood_number;
-        var newNeighborhoodName = row.neighborhood_name;
+        var newNeighborhoodName   = row.neighborhood_name;
         neighborhoodJSONToSend[newNeighborhoodNumber] = newNeighborhoodName;
     }, () =>{
         console.log(JSON.stringify(neighborhoodJSONToSend, null, 4));
@@ -56,21 +56,21 @@ app.get('/neighborhoods',(req,res) => {
 app.get('/incidents', (req,res) => {
 	var incidentObject={};	
 	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
-        var caseToAdd={};
-        var caseNum=row.case_number;
+        var caseToAdd = {};
+        var caseNum = row.case_number;
         // Separating the date and time out separately
-		var dateSeparated=row.date_time.substring(0,10);
-		var timeSeparated=row.date_time.substring(11,19);
-		caseToAdd={
+		var dateSeparated = row.date_time.substring(0,10);
+		var timeSeparated = row.date_time.substring(11,19);
+		caseToAdd = {
 			date: dateSeparated,
-            time:timeSeparated,
+            time: timeSeparated,
             code: row.code,
             incident: row.incident,
             police_grid: row.police_grid,
             neighborhood_number: row.neighborhood_number,
             block: row.block
 		};
-		incidentObject[caseNum]=caseToAdd;
+		incidentObject[caseNum] = caseToAdd;
     }, () =>{
 		console.log(JSON.stringify(incidentObject, null, 4));
 		res.type('json').send(incidentObject);
@@ -91,14 +91,14 @@ app.put('/new-incident', (req,res) =>{
         res.status(500).send('error:case ID already exists');
     }else{
         // do the processing to upload
-        var newCaseNumber = req.body.case_number;
-        var newDateTime = req.body.date_time;
+        var newCaseNumber      = req.body.case_number;
+        var newDateTime        = req.body.date_time;
         //need to split the date time into two fields
-        var newCode = req.body.code;
-        var newIncident = req.body.incident;
-        var newPoliceGrid = req.police_grid;
+        var newCode            = req.body.code;
+        var newIncident        = req.body.incident;
+        var newPoliceGrid      = req.police_grid;
         var newNeighborhoodNum = req.neighborhood_num;
-        var newBlock = req.block;
+        var newBlock           = req.block;
         db.run("INSERT INTO Incidents VALUES (?, ?, ?, ?, ?, ?, ?)", [newCaseNumber,newDateTime,newCode,newIncident,newPoliceGrid,newNeighborhoodNum,newBlock], (err, row) => {
             if(err){
                 console.log(err);
