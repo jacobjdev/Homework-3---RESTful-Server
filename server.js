@@ -28,6 +28,13 @@ var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
 
 
 app.get('/codes', (req,res) => {
+    //comma separated list of codes to include in result (e.g. ?code=110,700). By default all codes should be included.
+    //format - json or xml (e.g. ?format=xml). By default JSON format should be used.
+    // processing query things
+    console.log(req.query);
+    //so how do you add specifics to all this stuff?????????????????  How to encorporate it into the query and stuff
+
+
     var JsonToSend = {};
     db.each("SELECT * FROM Codes ORDER BY code", (err, row) =>{
         var newCode         = row.code;
@@ -41,6 +48,14 @@ app.get('/codes', (req,res) => {
 
 
 app.get('/neighborhoods',(req,res) => {
+    /*
+    id - comma separated list of neighborhood numbers to include in result (e.g. ?id=11,14). By default all neighborhoods should be included.
+    format - json or xml (e.g. ?format=xml). By default JSON format should be used.
+    */
+
+    // processing query things
+    console.log(req.query);
+
 	var neighborhoodJSONToSend = {};
 	db.each("SELECT * FROM Neighborhoods ORDER BY neighborhood_number", (err, row) =>{
         var newNeighborhoodNumber = row.neighborhood_number;
@@ -54,6 +69,21 @@ app.get('/neighborhoods',(req,res) => {
 
 
 app.get('/incidents', (req,res) => {
+    /*    
+    start_date - first date to include in results (e.g. ?start_date=09-01-2019)
+    end_date - last date to include in results (e.g. ?end_date=10-31-2019)
+    code - comma separated list of codes to include in result (e.g. ?code=110,700). By default all codes should be included.
+    grid - comma separated list of police grid numbers to include in result (e.g. ?grid=38,65). By default all police grids should be included.
+    neighborhood - comma separated list of neighborhood numbers to include in result (e.g. ?id=11,14). By default all neighborhoods should be included.
+    limit - maximum number of incidents to include in result (e.g. ?limit=50). By default the limit should be 10,000.
+    format - json or xml (e.g. ?format=xml). By default JSON format should be used.
+    */
+    // processing query things
+    console.log(req.query);
+
+    
+
+
 	var incidentObject={};	
 	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
         var caseToAdd = {};
@@ -76,6 +106,8 @@ app.get('/incidents', (req,res) => {
 		res.type('json').send(incidentObject);
     });
 });
+
+
 //curl -X PUT -d "case_number=[NUMBER]&date_time=2019-10-26T02:50:13.000&code=643&incident=Auto Theft&police_grid=62&neighborhood_num=12&block=2X RAYMOND PL" http://localhost:8000/new-incident
 app.put('/new-incident', (req,res) =>{
     //WHAT FIELDS ARE REQUIRED TO PROCESS?  OR CAN JUST BE A CASE NUMBER AND THATS IT>  just a case number
@@ -113,6 +145,7 @@ app.put('/new-incident', (req,res) =>{
     }
     });
 });
+
 //https://github.com/mapbox/node-sqlite3/wiki/API#databaserunsql-param--callback
 //https://www.w3schools.com/sql/sql_insert.asp
 
