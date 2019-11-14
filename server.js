@@ -37,7 +37,7 @@ app.get('/codes', (req,res) => {
 
     var JsonToSend = {};
     db.each("SELECT * FROM Codes ORDER BY code", (err, row) =>{
-        var newCode         = row.code;
+        var newCode         = "C"+row.code;
         var newIncidntType  = row.incident_type;
         JsonToSend[newCode] = newIncidntType;
     }, () =>{
@@ -58,7 +58,7 @@ app.get('/neighborhoods',(req,res) => {
 
 	var neighborhoodJSONToSend = {};
 	db.each("SELECT * FROM Neighborhoods ORDER BY neighborhood_number", (err, row) =>{
-        var newNeighborhoodNumber = row.neighborhood_number;
+        var newNeighborhoodNumber = "N" + row.neighborhood_number;
         var newNeighborhoodName   = row.neighborhood_name;
         neighborhoodJSONToSend[newNeighborhoodNumber] = newNeighborhoodName;
     }, () =>{
@@ -87,7 +87,7 @@ app.get('/incidents', (req,res) => {
 	var incidentObject={};	
 	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
         var caseToAdd = {};
-        var caseNum = row.case_number;
+        var caseNum = "I" + row.case_number;
         // Separating the date and time out separately
 		var dateSeparated = row.date_time.substring(0,10);
 		var timeSeparated = row.date_time.substring(11,19);
