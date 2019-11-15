@@ -41,8 +41,14 @@ app.get('/codes', (req,res) => {
         var newIncidntType  = row.incident_type;
         JsonToSend[newCode] = newIncidntType;
     }, () =>{
+
         console.log(JSON.stringify(JsonToSend, null, 4));
-        res.type('json').send(JsonToSend);
+        if(req.query.hasOwnProperty("format")){
+            console.log(JSONtoXML.parse("codes",JsonToSend));
+            res.type('xml').send(JSONtoXML.parse("codes",JsonToSend));
+        }else{
+            res.type('json').send(JsonToSend);
+        }
     });
 });
 
@@ -63,7 +69,15 @@ app.get('/neighborhoods',(req,res) => {
         neighborhoodJSONToSend[newNeighborhoodNumber] = newNeighborhoodName;
     }, () =>{
         console.log(JSON.stringify(neighborhoodJSONToSend, null, 4));
-        res.type('json').send(neighborhoodJSONToSend);
+        if(req.query.hasOwnProperty("format")){
+            console.log(JSONtoXML.parse("neighborhoods",neighborhoodJSONToSend));
+            res.type('xml').send(JSONtoXML.parse("neighborhoods",neighborhoodJSONToSend));
+        }else{
+            
+            res.type('json').send(neighborhoodJSONToSend);
+        }
+
+
     });	
 });
 
@@ -80,9 +94,6 @@ app.get('/incidents', (req,res) => {
     */
     // processing query things
     console.log(req.query);
-
-    
-
 
 	var incidentObject={};	
 	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
@@ -102,8 +113,13 @@ app.get('/incidents', (req,res) => {
 		};
 		incidentObject[caseNum] = caseToAdd;
     }, () =>{
-		console.log(JSON.stringify(incidentObject, null, 4));
-		res.type('json').send(incidentObject);
+        if(req.query.hasOwnProperty("format")){
+            console.log(JSONtoXML.parse("incidents",incidentObject));
+            res.type('xml').send(JSONtoXML.parse("incidents",incidentObject));
+        }else{            
+            console.log(JSON.stringify(incidentObject, null, 4));
+            res.type('json').send(incidentObject);
+        }
     });
 });
 
