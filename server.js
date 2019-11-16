@@ -31,20 +31,62 @@ app.get('/codes', (req,res) => {
     //comma separated list of codes to include in result (e.g. ?code=110,700). By default all codes should be included.
     //format - json or xml (e.g. ?format=xml). By default JSON format should be used.
     // processing query things
-    console.log(req.query);
+    //console.log(req.query);
     //so how do you add specifics to all this stuff?????????????????  How to encorporate it into the query and stuff
 
+	
+	
+	for (var key in req.query) {
+		if (req.query.hasOwnProperty(key)) {
+			//console.log(req.query[key]);
+			
+		}
+	}
+	//console.log('1 '+req.query.length);
+	//console.log('2 '+JSON.stringify(req.query));
 
     var JsonToSend = {};
     db.each("SELECT * FROM Codes ORDER BY code", (err, row) =>{
+		
+		
         var newCode         = "C"+row.code;
         var newIncidntType  = row.incident_type;
         JsonToSend[newCode] = newIncidntType;
     }, () =>{
+		
+		//console.log(JsonToSend);
+		/*
+		for (var key in request.query) {
+			if (request.query.hasOwnProperty(key)) {
+				alert(key + " -> " + request.query[key]);
+			}
+		}
+		*/
+		//console.log('hi '+req.query.code);
+		
+		var stuffToAdd={};
+		if(req.query.hasOwnProperty("code")){
+			//console.log(req.query.code[key]);
+			for (var key in req.query.code) {
+				for (var i; i<JsonToSend.length;i++){
+					console.log('1 '+req.query.code[key]);
+					console.log('2 '+newCode);
+					if (req.query.code[key]==newCode) {
+						//console.log('1 '+req.query.code[key]);
+						//console.log('2 '+newCode);
+						//include the rows of the keys entered
+						JsonToSend[key]=stuffToAdd;
+						console.log(JsonToSend[key]);
+					}
+				}
+			}
+		}
 
-        console.log(JSON.stringify(JsonToSend, null, 4));
+		
+		
+        //console.log(JSON.stringify(JsonToSend, null, 4));
         if(req.query.hasOwnProperty("format")){
-            console.log(JSONtoXML.parse("codes",JsonToSend));
+            //console.log(JSONtoXML.parse("codes",JsonToSend));
             res.type('xml').send(JSONtoXML.parse("codes",JsonToSend));
         }else{
             res.type('json').send(JsonToSend);
