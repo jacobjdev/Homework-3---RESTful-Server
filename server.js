@@ -27,6 +27,7 @@ var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
 });
 
 
+
 app.get('/codes', (req,res) => {
     //comma separated list of codes to include in result (e.g. ?code=110,700). By default all codes should be included.
     //format - json or xml (e.g. ?format=xml). By default JSON format should be used.
@@ -34,65 +35,69 @@ app.get('/codes', (req,res) => {
     //console.log(req.query);
     //so how do you add specifics to all this stuff?????????????????  How to encorporate it into the query and stuff
 
-	
-	
-	for (var key in req.query) {
-		if (req.query.hasOwnProperty(key)) {
-			//console.log(req.query[key]);
-			
-		}
-	}
-	//console.log('1 '+req.query.length);
-	//console.log('2 '+JSON.stringify(req.query));
+    var firstDBCallPart = "SELECT * FROM Codes";
+    var middleDBCallPart = "";
+    var lastDBCallPart = "ORDER BY code";
+    var wantXML = false;
+    var dataToSend = {};
+    
 
-    var JsonToSend = {};
-    db.each("SELECT * FROM Codes ORDER BY code", (err, row) =>{
-		
-		
-        var newCode         = "C"+row.code;
-        var newIncidntType  = row.incident_type;
-        JsonToSend[newCode] = newIncidntType;
-    }, () =>{
-		
-		//console.log(JsonToSend);
-		/*
-		for (var key in request.query) {
-			if (request.query.hasOwnProperty(key)) {
-				alert(key + " -> " + request.query[key]);
-			}
-		}
-		*/
-		//console.log('hi '+req.query.code);
-		
-		var stuffToAdd={};
-		if(req.query.hasOwnProperty("code")){
-			//console.log(req.query.code[key]);
-			for (var key in req.query.code) {
-				for (var i; i<JsonToSend.length;i++){
-					console.log('1 '+req.query.code[key]);
-					console.log('2 '+newCode);
-					if (req.query.code[key]==newCode) {
-						//console.log('1 '+req.query.code[key]);
-						//console.log('2 '+newCode);
-						//include the rows of the keys entered
-						JsonToSend[key]=stuffToAdd;
-						console.log(JsonToSend[key]);
-					}
-				}
-			}
-		}
-
-		
-		
-        //console.log(JSON.stringify(JsonToSend, null, 4));
-        if(req.query.hasOwnProperty("format")){
-            //console.log(JSONtoXML.parse("codes",JsonToSend));
-            res.type('xml').send(JSONtoXML.parse("codes",JsonToSend));
+    console.log("query req stuff: " +req.query);
+    console.log(req.query.code + "is type of: " +typeof(req.query.code));
+    console.log("this is what looks like stringed up brudda:  " + JSON.stringify(req.query));
+    // maybe lowercase it all for defensive programming?
+    if(req.query.hasOwnProperty("code")){
+        var middleDBToAdd = "";
+        if(req.query.code.includes(',')){
+            console.log("I am splitting: " + req.query.code);
+            var codesToProcess = req.query.code.split(',');
+            console.log("splitted codes: " + codesToProcess + " and is type of: " + typeof(codesToProcess));
+            console.log("codes to process length: " + codesToProcess.length);
+            for(let i = 0; i<codesToProcess.length;i++){
+                if(i === 0){
+                    middleDBToAdd = "WHERE code = " +codesToProcess[i];
+                }else{
+                    middleDBToAdd =  middleDBToAdd + " " +"OR code ="+ " " + codesToProcess[i];
+                }
+            }
+            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
+            //loop over each code to do processing for the string stuff
         }else{
-            res.type('json').send(JsonToSend);
+            middleDBToAdd = "WHERE code = " +req.query.code;
+            //one code to process for the where
+            //save this to variable;
+        }
+        middleDBCallPart = middleDBToAdd;
+        // assin middle part to be this stuff
+    }
+
+    if(req.query.hasOwnProperty("format") && (req.query.format == "xml")){
+        wantXML = true;
+        console.log("Made it to XML PART IF")
+    }
+
+    var finalDBCall = firstDBCallPart + " " + middleDBCallPart + " " + lastDBCallPart;
+    console.log("FINAL DB Call: " + finalDBCall)
+    db.each(finalDBCall,(err,row) => {
+        var newCode         = "C"+row.code;
+        var newIncidentType = row.incident_type;
+        dataToSend[newCode] = newIncidentType;
+        // console.log(row)
+        // console.log("ERROR: "+ err)
+    }, () =>{
+        if(wantXML){
+            //console.log(JSONtoXML.parse("codes",JsonToSend));
+            res.type('xml').send(JSONtoXML.parse("codes",dataToSend));
+        }else{
+            console.log(JSON.stringify(dataToSend, null, 4));
+            res.type('json').send(dataToSend);
         }
     });
 });
+
+
+
+
 
 
 app.get('/neighborhoods',(req,res) => {
