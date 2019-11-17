@@ -71,7 +71,7 @@ app.get('/codes', (req,res) => {
         // assin middle part to be this stuff
     }
 
-    if(req.query.hasOwnProperty("format") && (req.query.format == "xml")){
+    if(req.query.hasOwnProperty("format") && (req.query.format.toLowerCase() === "xml")){
         wantXML = true;
         console.log("Made it to XML PART IF")
     }
@@ -169,6 +169,77 @@ app.get('/incidents', (req,res) => {
         }
     });
 });
+
+app.get('/incidents2', (req,res) => {
+    /*    
+    start_date - first date to include in results (e.g. ?start_date=09-01-2019)
+    end_date - last date to include in results (e.g. ?end_date=10-31-2019)
+    code - comma separated list of codes to include in result (e.g. ?code=110,700). By default all codes should be included.
+    grid - comma separated list of police grid numbers to include in result (e.g. ?grid=38,65). By default all police grids should be included.
+    neighborhood - comma separated list of neighborhood numbers to include in result (e.g. ?id=11,14). By default all neighborhoods should be included.
+    limit - maximum number of incidents to include in result (e.g. ?limit=50). By default the limit should be 10,000.
+    format - json or xml (e.g. ?format=xml). By default JSON format should be used.
+    */ 
+   // example query for db browser: SELECT * FROM Incidents WHERE date_time < "2019-10-31T00:00:00" AND code = 525 AND police_grid = 36 ORDER BY date_time
+    // processing query things
+    var firstDBCallPart         = "SELECT * FROM Incidents";
+    var finalMiddleDBCallPart   = "";
+    var middlePartDBCallBuilder = "";
+    var lastDBCallPart          = "ORDER BY date_time";
+    var wantXML                 = false;
+    var whereStatementUsedYet   = false;
+    var dataToSend              = {};
+    console.log("query req stuff: " +req.query);
+    // console.log(req.query.code + "is type of: " +typeof(req.query.code));
+    console.log("this is what looks like stringed up brudda:  " + JSON.stringify(req.query));
+
+
+
+    if(req.query.hasOwnProperty("code")){
+        var middleDBToAdd = "";
+        if(req.query.code.includes(',')){
+            console.log("I am splitting: " + req.query.code);
+            var codesToProcess = req.query.code.split(',');
+            console.log("splitted codes: " + codesToProcess + " and is type of: " + typeof(codesToProcess));
+            console.log("codes to process length: " + codesToProcess.length);
+            for(let i = 0; i<codesToProcess.length;i++){
+                if(i === 0){
+                    middleDBToAdd = "code =" + " " + codesToProcess[i];
+                }else{
+                    middleDBToAdd = middleDBToAdd + " " +"OR code ="+ " " + codesToProcess[i];    
+                }
+            }
+            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
+            //loop over each code to do processing for the string stuff
+        }else{
+            middleDBToAdd = req.query.code;
+            //one code to process for the where
+            //save this to variable;
+        }
+        if(!whereStatementUsedYet){
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + middleDBToAdd + ")";
+        }else{
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + middleDBToAdd + ")";
+        }
+        whereStatementUsedYet  = true;
+        // assin middle part to be this stuff
+    }
+
+    if(req.query.hasOwnProperty("start_date")){
+        var middleDBToAdd = "";
+        //defensive programming what if user provides two start dates?
+
+
+
+    }
+
+
+
+
+});
+
+
+
 
 
 //curl -X PUT -d "case_number=[NUMBER]&date_time=2019-10-26T02:50:13.000&code=643&incident=Auto Theft&police_grid=62&neighborhood_num=12&block=2X RAYMOND PL" http://localhost:8000/new-incident
