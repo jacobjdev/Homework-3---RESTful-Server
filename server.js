@@ -309,38 +309,41 @@ app.get('/incidents2', (req,res) => {
 	
 	//_________________________________________________________________________________________
 	
-	//still in process
-	 if(req.query.hasOwnProperty("id")){
+	if(req.query.hasOwnProperty("id")){
         var middleDBToAdd3 = "";
-        if(req.query.grid.includes(',')){
+        if(req.query.id.includes(',')){
             console.log("I am splitting: " + req.query.id);
             var idsToProcess = req.query.id.split(',');
             console.log("splitted codes: " + idsToProcess + " and is type of: " + typeof(idsToProcess));
             console.log("codes to process length: " + idsToProcess.length);
             for(let i = 0; i<idsToProcess.length;i++){
                 if(i === 0){
-                    middleDBToAdd2 = "police_grid =" + " " + gridsToProcess[i];
+                    middleDBToAdd3 = "neighborhood_number =" + " " + idsToProcess[i];
                 }else{
-                    middleDBToAdd2 = middleDBToAdd2 + " " +"OR police_grid ="+ " " + gridsToProcess[i];    
+                    middleDBToAdd3 = middleDBToAdd3 + " " +"OR neighborhood_number ="+ " " + idsToProcess[i];    
                 }
             }
-            console.log("This is the processed middle DB STUFF: " + middleDBToAdd2);
+            console.log("This is the processed middle DB STUFF: " + middleDBToAdd3);
             //loop over each code to do processing for the string stuff
         }else{
-            middleDBToAdd2 = "police_grid= "+req.query.grid;
+            middleDBToAdd3 = "neighborhood_number= "+req.query.id;
             //one code to process for the where
             //save this to variable;
         }
         if(!whereStatementUsedYet){
 			//first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + middleDBToAdd2 + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + middleDBToAdd3 + ")";
         }else{
 			//not first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + middleDBToAdd2 + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + middleDBToAdd3 + ")";
         }
         whereStatementUsedYet  = true;
         // assin middle part to be this stuff
     }
+	
+	//start date - SELECT * FROM Incidents WHERE date_time>=09-01-2019T00:00:00;
+	//end date - SELECT * FROM Incidents WHERE date_time<=10-31-2019T00:00:00;
+	
 /*
     if(req.query.hasOwnProperty("start_date")){
         var middleDBToAdd = "";
@@ -352,8 +355,7 @@ app.get('/incidents2', (req,res) => {
 
 */
 //_____________________________________________________________________________________________
-	//loop through middlePartDBCallBuilder and add to middleDBCallPart
-	
+
 
 	var finalDBCall = firstDBCallPart + " " + middlePartDBCallBuilder + " "+lastDBCallPart;
     console.log("FINAL DB Call: " + finalDBCall);
