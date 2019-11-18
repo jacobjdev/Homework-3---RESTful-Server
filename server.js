@@ -153,10 +153,10 @@ app.get('/neighborhoods',(req,res) => {
         console.log("Made it to XML PART IF")
     }
 
-    var finalDBCall = firstDBCallPart + " " + middleDBCallPart + " " + lastDBCallPart;
+    var finalDBCall = firstDBCallPart + " " + middleDBCallPart + " "+lastDBCallPart;
     console.log("FINAL DB Call: " + finalDBCall);
 	
-	db.each("SELECT * FROM Neighborhoods ORDER BY neighborhood_number", (err, row) =>{
+	db.each(finalDBCall, (err, row) =>{
         var newNeighborhoodNumber = "N" + row.neighborhood_number;
         var newNeighborhoodName   = row.neighborhood_name;
         dataToSend[newNeighborhoodNumber] = newNeighborhoodName;
