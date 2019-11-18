@@ -84,6 +84,7 @@ app.get('/codes', (req,res) => {
         dataToSend[newCode] = newIncidentType;
         // console.log(row)
         // console.log("ERROR: "+ err)
+		
     }, () =>{
         if(wantXML){
             //console.log(JSONtoXML.parse("codes",JsonToSend));
@@ -107,21 +108,66 @@ app.get('/neighborhoods',(req,res) => {
     */
 
     // processing query things
-    console.log(req.query);
+    //console.log(req.query);
+	//var neighborhoodJSONToSend = {};
+	
+	var firstDBCallPart = "SELECT * FROM Neighborhoods";
+    var middleDBCallPart = "";
+    var lastDBCallPart = "ORDER BY neighborhood_number";
+    var wantXML = false;
+    var dataToSend = {};
+    
 
-	var neighborhoodJSONToSend = {};
+    console.log("query req stuff: " +req.query);
+    console.log(req.query.code + "is type of: " +typeof(req.query.id));
+    console.log("this is what looks like stringed up brudda:  " + JSON.stringify(req.query));
+    // maybe lowercase it all for defensive programming?
+    if(req.query.hasOwnProperty("id")){
+        var middleDBToAdd = "";
+        if(req.query.id.includes(',')){
+			console.log("NN: "+req.query.id);
+            console.log("I am splitting: " + req.query.id);
+            var idsToProcess = req.query.id.split(',');
+            console.log("splitted codes: " + idsToProcess + " and is type of: " + typeof(idsToProcess));
+            console.log("codes to process length: " + idsToProcess.length);
+            for(let i = 0; i<idsToProcess.length;i++){
+                if(i === 0){
+                    middleDBToAdd = "WHERE neighborhood_number = " +idsToProcess[i];
+                }else{
+                    middleDBToAdd =  middleDBToAdd + " " +"OR neighborhood_number ="+ " " + idsToProcess[i];
+                }
+            }
+            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
+            //loop over each code to do processing for the string stuff
+        }else{
+            middleDBToAdd = "WHERE neighborhood_number = " +req.query.id;
+            //one code to process for the where
+            //save this to variable;
+        }
+        middleDBCallPart = middleDBToAdd;
+        // assin middle part to be this stuff
+    }
+
+    if(req.query.hasOwnProperty("format") && (req.query.format.toLowerCase() === "xml")){
+        wantXML = true;
+        console.log("Made it to XML PART IF")
+    }
+
+    var finalDBCall = firstDBCallPart + " " + middleDBCallPart + " " + lastDBCallPart;
+    console.log("FINAL DB Call: " + finalDBCall);
+	
 	db.each("SELECT * FROM Neighborhoods ORDER BY neighborhood_number", (err, row) =>{
         var newNeighborhoodNumber = "N" + row.neighborhood_number;
         var newNeighborhoodName   = row.neighborhood_name;
-        neighborhoodJSONToSend[newNeighborhoodNumber] = newNeighborhoodName;
+        dataToSend[newNeighborhoodNumber] = newNeighborhoodName;
     }, () =>{
-        console.log(JSON.stringify(neighborhoodJSONToSend, null, 4));
-        if(req.query.hasOwnProperty("format")){
-            console.log(JSONtoXML.parse("neighborhoods",neighborhoodJSONToSend));
-            res.type('xml').send(JSONtoXML.parse("neighborhoods",neighborhoodJSONToSend));
+        //console.log(JSON.stringify(neighborhoodJSONToSend, null, 4));
+        if(wantXML){
+            //console.log(JSONtoXML.parse("codes",JsonToSend));
+            res.type('xml').send(JSONtoXML.parse("ids",dataToSend));
         }else{
-            
-            res.type('json').send(neighborhoodJSONToSend);
+            console.log(JSON.stringify(dataToSend, null, 4));
+            res.type('json').send(dataToSend);
         }
 
 
