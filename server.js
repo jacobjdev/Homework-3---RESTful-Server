@@ -42,17 +42,17 @@ app.get('/codes', (req,res) => {
     var dataToSend = {};
     
 
-    console.log("query req stuff: " +req.query);
-    console.log(req.query.code + "is type of: " +typeof(req.query.code));
-    console.log("this is what looks like stringed up brudda:  " + JSON.stringify(req.query));
+    //console.log("query req stuff: " +req.query);
+    //console.log(req.query.code + "is type of: " +typeof(req.query.code));
+    //console.log("this is what looks like stringed up brudda:  " + JSON.stringify(req.query));
     // maybe lowercase it all for defensive programming?
     if(req.query.hasOwnProperty("code")){
         var middleDBToAdd = "";
         if(req.query.code.includes(',')){
-            console.log("I am splitting: " + req.query.code);
+            //console.log("I am splitting: " + req.query.code);
             var codesToProcess = req.query.code.split(',');
-            console.log("splitted codes: " + codesToProcess + " and is type of: " + typeof(codesToProcess));
-            console.log("codes to process length: " + codesToProcess.length);
+            //console.log("splitted codes: " + codesToProcess + " and is type of: " + typeof(codesToProcess));
+            //console.log("codes to process length: " + codesToProcess.length);
             for(let i = 0; i<codesToProcess.length;i++){
                 if(i === 0){
                     middleDBToAdd = "WHERE code = " +codesToProcess[i];
@@ -60,7 +60,7 @@ app.get('/codes', (req,res) => {
                     middleDBToAdd =  middleDBToAdd + " " +"OR code ="+ " " + codesToProcess[i];
                 }
             }
-            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
+            //console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
             //loop over each code to do processing for the string stuff
         }else{
             middleDBToAdd = "WHERE code = " +req.query.code;
@@ -73,11 +73,11 @@ app.get('/codes', (req,res) => {
 
     if(req.query.hasOwnProperty("format") && (req.query.format.toLowerCase() === "xml")){
         wantXML = true;
-        console.log("Made it to XML PART IF")
+        //console.log("Made it to XML PART IF")
     }
 
     var finalDBCall = firstDBCallPart + " " + middleDBCallPart + " " + lastDBCallPart;
-    console.log("FINAL DB Call: " + finalDBCall)
+    //console.log("FINAL DB Call: " + finalDBCall)
     db.each(finalDBCall,(err,row) => {
         var newCode         = "C"+row.code;
         var newIncidentType = row.incident_type;
@@ -90,7 +90,7 @@ app.get('/codes', (req,res) => {
             //console.log(JSONtoXML.parse("codes",JsonToSend));
             res.type('xml').send(JSONtoXML.parse("codes",dataToSend));
         }else{
-            console.log(JSON.stringify(dataToSend, null, 4));
+            //console.log(JSON.stringify(dataToSend, null, 4));
             res.type('json').send(dataToSend);
         }
     });
@@ -118,18 +118,18 @@ app.get('/neighborhoods',(req,res) => {
     var dataToSend = {};
     
 
-    console.log("query req stuff: " +req.query);
-    console.log(req.query.code + "is type of: " +typeof(req.query.id));
-    console.log("this is what looks like stringed up brudda:  " + JSON.stringify(req.query));
+    //console.log("query req stuff: " +req.query);
+    //console.log(req.query.code + "is type of: " +typeof(req.query.id));
+    //console.log("this is what looks like stringed up brudda:  " + JSON.stringify(req.query));
     // maybe lowercase it all for defensive programming?
     if(req.query.hasOwnProperty("id")){
         var middleDBToAdd = "";
         if(req.query.id.includes(',')){
-			console.log("NN: "+req.query.id);
-            console.log("I am splitting: " + req.query.id);
+			//console.log("NN: "+req.query.id);
+            //console.log("I am splitting: " + req.query.id);
             var idsToProcess = req.query.id.split(',');
-            console.log("splitted codes: " + idsToProcess + " and is type of: " + typeof(idsToProcess));
-            console.log("codes to process length: " + idsToProcess.length);
+            //console.log("splitted codes: " + idsToProcess + " and is type of: " + typeof(idsToProcess));
+            //console.log("codes to process length: " + idsToProcess.length);
             for(let i = 0; i<idsToProcess.length;i++){
                 if(i === 0){
                     middleDBToAdd = "WHERE neighborhood_number = " +idsToProcess[i];
@@ -137,7 +137,7 @@ app.get('/neighborhoods',(req,res) => {
                     middleDBToAdd =  middleDBToAdd + " " +"OR neighborhood_number ="+ " " + idsToProcess[i];
                 }
             }
-            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
+            //console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
             //loop over each code to do processing for the string stuff
         }else{
             middleDBToAdd = "WHERE neighborhood_number = " +req.query.id;
@@ -154,7 +154,7 @@ app.get('/neighborhoods',(req,res) => {
     }
 
     var finalDBCall = firstDBCallPart + " " + middleDBCallPart + " "+lastDBCallPart;
-    console.log("FINAL DB Call: " + finalDBCall);
+    //console.log("FINAL DB Call: " + finalDBCall);
 	
 	db.each(finalDBCall, (err, row) =>{
         var newNeighborhoodNumber = "N" + row.neighborhood_number;
@@ -166,7 +166,7 @@ app.get('/neighborhoods',(req,res) => {
             //console.log(JSONtoXML.parse("codes",JsonToSend));
             res.type('xml').send(JSONtoXML.parse("ids",dataToSend));
         }else{
-            console.log(JSON.stringify(dataToSend, null, 4));
+            //console.log(JSON.stringify(dataToSend, null, 4));
             res.type('json').send(dataToSend);
         }
 
@@ -175,48 +175,7 @@ app.get('/neighborhoods',(req,res) => {
 });
 
 
-// app.get('/incidents', (req,res) => {
-//     /*    
-//     start_date - first date to include in results (e.g. ?start_date=09-01-2019)
-//     end_date - last date to include in results (e.g. ?end_date=10-31-2019)
-//     code - comma separated list of codes to include in result (e.g. ?code=110,700). By default all codes should be included.
-//     grid - comma separated list of police grid numbers to include in result (e.g. ?grid=38,65). By default all police grids should be included.
-//     neighborhood - comma separated list of neighborhood numbers to include in result (e.g. ?id=11,14). By default all neighborhoods should be included.
-//     limit - maximum number of incidents to include in result (e.g. ?limit=50). By default the limit should be 10,000.
-//     format - json or xml (e.g. ?format=xml). By default JSON format should be used.
-//     */
-//     // processing query things
-//     console.log(req.query);
-
-// 	var incidentObject={};	
-// 	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
-//         var caseToAdd = {};
-//         var caseNum = "I" + row.case_number;
-//         // Separating the date and time out separately
-// 		var dateSeparated = row.date_time.substring(0,10);
-// 		var timeSeparated = row.date_time.substring(11,19);
-// 		caseToAdd = {
-// 			date: dateSeparated,
-//             time: timeSeparated,
-//             code: row.code,
-//             incident: row.incident,
-//             police_grid: row.police_grid,
-//             neighborhood_number: row.neighborhood_number,
-//             block: row.block
-// 		};
-// 		incidentObject[caseNum] = caseToAdd;
-//     }, () =>{
-//         if(req.query.hasOwnProperty("format")){
-//             console.log(JSONtoXML.parse("incidents",incidentObject));
-//             res.type('xml').send(JSONtoXML.parse("incidents",incidentObject));
-//         }else{            
-//             console.log(JSON.stringify(incidentObject, null, 4));
-//             res.type('json').send(incidentObject);
-//         }
-//     });
-// });
-
-app.get('/incidents2', (req,res) => {
+app.get('/incidents', (req,res) => {
     /*    
     start_date - first date to include in results (e.g. ?start_date=09-01-2019)
     end_date - last date to include in results (e.g. ?end_date=10-31-2019)
@@ -233,9 +192,9 @@ app.get('/incidents2', (req,res) => {
     var lastDBCallPart          = "ORDER BY date_time DESC LIMIT ";
     var wantXML                 = false;
     var whereStatementUsedYet   = false;
-    console.log("query req stuff: " +req.query);
-    // console.log(req.query.code + "is type of: " +typeof(req.query.code));
-    console.log("this is what looks like stringed up brudda:  " + JSON.stringify(req.query));
+    //console.log("query req stuff: " +(req.query);
+    //console.log(req.query.code + "is type of: " +typeof(req.query.code));
+    //console.log("this is what looks like stringed up:  " + JSON.stringify(req.query));
 
     //                                 CODE PROCESSING
     //___________________________________________________________________________________
@@ -243,10 +202,10 @@ app.get('/incidents2', (req,res) => {
     if(req.query.hasOwnProperty("code")){
         var middleDBToAdd = "";
         if(req.query.code.includes(',')){
-            console.log("I am splitting: " + req.query.code);
+            //console.log("I am splitting: " + req.query.code);
             var codesToProcess = req.query.code.split(',');
-            console.log("splitted codes: " + codesToProcess + " and is type of: " + typeof(codesToProcess));
-            console.log("codes to process length: " + codesToProcess.length);
+            //console.log("splitted codes: " + codesToProcess + " and is type of: " + typeof(codesToProcess));
+            //console.log("codes to process length: " + codesToProcess.length);
             for(let i = 0; i<codesToProcess.length;i++){
                 if(i === 0){
                     middleDBToAdd = "code =" + " " + codesToProcess[i];
@@ -254,7 +213,7 @@ app.get('/incidents2', (req,res) => {
                     middleDBToAdd = middleDBToAdd + " " +"OR code ="+ " " + codesToProcess[i];    
                 }
             }
-            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
+            //console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
             //loop over each code to do processing for the string stuff
         }else{
             middleDBToAdd = "code= "+req.query.code;
@@ -279,10 +238,10 @@ app.get('/incidents2', (req,res) => {
 	   if(req.query.hasOwnProperty("grid")){
         var middleDBToAdd = "";
         if(req.query.grid.includes(',')){
-            console.log("I am splitting: " + req.query.grid);
+            //console.log("I am splitting: " + req.query.grid);
             var gridsToProcess = req.query.grid.split(',');
-            console.log("splitted grid: " + gridsToProcess + " and is type of: " + typeof(gridsToProcess));
-            console.log("grids to process length: " + gridsToProcess.length);
+            //console.log("splitted grid: " + gridsToProcess + " and is type of: " + typeof(gridsToProcess));
+            //console.log("grids to process length: " + gridsToProcess.length);
             for(let i = 0; i<gridsToProcess.length;i++){
                 if(i === 0){
                     middleDBToAdd = "police_grid =" + " " + gridsToProcess[i];
@@ -290,7 +249,7 @@ app.get('/incidents2', (req,res) => {
                     middleDBToAdd = middleDBToAdd + " " +"OR police_grid ="+ " " + gridsToProcess[i];    
                 }
             }
-            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
+            //console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
             //loop over each code to do processing for the string stuff
         }else{
             middleDBToAdd = "police_grid= "+req.query.grid;
@@ -314,10 +273,10 @@ app.get('/incidents2', (req,res) => {
 	if(req.query.hasOwnProperty("id")){
         var middleDBToAdd = "";
         if(req.query.id.includes(',')){
-            console.log("I am splitting: " + req.query.id);
+            //console.log("I am splitting: " + req.query.id);
             var idsToProcess = req.query.id.split(',');
-            console.log("splitted IDs: " + idsToProcess + " and is type of: " + typeof(idsToProcess));
-            console.log("IDs to process length: " + idsToProcess.length);
+            //console.log("splitted IDs: " + idsToProcess + " and is type of: " + typeof(idsToProcess));
+            //console.log("IDs to process length: " + idsToProcess.length);
             for(let i = 0; i<idsToProcess.length;i++){
                 if(i === 0){
                     middleDBToAdd = "neighborhood_number = " + " " + idsToProcess[i];
@@ -325,7 +284,7 @@ app.get('/incidents2', (req,res) => {
                     middleDBToAdd = middleDBToAdd + " " +"OR neighborhood_number ="+ " " + idsToProcess[i];    
                 }
             }
-            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
+            //console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
             //loop over each code to do processing for the string stuff
         }else{
             middleDBToAdd = "neighborhood_number = "+req.query.id;
@@ -353,17 +312,18 @@ app.get('/incidents2', (req,res) => {
     if(req.query.hasOwnProperty("start_date")){
         var middleDBToAdd = "";
         //defensive programming what if user provides two start dates?
-        var middleDBToAdd = "";
+        var middleDBToAdd2 = "";
         var timeToAdd = "T00:00:00";
         var middleDBToAdd = req.query.start_date + timeToAdd;
         
-        console.log(middleDBToAdd);
+        //console.log(middleDBToAdd);
+		//console.log("MDB type of "+typeof(middleDBToAdd));
         if(!whereStatementUsedYet){
 			//first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time >= " +"\"" + middleDBToAdd +"\"" + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time >= " +"\"" + middleDBToAdd2 +"\"" + ")";
         }else{
 			//not first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time >= " + "\"" + middleDBToAdd +"\"" + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time >= " + "\"" + middleDBToAdd2 +"\"" + ")";
         }
         whereStatementUsedYet  = true;
 
@@ -375,17 +335,17 @@ app.get('/incidents2', (req,res) => {
 if(req.query.hasOwnProperty("end_date")){
     var middleDBToAdd = "";
     //defensive programming what if user provides two start dates? 
-    var middleDBToAdd = "";
+    var middleDBToAdd3 = "";
     var timeToAdd = "T00:00:00";
     var middleDBToAdd = req.query.end_date + timeToAdd;
     
-    console.log(middleDBToAdd);
+    //console.log(middleDBToAdd);
     if(!whereStatementUsedYet){
         //first item in the req.query
-        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time <= " +"\"" + middleDBToAdd +"\"" + ")";
+        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time <= " +"\"" + middleDBToAdd3 +"\"" + ")";
     }else{
         //not first item in the req.query
-        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time <= " + "\"" + middleDBToAdd +"\"" + ")";
+        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time <= " + "\"" + middleDBToAdd3 +"\"" + ")";
     }
     whereStatementUsedYet  = true;
 
@@ -406,7 +366,7 @@ if(req.query.hasOwnProperty("limit")){
 
 if(req.query.hasOwnProperty("format") && (req.query.format.toLowerCase() === "xml")){
     wantXML = true;
-    console.log("Made it to XML PART IF")
+    //console.log("Made it to XML PART IF")
 }
 
 //                                      DATABASE CALL STUFF
@@ -414,8 +374,8 @@ if(req.query.hasOwnProperty("format") && (req.query.format.toLowerCase() === "xm
 
 
 	var finalDBCall = firstDBCallPart + " " + middlePartDBCallBuilder + " "+lastDBCallPart + limitAmount;
-    console.log("FINAL DB Call: " + finalDBCall);
-    console.log("type of finalstring: " + typeof(finalDBCall));
+    //console.log("FINAL DB Call: " + finalDBCall);
+    //console.log("type of finalstring: " + typeof(finalDBCall));
 	
     var incidentObjectToSend  = {};	
     var incidentToReturnAfterLimit = {};
