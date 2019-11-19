@@ -4,9 +4,10 @@ var path = require('path');
 var bodyParser = require('body-parser');
 
 // NPM modules
-var express = require('express');
-var sqlite3 = require('sqlite3');
+var express   = require('express');
+var sqlite3   = require('sqlite3');
 var JSONtoXML = require('js2xmlparser');
+var cors      = require('cors');
 
 
 //var public_dir = path.join(__dirname, 'public');
@@ -15,6 +16,7 @@ var db_filename = path.join(__dirname, 'database', 'stpaul_crime.sqlite3');
 var app  = express();
 var port = 8000;
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(cors());
 
 
 var db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
