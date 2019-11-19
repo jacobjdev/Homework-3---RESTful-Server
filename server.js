@@ -229,7 +229,6 @@ app.get('/incidents2', (req,res) => {
    // example query for db browser: SELECT * FROM Incidents WHERE date_time < "2019-10-31T00:00:00" AND code = 525 AND police_grid = 36 ORDER BY date_time
     // processing query things
     var firstDBCallPart         = "SELECT * FROM Incidents";
-    var finalMiddleDBCallPart   = "";
     var middlePartDBCallBuilder = "";
     var lastDBCallPart          = "ORDER BY date_time DESC LIMIT ";
     var wantXML                 = false;
@@ -278,7 +277,7 @@ app.get('/incidents2', (req,res) => {
     
 	
 	   if(req.query.hasOwnProperty("grid")){
-        var middleDBToAdd2 = "";
+        var middleDBToAdd = "";
         if(req.query.grid.includes(',')){
             console.log("I am splitting: " + req.query.grid);
             var gridsToProcess = req.query.grid.split(',');
@@ -286,24 +285,24 @@ app.get('/incidents2', (req,res) => {
             console.log("grids to process length: " + gridsToProcess.length);
             for(let i = 0; i<gridsToProcess.length;i++){
                 if(i === 0){
-                    middleDBToAdd2 = "police_grid =" + " " + gridsToProcess[i];
+                    middleDBToAdd = "police_grid =" + " " + gridsToProcess[i];
                 }else{
-                    middleDBToAdd2 = middleDBToAdd2 + " " +"OR police_grid ="+ " " + gridsToProcess[i];    
+                    middleDBToAdd = middleDBToAdd + " " +"OR police_grid ="+ " " + gridsToProcess[i];    
                 }
             }
-            console.log("This is the processed middle DB STUFF: " + middleDBToAdd2);
+            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
             //loop over each code to do processing for the string stuff
         }else{
-            middleDBToAdd2 = "police_grid= "+req.query.grid;
+            middleDBToAdd = "police_grid= "+req.query.grid;
             //one code to process for the where
             //save this to variable;
         }
         if(!whereStatementUsedYet){
 			//first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + middleDBToAdd2 + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + middleDBToAdd + ")";
         }else{
 			//not first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + middleDBToAdd2 + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + middleDBToAdd + ")";
         }
         whereStatementUsedYet  = true;
         // assin middle part to be this stuff
@@ -313,7 +312,7 @@ app.get('/incidents2', (req,res) => {
 	//_________________________________________________________________________________________
 	
 	if(req.query.hasOwnProperty("id")){
-        var middleDBToAdd3 = "";
+        var middleDBToAdd = "";
         if(req.query.id.includes(',')){
             console.log("I am splitting: " + req.query.id);
             var idsToProcess = req.query.id.split(',');
@@ -321,24 +320,24 @@ app.get('/incidents2', (req,res) => {
             console.log("IDs to process length: " + idsToProcess.length);
             for(let i = 0; i<idsToProcess.length;i++){
                 if(i === 0){
-                    middleDBToAdd3 = "neighborhood_number = " + " " + idsToProcess[i];
+                    middleDBToAdd = "neighborhood_number = " + " " + idsToProcess[i];
                 }else{
-                    middleDBToAdd3 = middleDBToAdd3 + " " +"OR neighborhood_number ="+ " " + idsToProcess[i];    
+                    middleDBToAdd = middleDBToAdd + " " +"OR neighborhood_number ="+ " " + idsToProcess[i];    
                 }
             }
-            console.log("This is the processed middle DB STUFF: " + middleDBToAdd3);
+            console.log("This is the processed middle DB STUFF: " + middleDBToAdd);
             //loop over each code to do processing for the string stuff
         }else{
-            middleDBToAdd3 = "neighborhood_number = "+req.query.id;
+            middleDBToAdd = "neighborhood_number = "+req.query.id;
             //one code to process for the where
             //save this to variable;
         }
         if(!whereStatementUsedYet){
 			//first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + middleDBToAdd3 + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + middleDBToAdd + ")";
         }else{
 			//not first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + middleDBToAdd3 + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + middleDBToAdd + ")";
         }
         whereStatementUsedYet  = true;
         // assin middle part to be this stuff
@@ -352,19 +351,19 @@ app.get('/incidents2', (req,res) => {
 //_____________________________________________________________________________________________
 
     if(req.query.hasOwnProperty("start_date")){
-        var middleDBToAdd4 = "";
+        var middleDBToAdd = "";
         //defensive programming what if user provides two start dates?
         var middleDBToAdd = "";
         var timeToAdd = "T00:00:00";
-        var middleDBToAdd4 = req.query.start_date + timeToAdd;
+        var middleDBToAdd = req.query.start_date + timeToAdd;
         
-        console.log(middleDBToAdd4);
+        console.log(middleDBToAdd);
         if(!whereStatementUsedYet){
 			//first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time >= " +"\"" + middleDBToAdd4 +"\"" + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time >= " +"\"" + middleDBToAdd +"\"" + ")";
         }else{
 			//not first item in the req.query
-            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time >= " + "\"" + middleDBToAdd4 +"\"" + ")";
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time >= " + "\"" + middleDBToAdd +"\"" + ")";
         }
         whereStatementUsedYet  = true;
 
@@ -374,19 +373,19 @@ app.get('/incidents2', (req,res) => {
 //_____________________________________________________________________________________________
 
 if(req.query.hasOwnProperty("end_date")){
-    var middleDBToAdd5 = "";
+    var middleDBToAdd = "";
     //defensive programming what if user provides two start dates? 
     var middleDBToAdd = "";
     var timeToAdd = "T00:00:00";
-    var middleDBToAdd5 = req.query.end_date + timeToAdd;
+    var middleDBToAdd = req.query.end_date + timeToAdd;
     
-    console.log(middleDBToAdd5);
+    console.log(middleDBToAdd);
     if(!whereStatementUsedYet){
         //first item in the req.query
-        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time <= " +"\"" + middleDBToAdd5 +"\"" + ")";
+        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time <= " +"\"" + middleDBToAdd +"\"" + ")";
     }else{
         //not first item in the req.query
-        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time <= " + "\"" + middleDBToAdd5 +"\"" + ")";
+        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time <= " + "\"" + middleDBToAdd +"\"" + ")";
     }
     whereStatementUsedYet  = true;
 
