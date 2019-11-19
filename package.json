@@ -1,5 +1,5 @@
 {
-    "name": "RESTful Server",
+    "name": "RESTful-Server",
     "version": "0.0.0",
     "description": "RESTful using Node JS",
     "author": {
@@ -13,7 +13,7 @@
         },
         {
             "name": "Rachel Dahl",
-            "email": ""
+            "email": "dahl3921@stthomas.edu"
         }
     ],
     "main": "server.js",

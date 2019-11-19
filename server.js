@@ -380,7 +380,6 @@ if(req.query.hasOwnProperty("format") && (req.query.format.toLowerCase() === "xm
     //console.log("type of finalstring: " + typeof(finalDBCall));
 	
     var incidentObjectToSend  = {};	
-    var incidentToReturnAfterLimit = {};
 	db.each(finalDBCall, (err, row) =>{
         var caseToAdd = {};
         var caseNum = "I" + row.case_number;
@@ -449,7 +448,7 @@ app.put('/new-incident', (req,res) =>{
                 res.status(500).status('updating database failed for some reason');
             }else{
                 console.log("updated sucessfully")
-                res.status(200).status('database updated sucessfullyw');
+                res.status(200).status('database updated sucessfully');
             }
         });
     
