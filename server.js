@@ -175,46 +175,46 @@ app.get('/neighborhoods',(req,res) => {
 });
 
 
-app.get('/incidents', (req,res) => {
-    /*    
-    start_date - first date to include in results (e.g. ?start_date=09-01-2019)
-    end_date - last date to include in results (e.g. ?end_date=10-31-2019)
-    code - comma separated list of codes to include in result (e.g. ?code=110,700). By default all codes should be included.
-    grid - comma separated list of police grid numbers to include in result (e.g. ?grid=38,65). By default all police grids should be included.
-    neighborhood - comma separated list of neighborhood numbers to include in result (e.g. ?id=11,14). By default all neighborhoods should be included.
-    limit - maximum number of incidents to include in result (e.g. ?limit=50). By default the limit should be 10,000.
-    format - json or xml (e.g. ?format=xml). By default JSON format should be used.
-    */
-    // processing query things
-    console.log(req.query);
+// app.get('/incidents', (req,res) => {
+//     /*    
+//     start_date - first date to include in results (e.g. ?start_date=09-01-2019)
+//     end_date - last date to include in results (e.g. ?end_date=10-31-2019)
+//     code - comma separated list of codes to include in result (e.g. ?code=110,700). By default all codes should be included.
+//     grid - comma separated list of police grid numbers to include in result (e.g. ?grid=38,65). By default all police grids should be included.
+//     neighborhood - comma separated list of neighborhood numbers to include in result (e.g. ?id=11,14). By default all neighborhoods should be included.
+//     limit - maximum number of incidents to include in result (e.g. ?limit=50). By default the limit should be 10,000.
+//     format - json or xml (e.g. ?format=xml). By default JSON format should be used.
+//     */
+//     // processing query things
+//     console.log(req.query);
 
-	var incidentObject={};	
-	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
-        var caseToAdd = {};
-        var caseNum = "I" + row.case_number;
-        // Separating the date and time out separately
-		var dateSeparated = row.date_time.substring(0,10);
-		var timeSeparated = row.date_time.substring(11,19);
-		caseToAdd = {
-			date: dateSeparated,
-            time: timeSeparated,
-            code: row.code,
-            incident: row.incident,
-            police_grid: row.police_grid,
-            neighborhood_number: row.neighborhood_number,
-            block: row.block
-		};
-		incidentObject[caseNum] = caseToAdd;
-    }, () =>{
-        if(req.query.hasOwnProperty("format")){
-            console.log(JSONtoXML.parse("incidents",incidentObject));
-            res.type('xml').send(JSONtoXML.parse("incidents",incidentObject));
-        }else{            
-            console.log(JSON.stringify(incidentObject, null, 4));
-            res.type('json').send(incidentObject);
-        }
-    });
-});
+// 	var incidentObject={};	
+// 	db.each("SELECT * FROM Incidents ORDER BY date_time", (err, row) =>{
+//         var caseToAdd = {};
+//         var caseNum = "I" + row.case_number;
+//         // Separating the date and time out separately
+// 		var dateSeparated = row.date_time.substring(0,10);
+// 		var timeSeparated = row.date_time.substring(11,19);
+// 		caseToAdd = {
+// 			date: dateSeparated,
+//             time: timeSeparated,
+//             code: row.code,
+//             incident: row.incident,
+//             police_grid: row.police_grid,
+//             neighborhood_number: row.neighborhood_number,
+//             block: row.block
+// 		};
+// 		incidentObject[caseNum] = caseToAdd;
+//     }, () =>{
+//         if(req.query.hasOwnProperty("format")){
+//             console.log(JSONtoXML.parse("incidents",incidentObject));
+//             res.type('xml').send(JSONtoXML.parse("incidents",incidentObject));
+//         }else{            
+//             console.log(JSON.stringify(incidentObject, null, 4));
+//             res.type('json').send(incidentObject);
+//         }
+//     });
+// });
 
 app.get('/incidents2', (req,res) => {
     /*    
@@ -231,15 +231,15 @@ app.get('/incidents2', (req,res) => {
     var firstDBCallPart         = "SELECT * FROM Incidents";
     var finalMiddleDBCallPart   = "";
     var middlePartDBCallBuilder = "";
-    var lastDBCallPart          = "ORDER BY date_time";
+    var lastDBCallPart          = "ORDER BY date_time DESC LIMIT ";
     var wantXML                 = false;
     var whereStatementUsedYet   = false;
-    var dataToSend              = {};
     console.log("query req stuff: " +req.query);
     // console.log(req.query.code + "is type of: " +typeof(req.query.code));
     console.log("this is what looks like stringed up brudda:  " + JSON.stringify(req.query));
 
-
+    //                                 CODE PROCESSING
+    //___________________________________________________________________________________
 
     if(req.query.hasOwnProperty("code")){
         var middleDBToAdd = "";
@@ -272,16 +272,18 @@ app.get('/incidents2', (req,res) => {
         whereStatementUsedYet  = true;
         // assin middle part to be this stuff
     }
-	
-	//___________________________________________________________________________________
+    
+    //                                     GRID PROCESSING
+    //___________________________________________________________________________________
+    
 	
 	   if(req.query.hasOwnProperty("grid")){
         var middleDBToAdd2 = "";
         if(req.query.grid.includes(',')){
             console.log("I am splitting: " + req.query.grid);
             var gridsToProcess = req.query.grid.split(',');
-            console.log("splitted codes: " + gridsToProcess + " and is type of: " + typeof(gridsToProcess));
-            console.log("codes to process length: " + gridsToProcess.length);
+            console.log("splitted grid: " + gridsToProcess + " and is type of: " + typeof(gridsToProcess));
+            console.log("grids to process length: " + gridsToProcess.length);
             for(let i = 0; i<gridsToProcess.length;i++){
                 if(i === 0){
                     middleDBToAdd2 = "police_grid =" + " " + gridsToProcess[i];
@@ -306,7 +308,8 @@ app.get('/incidents2', (req,res) => {
         whereStatementUsedYet  = true;
         // assin middle part to be this stuff
     }
-	
+    
+    //                                         ID PROCESSING
 	//_________________________________________________________________________________________
 	
 	if(req.query.hasOwnProperty("id")){
@@ -314,11 +317,11 @@ app.get('/incidents2', (req,res) => {
         if(req.query.id.includes(',')){
             console.log("I am splitting: " + req.query.id);
             var idsToProcess = req.query.id.split(',');
-            console.log("splitted codes: " + idsToProcess + " and is type of: " + typeof(idsToProcess));
-            console.log("codes to process length: " + idsToProcess.length);
+            console.log("splitted IDs: " + idsToProcess + " and is type of: " + typeof(idsToProcess));
+            console.log("IDs to process length: " + idsToProcess.length);
             for(let i = 0; i<idsToProcess.length;i++){
                 if(i === 0){
-                    middleDBToAdd3 = "neighborhood_number =" + " " + idsToProcess[i];
+                    middleDBToAdd3 = "neighborhood_number = " + " " + idsToProcess[i];
                 }else{
                     middleDBToAdd3 = middleDBToAdd3 + " " +"OR neighborhood_number ="+ " " + idsToProcess[i];    
                 }
@@ -326,7 +329,7 @@ app.get('/incidents2', (req,res) => {
             console.log("This is the processed middle DB STUFF: " + middleDBToAdd3);
             //loop over each code to do processing for the string stuff
         }else{
-            middleDBToAdd3 = "neighborhood_number= "+req.query.id;
+            middleDBToAdd3 = "neighborhood_number = "+req.query.id;
             //one code to process for the where
             //save this to variable;
         }
@@ -343,24 +346,80 @@ app.get('/incidents2', (req,res) => {
 	
 	//start date - SELECT * FROM Incidents WHERE date_time>=09-01-2019T00:00:00;
 	//end date - SELECT * FROM Incidents WHERE date_time<=10-31-2019T00:00:00;
-	
-/*
+    
+    
+//                                      START DATE PROCESSING
+//_____________________________________________________________________________________________
+
     if(req.query.hasOwnProperty("start_date")){
-        var middleDBToAdd = "";
+        var middleDBToAdd4 = "";
         //defensive programming what if user provides two start dates?
-
-
+        var middleDBToAdd = "";
+        var timeToAdd = "T00:00:00";
+        var middleDBToAdd4 = req.query.start_date + timeToAdd;
+        
+        console.log(middleDBToAdd4);
+        if(!whereStatementUsedYet){
+			//first item in the req.query
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time >= " +"\"" + middleDBToAdd4 +"\"" + ")";
+        }else{
+			//not first item in the req.query
+            middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time >= " + "\"" + middleDBToAdd4 +"\"" + ")";
+        }
+        whereStatementUsedYet  = true;
 
     }
 
-*/
+//                                      END DATE PROCESSING
+//_____________________________________________________________________________________________
+
+if(req.query.hasOwnProperty("end_date")){
+    var middleDBToAdd5 = "";
+    //defensive programming what if user provides two start dates? 
+    var middleDBToAdd = "";
+    var timeToAdd = "T00:00:00";
+    var middleDBToAdd5 = req.query.end_date + timeToAdd;
+    
+    console.log(middleDBToAdd5);
+    if(!whereStatementUsedYet){
+        //first item in the req.query
+        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "WHERE" + " " + "(" + "date_time <= " +"\"" + middleDBToAdd5 +"\"" + ")";
+    }else{
+        //not first item in the req.query
+        middlePartDBCallBuilder = middlePartDBCallBuilder + " " + "AND" + " " + "(" + "date_time <= " + "\"" + middleDBToAdd5 +"\"" + ")";
+    }
+    whereStatementUsedYet  = true;
+
+}
+
+//                                      LIMIT PROCESSING
+//_____________________________________________________________________________________________
+var limitAmount
+if(req.query.hasOwnProperty("limit")){
+    limitAmount = parseInt(req.query.limit,10);
+}else{
+    limitAmount = 10000;
+}
+
+
+//                                      FORMAT PROCESSING
+//_____________________________________________________________________________________________
+
+if(req.query.hasOwnProperty("format") && (req.query.format.toLowerCase() === "xml")){
+    wantXML = true;
+    console.log("Made it to XML PART IF")
+}
+
+//                                      DATABASE CALL STUFF
 //_____________________________________________________________________________________________
 
 
-	var finalDBCall = firstDBCallPart + " " + middlePartDBCallBuilder + " "+lastDBCallPart;
+	var finalDBCall = firstDBCallPart + " " + middlePartDBCallBuilder + " "+lastDBCallPart + limitAmount;
     console.log("FINAL DB Call: " + finalDBCall);
+    console.log("type of finalstring: " + typeof(finalDBCall));
 	
-	var incidentObject={};	
+    var incidentObjectToSend  = {};	
+    var incidentToReturnAfterLimit = {};
 	db.each(finalDBCall, (err, row) =>{
         var caseToAdd = {};
         var caseNum = "I" + row.case_number;
@@ -376,14 +435,15 @@ app.get('/incidents2', (req,res) => {
             neighborhood_number: row.neighborhood_number,
             block: row.block
 		};
-		incidentObject[caseNum] = caseToAdd;
+        incidentObjectToSend[caseNum] = caseToAdd;
+        // console.log("error: " + err)
     }, () =>{
-        if(req.query.hasOwnProperty("format")){
+        if(wantXML){
             //console.log(JSONtoXML.parse("incidents",incidentObject));
-            res.type('xml').send(JSONtoXML.parse("incidents",incidentObject));
+            res.type('xml').send(JSONtoXML.parse("incidents", incidentObjectToSend));
         }else{            
             //console.log(JSON.stringify(incidentObject, null, 4));
-            res.type('json').send(incidentObject);
+            res.type('json').send(incidentObjectToSend);
         }
     });
 
@@ -393,7 +453,7 @@ app.get('/incidents2', (req,res) => {
 
 
 
-//curl -X PUT -d "case_number=[NUMBER]&date_time=2019-10-26T02:50:13.000&code=643&incident=Auto Theft&police_grid=62&neighborhood_num=12&block=2X RAYMOND PL" http://localhost:8000/new-incident
+//curl -X PUT -d "case_number=[NUMBER]&date=2019-10-26&time=02:50:13.000&code=643&incident=Auto Theft&police_grid=62&neighborhood_num=12&block=2X RAYMOND PL" http://localhost:8000/new-incident
 app.put('/new-incident', (req,res) =>{
     //WHAT FIELDS ARE REQUIRED TO PROCESS?  OR CAN JUST BE A CASE NUMBER AND THATS IT>  just a case number
     //how to add error checking to make sure contains all the required fields?
@@ -409,13 +469,18 @@ app.put('/new-incident', (req,res) =>{
     }else{
         // do the processing to upload
         var newCaseNumber      = req.body.case_number;
-        var newDateTime        = req.body.date_time;
+        // var newDateTime        = req.body.date_time;
+        var newDate            = req.body.date;
+        var newTime            = req.body.time
         //need to split the date time into two fields
         var newCode            = req.body.code;
         var newIncident        = req.body.incident;
         var newPoliceGrid      = req.police_grid;
         var newNeighborhoodNum = req.neighborhood_num;
         var newBlock           = req.block;
+
+        var newDateTime = newDate+"T"+newTime;
+
         db.run("INSERT INTO Incidents VALUES (?, ?, ?, ?, ?, ?, ?)", [newCaseNumber,newDateTime,newCode,newIncident,newPoliceGrid,newNeighborhoodNum,newBlock], (err, row) => {
             if(err){
                 console.log(err);
