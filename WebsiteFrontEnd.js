@@ -5,7 +5,7 @@ function Init(){
     app = new Vue({
         el: "#app",
         data: {
-
+            // just all of it in here
         }
     })
 
