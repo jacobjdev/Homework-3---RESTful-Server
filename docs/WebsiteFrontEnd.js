@@ -37,7 +37,8 @@ function Init(){
 	}).addTo(mymap);
 	var corner1=L.latLng(44.9883, -93.207);
 	var corner2=L.latLng(44.8906, -93.004);
-	bounds = L.latLngBounds(corner1, corner2);
+    var bounds = L.latLngBounds(corner1, corner2);
+    mymap.setMaxBounds(bounds);
 
 
 }
