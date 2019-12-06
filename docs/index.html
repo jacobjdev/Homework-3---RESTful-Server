@@ -18,22 +18,23 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
-    <script type="application/javascript" src="WebsiteFrontEnd.js"></script>
+	<script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script type="application/javascript" src="WebsiteFrontEnd.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css"/>
 
 
 </head>
 
-<body>
-    <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
+<body onload="Init()">
     <div id="app">
         <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->
         <div id="mapid">
-            <div id="InnerMapLoading" onload="Init()">
-                <!--Would you have inner map stuf fhere?-->
+            <!--<div id="InnerMapLoading">
+                <!--Would you have inner map stuf fhere?--
                 <script>
-                    var mymap = L.map('mapid').setView([44.9537, -93.09], 12);
+				
+                    /*var mymap = L.map('mapid').setView([44.9537, -93.09], 12);
                     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                     maxZoom: 18,
@@ -45,19 +46,30 @@
                     bounds = L.latLngBounds(corner1, corner2); 
                     // L.map.fitbounds([
                     //     [44.9883, -93.207],
-                    //     [44.8906, -93.004]]);
+                    //     [44.8906, -93.004]]);*/
                     
                 </script>
-            </div>
+            </div>-->
         </div>
-        <input id="search" type="text" v-model="latitude" v-if="search_type==Address":placeholder="Enter Latitude/Longitude ,"></input>
-        <!-- <input v-if="search_type === Latitude/Longitude" : type="text" v-model="longitude"></input> -->
-
-        <select id="type" v-model="search_type">
+        <input id="search" type="text" v-model="latitude" placeholder="Enter Latitude/Longitude"></input>
+		
+		<select id="type" v-model="search_type">
                 <!-- <option v-for="option in search_types" :value="option.value">{{ option.text }}</option> -->
                 <option>Latitude/Longitude</option>
                 <option>Address</option>
         </select>
+		
+		<!--<input id="search" type="text" v-model="latitude" v-if="search_type=='Address'" placeholder="Enter Latitude/Longitude ,"></input>
+        <!-- <input v-if="search_type === 'Latitude/Longitude'" : type="text" v-model="longitude"></input> --
+
+        <select id="type" v-model="search_type">
+                <!-- <option v-for="option in search_types" :value="option.value">{{ option.text }}</option> --
+                <option>Latitude/Longitude</option>
+                <option>Address</option>
+        </select>
+		<!-- button-->
+		
+		
         
         
 
