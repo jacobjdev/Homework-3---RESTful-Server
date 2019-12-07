@@ -15,7 +15,6 @@ function Init(){
         el: "#app",
         data: {
             // just all of it in here
-			spotify_search: "",
             search_type: "address",
             latitude: "Enter Location Here",
             longitude: "Enter Longitude Here",
@@ -23,26 +22,38 @@ function Init(){
                 {value: "latitude/longitude", text: "Latitude/Longitude"},
                 {value: "address", text: "address"}
             ],
-			search_results: []
+            search_results: [],
+            // centerOfMap: L.getCenter()
         },
         computed: {
             
+        },
+        mounted() {
+            this.startMap()
+            this.getCenter()
+        },
+        methods :{
+            startMap(){
+                var mymap = L.map('mapid').setView([44.9537, -93.09], 11);
+                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                minZoom:11,
+                id: 'mapbox/streets-v11',
+                accessToken: 'pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA'
+                }).addTo(mymap);
+
+                var corner1=L.latLng(44.9883, -93.207);
+                var corner2=L.latLng(44.8906, -93.004);
+                var bounds = L.latLngBounds(corner1, corner2);
+                mymap.setMaxBounds(bounds);
+            },
+            getCenter(){
+                var center = L.getCenter();
+            }
         }
     });
 	
-	var mymap = L.map('mapid').setView([44.9537, -93.09], 12);
-	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA', {
-	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-	maxZoom: 18,
-	minZoom:11,
-	id: 'mapbox/streets-v11',
-	accessToken: 'pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA'
-	}).addTo(mymap);
-	var corner1=L.latLng(44.9883, -93.207);
-	var corner2=L.latLng(44.8906, -93.004);
-    var bounds = L.latLngBounds(corner1, corner2);
-    mymap.setMaxBounds(bounds);
-
 
 }
 
