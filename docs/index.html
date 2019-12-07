@@ -18,6 +18,7 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
+	<script type="application/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
 	<script type="application/javascript" src="WebsiteFrontEnd.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -59,11 +60,11 @@
 					<tr v-for="item in search_results">
 						<td>hi</td>
 						<td>{{ item.case_number }}</td>
-						<td>{{ item.date_time }}</td>
+						<!--<td>{{ item.date_time }}</td>-->
 						<td>{{ item.incident }}</td>
 						<td>{{ item.police_grid }}</td>
 						<td>{{ item.neighborhood_number }}</td>
-						<td>{{ item.incident_type }}</td>
+						<td>{{ item.block }}</td>
 					</tr>
 				
 				</tbody>

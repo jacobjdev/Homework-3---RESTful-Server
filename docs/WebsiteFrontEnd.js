@@ -73,6 +73,7 @@ function MapSearch(event)
             success: MapData
         };
         $.ajax(request);
+		//console.log('results: '+ app.search_results);
     }
     else
     {
@@ -82,8 +83,9 @@ function MapSearch(event)
 }
 function MapData(data)
 {
-    app.search_results = data[app.search_type].items;
+    app.search_results = data.items;
+	console.log(app.search_results);
 	console.log('hello4');
-    console.log(data);
+    //console.log(data);
 }
 
