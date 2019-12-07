@@ -17,12 +17,7 @@ function Init(){
 			map_search: "",
             search_type: "address",
             neighborhood_Search: "",
-            //latitude: "Enter Location Here",
-            //longitude: "Enter Longitude Here",
-            //search_types: [
-            //    {value: "latitudeLongitude", text: "LatitudeLongitude"},
-            //    {value: "address", text: "address"}
-           // ],
+            
             search_results: [],
             neighborhood_results: [],
             code_data: []
