@@ -1,6 +1,9 @@
 /* * {
     margin: 10px 40px;
 } */
+* {
+    justify-content: center;
+}
 
 #mapid { 
     height: 300px;

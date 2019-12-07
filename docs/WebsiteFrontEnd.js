@@ -54,7 +54,7 @@ function MapSearch(event)
     if (app.spotify_search !== "")
     {
         let request = {
-            url:"https://api.spotify.com/v1/search?q=" + app.spotify_search + "&type=" + app.spotify_type,
+            url:"http://cisc-dean.stthomas.edu:8011/incidents" + app.spotify_search + "&type=" + app.spotify_type,
             dataType: "json",
             headers: {
                 //"Authorization": auth_data.token_type + " " + auth_data.access_token
