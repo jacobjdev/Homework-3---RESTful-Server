@@ -29,7 +29,7 @@ function Init(){
         },
         mounted() {
             this.startMap()
-            this.getCenter()
+            // this.getCenter()
         },
         methods :{
             startMap(){
@@ -47,9 +47,9 @@ function Init(){
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
             },
-            getCenter(){
-                var center = L.getCenter();
-            }
+            // getCenter(){
+            //     var center = L.getCenter();
+            // }
         }
     });
 	

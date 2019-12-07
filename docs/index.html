@@ -29,16 +29,19 @@
 <body onload="Init()">
     <div id="app">
         <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->
-        <div id="mapid">
+        
+        <div id="mapAndBoxes">
+            <div id="mapid">
+            </div>
+            <input id="search" type="text" v-model="map_search" placeholder="Enter Location"></input>
+            
+            <select id="type" v-model="search_type">
+                    <!-- <option v-for="option in search_types" :value="option.value">{{ option.text }}</option> -->
+                    <option>Latitude/Longitude</option>
+                    <option>Address</option>
+            </select>
+            <button type="button" @click="MapSearch"> Search</button>
         </div>
-        <input id="search" type="text" v-model="map_search" placeholder="Enter Location"></input>
-		
-		<select id="type" v-model="search_type">
-                <!-- <option v-for="option in search_types" :value="option.value">{{ option.text }}</option> -->
-                <option>Latitude/Longitude</option>
-                <option>Address</option>
-        </select>
-        <button type="button" onclick="MapSearch"> Search</button>
 		
 	
         <!--<div id="CrimeTable">-->
