@@ -1,7 +1,6 @@
 var app;
 
 function Init(){
-	console.log('hello');
     // so main application page stuff goes in here?
     // var mymap = L.map('mapid').setView([51.505, -0.09], 13);
     // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA', {
@@ -15,15 +14,15 @@ function Init(){
         el: "#app",
         data: {
             // just all of it in here
+			map_search: "",
             search_type: "address",
-            latitude: "Enter Location Here",
-            longitude: "Enter Longitude Here",
-            search_types: [
-                {value: "latitude/longitude", text: "Latitude/Longitude"},
-                {value: "address", text: "address"}
-            ],
-            search_results: [],
-            // centerOfMap: L.getCenter()
+            //latitude: "Enter Location Here",
+            //longitude: "Enter Longitude Here",
+            //search_types: [
+            //    {value: "latitudeLongitude", text: "LatitudeLongitude"},
+            //    {value: "address", text: "address"}
+           // ],
+			search_results: []
         },
         computed: {
             
@@ -62,10 +61,11 @@ function Init(){
 //have separate function down here for api processing call stuff?
 function MapSearch(event)
 {
-    if (app.spotify_search !== "")
+    if (app.map_search !== "")
     {
+		console.log('hello2');
         let request = {
-            url:"http://cisc-dean.stthomas.edu:8011/incidents" + app.spotify_search + "&type=" + app.spotify_type,
+            url:"http://cisc-dean.stthomas.edu:8011/incidents",
             dataType: "json",
             headers: {
                 //"Authorization": auth_data.token_type + " " + auth_data.access_token
@@ -76,11 +76,14 @@ function MapSearch(event)
     }
     else
     {
+		console.log('hello3');
         app.search_results = [];
     }
 }
 function MapData(data)
 {
     app.search_results = data[app.search_type].items;
+	console.log('hello4');
     console.log(data);
 }
+

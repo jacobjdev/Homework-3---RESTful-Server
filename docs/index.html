@@ -31,27 +31,30 @@
         <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->
         <div id="mapid">
         </div>
-        <input id="search" type="text" v-model="latitude" placeholder="Enter Location"></input>
+        <input id="search" type="text" v-model="map_search" placeholder="Enter Location"></input>
 		
 		<select id="type" v-model="search_type">
                 <!-- <option v-for="option in search_types" :value="option.value">{{ option.text }}</option> -->
                 <option>Latitude/Longitude</option>
                 <option>Address</option>
         </select>
-        <button type="button" onclick="MapSearch()"> Submit</button>
+        <button type="button" onclick="MapSearch"> Search</button>
 		
-        <div id="CrimeTable">
-            <table>
-                <thead>
-                        <th>Case Number</th>
-                        <th>Date_Time</th>
-                        <th>Incident Type</th>
-                        <th>Police Grid</th>
-                        <th>Neighborhood Number</th> <!--will eventually need to get neighborhood name from codes-->
-                        <th>Block</th>
+	
+        <!--<div id="CrimeTable">-->
+            <table class="table">
+                <thead class="thead-light">
+                        <th scope="col">Case Number</th>
+                        <th scope="col">Date_Time</th>
+                        <th scope="col">Incident Type</th>
+                        <th scope="col">Police Grid</th>
+                        <th scope="col">Neighborhood Number</th> <!--will eventually need to get neighborhood name from codes-->
+                        <th scope="col">Block</th>
+		
                 </thead>
-				<!--<tbody>
+				<tbody>
 					<tr v-for="item in search_results">
+						<td>hi</td>
 						<td>{{ item.case_number }}</td>
 						<td>{{ item.date_time }}</td>
 						<td>{{ item.incident }}</td>
@@ -60,10 +63,10 @@
 						<td>{{ item.incident_type }}</td>
 					</tr>
 				
-				</tbody> -->
+				</tbody>
 
             </table>
-        </div>
+        <!--</div>-->
     </div>
 </body>
 
