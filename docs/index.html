@@ -51,29 +51,20 @@
                 </script>
             </div>-->
         </div>
-        <input id="search" type="text" v-model="latitude" placeholder="Enter LatitudeLongitude"></input>
+        <input id="search" type="text" v-model="latitude" placeholder="Enter Location"></input>
 		
 		<select id="type" v-model="search_type">
                 <!-- <option v-for="option in search_types" :value="option.value">{{ option.text }}</option> -->
                 <option>Latitude/Longitude</option>
                 <option>Address</option>
         </select>
-        <button type="button" onclick="myFunction()"> Submit</button>
+        <button type="button" onclick="MapSearch()"> Submit</button>
 		
-		<!--<input id="search" type="text" v-model="latitude" v-if="search_type=='Address'" placeholder="Enter Latitude/Longitude ,"></input>
-        <!-- <input v-if="search_type === 'Latitude/Longitude'" : type="text" v-model="longitude"></input> --
-
-        <select id="type" v-model="search_type">
-                <!-- <option v-for="option in search_types" :value="option.value">{{ option.text }}</option> --
-                <option>Latitude/Longitude</option>
-                <option>Address</option>
-        </select>
-		<!-- button-->
+	
+	
 		
 		
-        
-        
-
+ 
         <div id="CrimeTable">
             <table>
                 <thead>

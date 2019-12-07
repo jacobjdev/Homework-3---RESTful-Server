@@ -17,7 +17,7 @@ function Init(){
             // just all of it in here
 			spotify_search: "",
             search_type: "address",
-            latitude: "Enter Latitude Here",
+            latitude: "Enter Location Here",
             longitude: "Enter Longitude Here",
             search_types: [
                 {value: "latitude/longitude", text: "Latitude/Longitude"},
