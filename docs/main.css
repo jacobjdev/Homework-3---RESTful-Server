@@ -1,9 +1,13 @@
-* {
+/* * {
     margin: 10px 40px;
-}
+} */
 
 #mapid { 
     height: 300px;
-    width: 300px; 
-    justify-content: center;
+    width: 400px; 
+    
+}
+
+#MapWrapper{
+
 }

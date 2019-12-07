@@ -14,7 +14,7 @@ var cors      = require('cors');
 
 var db_filename = path.join(__dirname, 'database', 'stpaul_crime.sqlite3');
 var app  = express();
-var port = 8000;
+var port = process.argv[2];
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
 
