@@ -16,13 +16,16 @@ function Init(){
             // just all of it in here
 			map_search: "",
             search_type: "address",
+            neighborhood_Search: "",
             //latitude: "Enter Location Here",
             //longitude: "Enter Longitude Here",
             //search_types: [
             //    {value: "latitudeLongitude", text: "LatitudeLongitude"},
             //    {value: "address", text: "address"}
            // ],
-			search_results: []
+            search_results: [],
+            neighborhood_results: [],
+            code_data: []
         },
         computed: {
             
@@ -48,6 +51,7 @@ function Init(){
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
             },
+            
             // getCenter(){
             //     var center = L.getCenter();
             // }
@@ -84,9 +88,76 @@ function MapSearch(event)
 }
 function MapData(data)
 {
-    app.search_results = data;
+    var innerData = data
+    // for(incident in innerData){
+    //     incident.neighborhood_number = neighborhood_results[incident.neighborhood_number];
+    //     console.log(incident)
+    // }
+    
+    app.search_results = innerData;
 	//console.log(app.search_results);
 	console.log('hello4');
     console.log(data);
 }
 
+
+function neighborhoodSearch(event){
+    if (app.map_search !== "")
+    {
+		console.log('hello2');
+        let request = {
+            url:"http://cisc-dean.stthomas.edu:8011/neighborhoods",
+            dataType: "json",
+            headers: {
+                //"Authorization": auth_data.token_type + " " + auth_data.access_token
+            },
+            success: neighborhoodData
+        };
+        $.ajax(request);
+		//console.log('results: '+ app.search_results);
+    }
+    else
+    {
+		console.log('hello3');
+        app.neighborhood_data = [];
+    }
+}
+
+function neighborhoodData(data)
+{
+    app.neighborhood_data = data;
+	//console.log(app.search_results);
+	console.log('proessing neighbrhood data');
+    console.log(data);
+}
+
+
+function codeSearch(event){
+    if (app.map_search !== "")
+    {
+		console.log('hello2');
+        let request = {
+            url:"http://cisc-dean.stthomas.edu:8011/codes",
+            dataType: "json",
+            headers: {
+                //"Authorization": auth_data.token_type + " " + auth_data.access_token
+            },
+            success: codeData
+        };
+        $.ajax(request);
+		//console.log('results: '+ app.search_results);
+    }
+    else
+    {
+		console.log('hello3');
+        app.code_data = [];
+    }
+}
+
+function codeData(data)
+{
+    app.code_data = data;
+	//console.log(app.search_results);
+	console.log('hello4');
+    console.log(data);
+}
