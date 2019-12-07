@@ -29,6 +29,7 @@ function Init(){
         },
         mounted() {
             this.startMap()
+
             // this.getCenter()
         },
         methods :{
@@ -83,9 +84,9 @@ function MapSearch(event)
 }
 function MapData(data)
 {
-    app.search_results = data.items;
-	console.log(app.search_results);
+    app.search_results = data;
+	//console.log(app.search_results);
 	console.log('hello4');
-    //console.log(data);
+    console.log(data);
 }
 

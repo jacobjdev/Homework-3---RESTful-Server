@@ -27,7 +27,7 @@
 
 </head>
 
-<body onload="Init()">
+<body onload="Init()" >
     <div id="app">
         <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->
         
@@ -45,11 +45,11 @@
         </div>
 		
 	
-        <!--<div id="CrimeTable">-->
+        <div id="CrimeTable">
             <table class="table">
                 <thead class="thead-light">
                         <th scope="col">Case Number</th>
-                        <th scope="col">Date_Time</th>
+                        <th scope="col">Date</th>
                         <th scope="col">Incident Type</th>
                         <th scope="col">Police Grid</th>
                         <th scope="col">Neighborhood Number</th> <!--will eventually need to get neighborhood name from codes-->
@@ -58,9 +58,8 @@
                 </thead>
 				<tbody>
 					<tr v-for="item in search_results">
-						<td>hi</td>
-						<td>{{ item.case_number }}</td>
-						<!--<td>{{ item.date_time }}</td>-->
+						<td>{{ item.keys }}</td>
+						<td>{{ item.date }}</td>
 						<td>{{ item.incident }}</td>
 						<td>{{ item.police_grid }}</td>
 						<td>{{ item.neighborhood_number }}</td>
@@ -70,7 +69,7 @@
 				</tbody>
 
             </table>
-        <!--</div>-->
+        </div>
     </div>
 </body>
 
