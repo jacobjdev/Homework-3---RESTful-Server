@@ -51,7 +51,7 @@
                 </script>
             </div>-->
         </div>
-        <input id="search" type="text" v-model="latitude" placeholder="Enter Latitude/Longitude"></input>
+        <input id="search" type="text" v-model="latitude" placeholder="Enter LatitudeLongitude"></input>
 		
 		<select id="type" v-model="search_type">
                 <!-- <option v-for="option in search_types" :value="option.value">{{ option.text }}</option> -->
@@ -79,13 +79,22 @@
                 <thead>
                         <th>Case Number</th>
                         <th>Date_Time</th>
-                        <th>Code</th>
-                        <th>Incident</th>
+                        <th>Incident Type</th>
                         <th>Police Grid</th>
-                        <th>Neighborhood Number</th>
-                        <th>block</th>
+                        <th>Neighborhood Number</th> <!--will eventually need to get neighborhood name from codes-->
+                        <th>Block</th>
                 </thead>
-
+				<!--<tbody>
+					<tr v-for="item in search_results">
+						<td>{{ item.case_number }}</td>
+						<td>{{ item.date_time }}</td>
+						<td>{{ item.incident }}</td>
+						<td>{{ item.police_grid }}</td>
+						<td>{{ item.neighborhood_number }}</td>
+						<td>{{ item.incident_type }}</td>
+					</tr>
+				
+				</tbody> -->
 
             </table>
         </div>

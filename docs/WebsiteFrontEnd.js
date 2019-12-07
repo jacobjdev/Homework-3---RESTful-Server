@@ -15,13 +15,15 @@ function Init(){
         el: "#app",
         data: {
             // just all of it in here
+			spotify_search: "",
             search_type: "address",
             latitude: "Enter Latitude Here",
             longitude: "Enter Longitude Here",
             search_types: [
                 {value: "latitude/longitude", text: "Latitude/Longitude"},
                 {value: "address", text: "address"}
-            ]
+            ],
+			search_results: []
         },
         computed: {
             
@@ -32,6 +34,7 @@ function Init(){
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA', {
 	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 	maxZoom: 18,
+	minZoom:11,
 	id: 'mapbox/streets-v11',
 	accessToken: 'pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA'
 	}).addTo(mymap);
@@ -46,3 +49,27 @@ function Init(){
 //get crime data function on load 
 
 //have separate function down here for api processing call stuff?
+function MapSearch(event)
+{
+    if (app.spotify_search !== "")
+    {
+        let request = {
+            url:"https://api.spotify.com/v1/search?q=" + app.spotify_search + "&type=" + app.spotify_type,
+            dataType: "json",
+            headers: {
+                //"Authorization": auth_data.token_type + " " + auth_data.access_token
+            },
+            success: MapData
+        };
+        $.ajax(request);
+    }
+    else
+    {
+        app.search_results = [];
+    }
+}
+function MapData(data)
+{
+    app.search_results = data[app.search_type].items;
+    console.log(data);
+}
