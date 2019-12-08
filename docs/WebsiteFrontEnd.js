@@ -1,38 +1,30 @@
 var app;
 
 function Init(){
-    // so main application page stuff goes in here?
-    // var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-    // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA', {
-    // attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    // maxZoom: 18,
-    // id: 'mapbox/streets-v11',
-    // accessToken: 'pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA'
-    // }).addTo(mymap);
 
    app = new Vue({
         el: "#app",
         data: {
             // just all of it in here
 			map_search: "",
-            search_type: "address",
+            search_type: "latitude/longitude",
             neighborhood_Search: "",
-            
+            //store url from the jqueryuihtml thing
             search_results: [],
             neighborhood_results: [],
-            code_data: []
+            code_data: [],
+            locationDisplayBox: ""
         },
         computed: {
             
         },
         mounted() {
-            this.startMap()
-
-            // this.getCenter()
+        this.startMap()
+        this.getCenter()
         },
         methods :{
             startMap(){
-                var mymap = L.map('mapid').setView([44.9537, -93.09], 11);
+                mymap = L.map('mapid').setView([44.9537, -93.09], 11);
                 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA', {
                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                 maxZoom: 18,
@@ -46,10 +38,23 @@ function Init(){
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
             },
+            getCenter(){
+                mymap.on('move', function (event){
+                    app.search_type = document.getElementById("search").value;
+                    console.log(app.search_type);
+                    let centerOfMap = mymap.getCenter();
+                if(app.search_type == "latitude/longtiude"){
+                    app.locationDisplayBox = centerOfMap.lat + " , " + centerOfMap.lng;
+                }else{
+                    //need to do call to convert from address to lat long
+                }
+                })
+
+                var center = mymap.getCenter();
+
+            }
             
-            // getCenter(){
-            //     var center = L.getCenter();
-            // }
+
         }
     });
 	
@@ -65,7 +70,7 @@ function MapSearch(event)
     {
 		console.log('hello2');
         let request = {
-            url:"http://cisc-dean.stthomas.edu:8011/incidents",
+            url:"http://cisc-dean.stthomas.edu:8018/incidents",
             dataType: "json",
             headers: {
                 //"Authorization": auth_data.token_type + " " + auth_data.access_token
@@ -95,13 +100,14 @@ function MapData(data)
     console.log(data);
 }
 
-
+// Rachel port 8011, jacob 8018
 function neighborhoodSearch(event){
     if (app.map_search !== "")
+    //maybe need to remove this?
     {
 		console.log('hello2');
         let request = {
-            url:"http://cisc-dean.stthomas.edu:8011/neighborhoods",
+            url:"http://cisc-dean.stthomas.edu:8018/neighborhoods",
             dataType: "json",
             headers: {
                 //"Authorization": auth_data.token_type + " " + auth_data.access_token

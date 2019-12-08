@@ -34,12 +34,12 @@
         <div id="mapAndBoxes">
             <div id="mapid">
             </div>
-            <input id="search" type="text" v-model="map_search" placeholder="Enter Location"></input>
+            <input id="search" type="text" v-model="locationDisplayBox" placeholder="Enter Location"></input>
             
             <select id="type" v-model="search_type">
                     <!-- <option v-for="option in search_types" :value="option.value">{{ option.text }}</option> -->
-                    <option>Latitude/Longitude</option>
-                    <option>Address</option>
+                    <option value="latitude/longitude">Latitude/Longitude</option>
+                    <option value="addresstype">Address</option>
             </select>
             <button type="button" @click="MapSearch"> Search</button>
         </div>
