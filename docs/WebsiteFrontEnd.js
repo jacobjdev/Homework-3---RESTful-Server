@@ -6,14 +6,14 @@ function Init(){
         el: "#app",
         data: {
             // just all of it in here
-			map_search: "",
+			locationDisplayBox: "",
             search_type: "latitude/longitude",
             neighborhood_Search: "",
             //store url from the jqueryuihtml thing
             search_results: [],
             neighborhood_results: [],
-            code_data: [],
-            locationDisplayBox: ""
+            code_data: []
+            
         },
         computed: {
             
