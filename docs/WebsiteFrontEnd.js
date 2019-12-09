@@ -12,7 +12,8 @@ function Init(){
             //store url from the jqueryuihtml thing
             search_results: [],
             neighborhood_results: [],
-            code_data: []
+            code_data: [],
+            neighborhood_data: {}
             
         },
         computed: {
@@ -21,10 +22,12 @@ function Init(){
         mounted() {
         this.startMap()
         this.getCenter()
+        this.getNeighborhoodData()
+        
         },
         methods :{
             startMap(){
-                mymap = L.map('mapid').setView([44.9537, -93.09], 11);
+                mymap = L.map('mapid').setView([44.9537, -93.09], 12);
                 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA', {
                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                 maxZoom: 18,
@@ -37,21 +40,28 @@ function Init(){
                 var corner2=L.latLng(44.8906, -93.004);
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
+                setTimeout(MapSearch,100); //this allows app to finish building
             },
             getCenter(){
-                mymap.on('move', function (event){
-                    app.search_type = document.getElementById("search").value;
-                    console.log(app.search_type);
+                mymap.on('moveend', function (event){
+                    // console.log(document.getElementById("search").value)
+                    // app.search_type = document.getElementById("search").value;
+                    console.log("here "+app.search_type); //why is this blank and why is it this way after map move?
                     let centerOfMap = mymap.getCenter();
-                if(app.search_type == "latitude/longtiude"){
+                    
+                if(app.search_type == "latitude/longitude"){
                     app.locationDisplayBox = centerOfMap.lat + " , " + centerOfMap.lng;
+                    console.log("center"+ app.locationDisplayBox)
                 }else{
+                    console.log("else on center")
                     //need to do call to convert from address to lat long
                 }
                 })
 
-                var center = mymap.getCenter();
 
+            },
+            getNeighborhoodData(){
+                neighborhoodSearch() 
             }
             
 
@@ -102,7 +112,7 @@ function MapData(data)
 
 // Rachel port 8011, jacob 8018
 function neighborhoodSearch(event){
-    if (app.map_search !== "")
+    
     //maybe need to remove this?
     {
 		console.log('hello2');
@@ -116,11 +126,6 @@ function neighborhoodSearch(event){
         };
         $.ajax(request);
 		//console.log('results: '+ app.search_results);
-    }
-    else
-    {
-		console.log('hello3');
-        app.neighborhood_data = [];
     }
 }
 

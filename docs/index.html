@@ -31,7 +31,7 @@
     <div id="app">
         <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->
         
-        <div id="mapAndBoxes">
+        <div id="mapAndBoxes" class="bootstrap this"> 
             <div id="mapid">
             </div>
             <input id="search" type="text" v-model="locationDisplayBox" placeholder="Enter Location"></input>
@@ -52,17 +52,17 @@
                         <th scope="col">Date</th>
                         <th scope="col">Incident Type</th>
                         <th scope="col">Police Grid</th>
-                        <th scope="col">Neighborhood Number</th> <!--will eventually need to get neighborhood name from codes-->
+                        <th scope="col">Neighborhood</th> <!--will eventually need to get neighborhood name from codes-->
                         <th scope="col">Block</th>
 		
                 </thead>
 				<tbody>
-					<tr v-for="item in search_results">
-						<td>{{ item.keys }}</td>
+					<tr v-for="(item,key) in search_results">
+						<td>{{ key }}</td>
 						<td>{{ item.date }}</td>
 						<td>{{ item.incident }}</td>
 						<td>{{ item.police_grid }}</td>
-						<td>{{ item.neighborhood_number }}</td>
+						<td>{{ neighborhood_data["N" +item.neighborhood_number] }}</td>
 						<td>{{ item.block }}</td>
 					</tr>
 				
