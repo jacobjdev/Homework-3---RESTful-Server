@@ -11,7 +11,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    
+    <title>Map Search</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin=""/>
@@ -23,15 +23,17 @@
 	<script type="application/javascript" src="WebsiteFrontEnd.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css"/>
+	<link rel="URLprompt" href="jqueryui.html"/>
 
 
 </head>
 
-<body onload="Init()" >
+<body onload="Init()">
+
     <div id="app">
         <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->
         
-        <div id="mapAndBoxes" class="bootstrap this"> 
+        <div id="mapAndBoxes" class="text-center"> 
             <div id="mapid">
             </div>
             <input id="search" type="text" v-model="locationDisplayBox" placeholder="Enter Location"></input>
@@ -43,23 +45,60 @@
             </select>
             <button type="button" @click="MapSearch"> Search</button>
         </div>
+	
+
+		<!--filters-->
+		<label for="startdate">Start date:</label>
+			<input type="date" id="startdate" name="startdatefilter"
+			   value="2019-10-01"
+			   min="2014-08-14">
+			   
+		<label for="enddate">End date:</label>
+			<input type="date" id="enddate" name="enddatefilter"
+			   value="2019-10-31"
+			   min="2014-08-14">
 		
+		<label for="starttime">Start time:</label>
+			<input type="time" id="starttime" name="starttimefilter"
+				value="00:00:00">
+				
+		<label for="endtime">End time:</label>
+			<input type="time" id="endtime" name="endtimefilter"
+				value="12:00:00">
+		
+		<div class="float-right">
+		<label for="incidentlist">Select incident types:</label>
+		<ul style="list-style-type:none" id=incidentlist v-for="item in search_results">
+			<li><input type="checkbox">{{ item.incident }}</li>
+		</ul>
+		</div>
+		
+		<div class="float-right">
+		<label for="neighborhoodlist">Select neighborhoods:</label>
+		<ul style="list-style-type:none" id=neighborhoodlist v-for="item in neighborhood_data">
+			<li><input type="checkbox">{{ item }}</li>
+		</ul>
+		
+		</div>
+			   
 	
         <div id="CrimeTable">
             <table class="table">
                 <thead class="thead-light">
                         <th scope="col">Case Number</th>
                         <th scope="col">Date</th>
+						<th scope="col">Time</th>
                         <th scope="col">Incident Type</th>
                         <th scope="col">Police Grid</th>
-                        <th scope="col">Neighborhood</th> <!--will eventually need to get neighborhood name from codes-->
+                        <th scope="col">Neighborhood</th>
                         <th scope="col">Block</th>
 		
                 </thead>
 				<tbody>
 					<tr v-for="(item,key) in search_results">
-						<td>{{ key }}</td>
+						<td>{{ key.substring(1) }}</td>
 						<td>{{ item.date }}</td>
+						<td>{{ item.time }}</td>
 						<td>{{ item.incident }}</td>
 						<td>{{ item.police_grid }}</td>
 						<td>{{ neighborhood_data["N" +item.neighborhood_number] }}</td>

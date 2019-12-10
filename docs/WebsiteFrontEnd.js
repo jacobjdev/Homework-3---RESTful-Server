@@ -23,6 +23,7 @@ function Init(){
         this.startMap()
         this.getCenter()
         this.getNeighborhoodData()
+		this.setMarkers()
         
         },
         methods :{
@@ -62,7 +63,14 @@ function Init(){
             },
             getNeighborhoodData(){
                 neighborhoodSearch() 
-            }
+            },
+			getDataForMarkers(){
+				
+			},
+			setMarkers(){
+				var highwood = L.marker([44.946250, -93.025248]).addTo(mymap);
+				highwood.bindPopup("Highwood").openPopup();
+			}
             
 
         }
@@ -80,7 +88,7 @@ function MapSearch(event)
     {
 		console.log('hello2');
         let request = {
-            url:"http://cisc-dean.stthomas.edu:8018/incidents",
+            url:"http://cisc-dean.stthomas.edu:8011/incidents",
             dataType: "json",
             headers: {
                 //"Authorization": auth_data.token_type + " " + auth_data.access_token
@@ -117,7 +125,7 @@ function neighborhoodSearch(event){
     {
 		console.log('hello2');
         let request = {
-            url:"http://cisc-dean.stthomas.edu:8018/neighborhoods",
+            url:"http://cisc-dean.stthomas.edu:8011/neighborhoods",
             dataType: "json",
             headers: {
                 //"Authorization": auth_data.token_type + " " + auth_data.access_token
