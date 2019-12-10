@@ -1,5 +1,25 @@
 var app;
 var globalcrime_api_url;
+//var neighborhood_array;
+
+var neighborhood_object= {
+"Conway/Battlecreek/Highwood": [44.946250, -93.025248],
+"Greater East Side": [44.976738, -93.027055],
+"West Side":[44.931608, -93.080018],
+"Dayton's Bluff":[44.958591, -93.059610],
+"Payne/Phalen":[44.976668, -93.070699],
+"North End":[44.977097, -93.111313],
+"Thomas/Dale(Frogtown)": [44.960120, -93.121358],
+"Summit/University":[44.947396, -93.133054],
+"West Seventh":[44.931491, -93.126777],
+"Como":[44.983284, -93.150415],
+"Hamline/Midway":[44.961524, -93.164176],
+"St. Anthony":[44.966985, -93.191109],
+"Union Park":[44.945576, -93.176630],
+"Macalester-Grovelend":[44.934662, -93.178110],
+"Highland":[44.914196, -93.176787],
+"Summit Hill":[.937127, -93.136825],
+"Capitol River":[44.947738, -93.093074]};
 
 function Prompt() {
     $("#dialog-form").dialog({
@@ -176,7 +196,7 @@ function codeSearch(event){
    
     console.log('hello2');
     let request = {
-        url:"http://cisc-dean.stthomas.edu:8011/codes",
+        url:globalcrime_api_url+"/codes",
         dataType: "json",
         headers: {
             //"Authorization": auth_data.token_type + " " + auth_data.access_token
@@ -196,3 +216,5 @@ function codeData(data)
 	console.log('hello4');
     console.log(data);
 }
+
+

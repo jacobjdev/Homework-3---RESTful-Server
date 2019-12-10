@@ -51,6 +51,8 @@
 	
 
 		<!--filters-->
+		
+
 		<label for="startdate">Start date:</label>
 			<input type="date" id="startdate" name="startdatefilter"
 			   value="2019-10-01"
@@ -69,11 +71,11 @@
 			<input type="time" id="endtime" name="endtimefilter"
 				value="12:00:00">
 		
+		<!--checkbox lists - old
 		<div class="float-right">
             <label for="incidentlist">Select incident types:</label>
             <ul style="list-style-type:none" id=incidentlist v-for="item in search_results">
                 <li><input type="checkbox">{{ item.incident }}</li>
-                <!-- shouldnt this be just be from codes? since there is multiple duplicates per? maybe if same text -->
             </ul>
 		</div>
 		
@@ -82,7 +84,26 @@
             <ul style="list-style-type:none" id=neighborhoodlist v-for="item in neighborhood_data">
                 <li><input type="checkbox">{{ item }}</li>
             </ul>
+		</div>-->
+			               
+		<div class="float-right">
+		<label for="neighborhoodlist">Select neighborhood(s):</label>
+		<select id="neighborhoodlist" multiple>
+			  <option v-for="item in neighborhood_data">{{ item }}</option>
+		</select>
 		</div>
+		
+		<div class="float-right">
+		<label for="incidentlist">Select incident(s):</label>
+		<select id="incidentlist" multiple>
+			  <option v-for="item in search_results">{{ item.incident }}</option>
+		</select>
+		</div>
+		<!-- shouldnt this be just be from codes? since there is multiple duplicates per? maybe if same text -->
+
+	
+		
+		<button type="button" @click="MapSearch">Apply Filters</button>
 			   
 	
         <div id="CrimeTable">
@@ -95,6 +116,7 @@
                         <th scope="col">Police Grid</th>
                         <th scope="col">Neighborhood</th>
                         <th scope="col">Block</th>
+						<th scope="col">Plot?</th>
 		
                 </thead>
 				<tbody>
@@ -106,6 +128,7 @@
 						<td>{{ item.police_grid }}</td>
 						<td>{{ neighborhood_data["N" +item.neighborhood_number] }}</td>
 						<td>{{ item.block }}</td>
+						<td><input type="checkbox" name="plotbox" /></td>
 					</tr>
 				
 				</tbody>
