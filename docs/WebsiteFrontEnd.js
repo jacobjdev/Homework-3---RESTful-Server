@@ -1,7 +1,27 @@
 var app;
+var globalcrime_api_url;
 
-function Init(){
+function Prompt() {
+    $("#dialog-form").dialog({
+        autoOpen: true,
+        modal: true,
+        width: "360px",
+        buttons: {
+            "Ok": function() {
+                var prompt_input = $("#prompt_input");
+                Init(prompt_input.val());
+                $(this).dialog("close");
+            },
+            "Cancel": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
 
+function Init(crime_api_url){
+console.log(crime_api_url);
+globalcrime_api_url=crime_api_url
    app = new Vue({
         el: "#app",
         data: {
@@ -22,7 +42,7 @@ function Init(){
         this.startMap()
         this.getCenter()
         this.getNeighborhoodData()
-		// this.setMarkers()
+		//this.setMarkers()
         
         },
         methods :{
@@ -42,6 +62,8 @@ function Init(){
                 mymap.setMaxBounds(bounds);
                 setTimeout(MapSearch,100); //this allows app to finish building
                 // setTimeout(setMarkers,100);
+                var highwood = L.marker([44.946250, -93.025248]).addTo(mymap);
+				highwood.bindPopup("Highwood").openPopup();
             },
             getCenter(){
                 mymap.on('moveend', function (event){
@@ -68,6 +90,7 @@ function Init(){
 				
 			},
 			setMarkers(){
+                // sleep(100);
 				var highwood = L.marker([44.946250, -93.025248]).addTo(mymap);
 				highwood.bindPopup("Highwood").openPopup();
             },
@@ -79,7 +102,7 @@ function Init(){
 	
 
 }
-
+// IF OUTSIDE DATE RANGE OR DATA DOENST EXIST NEW API CALL, BUT IF PER LOCATION ETC, USE V-IFS FOR TABLE BASED OFF PAGE
 //get crime data function on load 
 
 //have separate function down here for api processing call stuff?
@@ -90,7 +113,7 @@ function MapSearch(event)
     {
 		console.log('hello2');
         let request = {
-            url:"http://cisc-dean.stthomas.edu:8018/incidents",
+            url: globalcrime_api_url+"/incidents",
             dataType: "json",
             headers: {
                 //"Authorization": auth_data.token_type + " " + auth_data.access_token
@@ -128,7 +151,7 @@ function neighborhoodSearch(event){
     
     console.log('hello2');
     let request = {
-        url:"http://cisc-dean.stthomas.edu:8011/neighborhoods",
+        url: globalcrime_api_url+"/neighborhoods",
         dataType: "json",
         headers: {
             //"Authorization": auth_data.token_type + " " + auth_data.access_token
