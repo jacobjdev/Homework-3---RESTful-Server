@@ -87,8 +87,8 @@
 		</div>-->
 			               
 		<div class="float-right">
-		<label for="neighborhoodlist">Select neighborhood(s):</label>
-		<select id="neighborhoodlist" multiple>
+		<label for="neighborhoodlist">Select neighborhood(s):</label> 
+		<select id="neighborhoodlist" multiple v-model="neighborhoods"> <!--v-if item.incident type=="theft" -->
 			  <option v-for="item in neighborhood_data">{{ item }}</option>
 		</select>
 		</div>

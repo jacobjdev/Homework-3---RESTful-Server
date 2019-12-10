@@ -54,6 +54,7 @@ globalcrime_api_url=crime_api_url
             neighborhood_results: [],
             code_data: [],
             neighborhood_data: {},
+			neighborhoods: []
             
         },
         computed: {
@@ -127,22 +128,54 @@ globalcrime_api_url=crime_api_url
 
 //have separate function down here for api processing call stuff?
 // Rachel port 8011, jacob 8018
-function MapSearch(event)
-{
-    if (app.map_search !== "")
-    {
-		console.log('hello2');
-        let request = {
+
+//incident search function
+/*
+let request = {
             url: globalcrime_api_url+"/incidents",
             dataType: "json",
             headers: {
                 //"Authorization": auth_data.token_type + " " + auth_data.access_token
             },
             success: MapData
-        };
+			        };
         $.ajax(request);
+*/
+function MapSearch(event)
+{
+    if (app.search_type == "latitude/longitude")
+    {
+		console.log('hello2');
+
+			let split=app.locationDisplayBox.split(',');
+			console.log(split);
+			var latlng;
+			//if (split.length<2){
+				//latlng=L.latLng(44.95167902304322 , -93.0758285522461);
+			//}else{
+				latlng = L.latLng(parseFloat(split[0]), parseFloat(split[1]));
+			//}
+			mymap.setView(latlng,11);
+			
+
 		//console.log('results: '+ app.search_results);
-    }
+    }else if (app.search_type == "addresstype"){
+		console.log("address");
+		
+		//if data response.length <1
+		$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +app.locationDisplayBox+ "&format=json",(dataResponse) => {
+			console.log(dataResponse[0].lat, dataResponse[0].lon);
+		var latlng2;
+			//if (app.locationDisplayBox<1){
+				//latlng2=L.latLng(44.95167902304322 , -93.0758285522461);
+			//}else{
+				latlng2 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);
+			//}
+			mymap.setView(latlng2,5);	
+
+		});
+	
+	}
     else
     {
 		console.log('hello3');
