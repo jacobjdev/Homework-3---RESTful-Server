@@ -13,17 +13,16 @@ function Init(){
             search_results: [],
             neighborhood_results: [],
             code_data: [],
-            neighborhood_data: {}
+            neighborhood_data: {},
             
         },
         computed: {
-            
         },
         mounted() {
         this.startMap()
         this.getCenter()
         this.getNeighborhoodData()
-		this.setMarkers()
+		// this.setMarkers()
         
         },
         methods :{
@@ -42,6 +41,7 @@ function Init(){
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
                 setTimeout(MapSearch,100); //this allows app to finish building
+                // setTimeout(setMarkers,100);
             },
             getCenter(){
                 mymap.on('moveend', function (event){
@@ -70,7 +70,8 @@ function Init(){
 			setMarkers(){
 				var highwood = L.marker([44.946250, -93.025248]).addTo(mymap);
 				highwood.bindPopup("Highwood").openPopup();
-			}
+            },
+            // THERE IS SOMETHING with AN ERROR HERE
             
 
         }
@@ -82,13 +83,14 @@ function Init(){
 //get crime data function on load 
 
 //have separate function down here for api processing call stuff?
+// Rachel port 8011, jacob 8018
 function MapSearch(event)
 {
     if (app.map_search !== "")
     {
 		console.log('hello2');
         let request = {
-            url:"http://cisc-dean.stthomas.edu:8011/incidents",
+            url:"http://cisc-dean.stthomas.edu:8018/incidents",
             dataType: "json",
             headers: {
                 //"Authorization": auth_data.token_type + " " + auth_data.access_token
@@ -104,6 +106,7 @@ function MapSearch(event)
         app.search_results = [];
     }
 }
+// Rachel port 8011, jacob 8018
 function MapData(data)
 {
     var innerData = data
@@ -122,21 +125,21 @@ function MapData(data)
 function neighborhoodSearch(event){
     
     //maybe need to remove this?
-    {
-		console.log('hello2');
-        let request = {
-            url:"http://cisc-dean.stthomas.edu:8011/neighborhoods",
-            dataType: "json",
-            headers: {
-                //"Authorization": auth_data.token_type + " " + auth_data.access_token
-            },
-            success: neighborhoodData
-        };
-        $.ajax(request);
-		//console.log('results: '+ app.search_results);
-    }
+    
+    console.log('hello2');
+    let request = {
+        url:"http://cisc-dean.stthomas.edu:8011/neighborhoods",
+        dataType: "json",
+        headers: {
+            //"Authorization": auth_data.token_type + " " + auth_data.access_token
+        },
+        success: neighborhoodData
+    };
+    $.ajax(request);
+    //console.log('results: '+ app.search_results);
+    
 }
-
+// Rachel port 8011, jacob 8018
 function neighborhoodData(data)
 {
     app.neighborhood_data = data;
@@ -145,27 +148,22 @@ function neighborhoodData(data)
     console.log(data);
 }
 
-
+// Rachel port 8011, jacob 8018
 function codeSearch(event){
-    if (app.map_search !== "")
-    {
-		console.log('hello2');
-        let request = {
-            url:"http://cisc-dean.stthomas.edu:8011/codes",
-            dataType: "json",
-            headers: {
-                //"Authorization": auth_data.token_type + " " + auth_data.access_token
-            },
-            success: codeData
-        };
-        $.ajax(request);
-		//console.log('results: '+ app.search_results);
-    }
-    else
-    {
-		console.log('hello3');
-        app.code_data = [];
-    }
+   
+    console.log('hello2');
+    let request = {
+        url:"http://cisc-dean.stthomas.edu:8011/codes",
+        dataType: "json",
+        headers: {
+            //"Authorization": auth_data.token_type + " " + auth_data.access_token
+        },
+        success: codeData
+    };
+    $.ajax(request);
+    //console.log('results: '+ app.search_results);
+    
+
 }
 
 function codeData(data)

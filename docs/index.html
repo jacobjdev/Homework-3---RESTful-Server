@@ -67,18 +67,18 @@
 				value="12:00:00">
 		
 		<div class="float-right">
-		<label for="incidentlist">Select incident types:</label>
-		<ul style="list-style-type:none" id=incidentlist v-for="item in search_results">
-			<li><input type="checkbox">{{ item.incident }}</li>
-		</ul>
+            <label for="incidentlist">Select incident types:</label>
+            <ul style="list-style-type:none" id=incidentlist v-for="item in search_results">
+                <li><input type="checkbox">{{ item.incident }}</li>
+                <!-- shouldnt this be just be from codes? since there is multiple duplicates per? maybe if same text -->
+            </ul>
 		</div>
 		
 		<div class="float-right">
-		<label for="neighborhoodlist">Select neighborhoods:</label>
-		<ul style="list-style-type:none" id=neighborhoodlist v-for="item in neighborhood_data">
-			<li><input type="checkbox">{{ item }}</li>
-		</ul>
-		
+            <label for="neighborhoodlist">Select neighborhoods:</label>
+            <ul style="list-style-type:none" id=neighborhoodlist v-for="item in neighborhood_data">
+                <li><input type="checkbox">{{ item }}</li>
+            </ul>
 		</div>
 			   
 	
@@ -111,5 +111,4 @@
         </div>
     </div>
 </body>
-
 </html>
