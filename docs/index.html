@@ -34,8 +34,8 @@
 <body onload="Prompt()">
 
     <div id="app">
-        <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->
-        
+        <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->     
+		
         <div id="mapAndBoxes" class="text-center"> 
             <div id="mapid">
             </div>
@@ -52,7 +52,9 @@
 
 		<!--filters-->
 		
-
+		<a href = "about.html" target="_blank" class='btn btn-success pull-right'> About the Page </a>
+		<!--<button class='btn btn-success pull-right' @click="window.location.href = 'about.html';">About</button>-->
+		
 		<label for="startdate">Start date:</label>
 			<input type="date" id="startdate" name="startdatefilter"
 			   value="2019-10-01"
@@ -88,18 +90,17 @@
 			               
 		<div class="float-right">
 		<label for="neighborhoodlist">Select neighborhood(s):</label> 
-		<select id="neighborhoodlist" multiple v-model="neighborhoods"> <!--v-if item.incident type=="theft" -->
+		<select id="neighborhoodlist" multiple v-model="neighborhoods">
 			  <option v-for="item in neighborhood_data">{{ item }}</option>
 		</select>
 		</div>
 		
 		<div class="float-right">
-		<label for="incidentlist">Select incident(s):</label>
-		<select id="incidentlist" multiple>
-			  <option v-for="item in incident_data">{{ item.incident }}</option>
+		<label for="incidentlist">Select incident type(s):</label>
+		<select id="incidentlist" multiple v-model="incidenttypes"> <!--v-if item.incident type=="theft" -- if selected add to array-->
+			  <option v-for="item in code_data">{{ item }}</option>	  
 		</select>
 		</div>
-		<!-- shouldnt this be just be from codes? since there is multiple duplicates per? maybe if same text -->
 
 	
 		

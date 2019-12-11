@@ -55,7 +55,9 @@ globalcrime_api_url=crime_api_url
             neighborhood_results: [],
             code_data: [],
             neighborhood_data: {},
-			neighborhoods: []
+			neighborhoods: [],
+			code_data: {},
+			incidenttypes: []
             
         },
         computed: {
@@ -65,6 +67,7 @@ globalcrime_api_url=crime_api_url
         this.getCenter()
         this.getNeighborhoodData()
 		//this.setMarkers()
+		codeSearch()
         
         },
         methods :{
@@ -269,6 +272,7 @@ function codeSearch(event){
         success: codeData
     };
     $.ajax(request);
+	//console.log('was success');
     //console.log('results: '+ app.search_results);
     
 
@@ -278,8 +282,8 @@ function codeData(data)
 {
     app.code_data = data;
 	//console.log(app.search_results);
-	console.log('hello4');
-    console.log(data);
+	console.log('processing code data');
+    console.log('code data '+data);
 }
 
 
