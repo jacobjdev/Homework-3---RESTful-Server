@@ -96,7 +96,7 @@
 		<div class="float-right">
 		<label for="incidentlist">Select incident(s):</label>
 		<select id="incidentlist" multiple>
-			  <option v-for="item in search_results">{{ item.incident }}</option>
+			  <option v-for="item in incident_data">{{ item.incident }}</option>
 		</select>
 		</div>
 		<!-- shouldnt this be just be from codes? since there is multiple duplicates per? maybe if same text -->
@@ -120,7 +120,7 @@
 		
                 </thead>
 				<tbody>
-					<tr v-for="(item,key) in search_results">
+					<tr v-for="(item,key) in incident_data">
 						<td>{{ key.substring(1) }}</td>
 						<td>{{ item.date }}</td>
 						<td>{{ item.time }}</td>

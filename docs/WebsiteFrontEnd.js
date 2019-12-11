@@ -51,6 +51,7 @@ globalcrime_api_url=crime_api_url
             neighborhood_Search: "",
             //store url from the jqueryuihtml thing
             search_results: [],
+            incident_data: [],
             neighborhood_results: [],
             code_data: [],
             neighborhood_data: {},
@@ -81,7 +82,7 @@ globalcrime_api_url=crime_api_url
                 var corner2=L.latLng(44.8906, -93.004);
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
-                setTimeout(MapSearch,100); //this allows app to finish building
+                setTimeout(IncidentSearch,100); //this allows app to finish building
                 // setTimeout(setMarkers,100);
                 var highwood = L.marker([44.946250, -93.025248]).addTo(mymap);
 				highwood.bindPopup("Highwood").openPopup();
@@ -110,11 +111,11 @@ globalcrime_api_url=crime_api_url
 			getDataForMarkers(){
 				
 			},
-			setMarkers(){
-                // sleep(100);
-				var highwood = L.marker([44.946250, -93.025248]).addTo(mymap);
-				highwood.bindPopup("Highwood").openPopup();
-            },
+			// setMarkers(){
+            //     // sleep(100);
+			// 	var highwood = L.marker([44.946250, -93.025248]).addTo(mymap);
+			// 	highwood.bindPopup("Highwood").openPopup();
+            // },
             // THERE IS SOMETHING with AN ERROR HERE
             
 
@@ -129,6 +130,27 @@ globalcrime_api_url=crime_api_url
 //have separate function down here for api processing call stuff?
 // Rachel port 8011, jacob 8018
 
+function IncidentSearch(event){
+    console.log('hello5');
+    let request = {
+        url: globalcrime_api_url+"/incidents",
+        dataType: "json",
+        headers: {
+            //"Authorization": auth_data.token_type + " " + auth_data.access_token
+        },
+        success: incidentData
+    };
+    $.ajax(request);
+
+}
+
+function incidentData(data)
+{
+    app.incident_data = data;
+	//console.log(app.search_results);
+	console.log('hello4');
+    console.log(data);
+}
 //incident search function
 /*
 let request = {
