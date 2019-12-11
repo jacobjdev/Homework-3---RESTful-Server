@@ -1,4 +1,5 @@
 var app;
+var mymap = null;
 var globalcrime_api_url;
 //var neighborhood_array;
 
@@ -57,17 +58,44 @@ globalcrime_api_url=crime_api_url
             neighborhood_data: {},
 			neighborhoods: [],
 			code_data: {},
-			incidenttypes: []
+            incidenttypes: [],
+            start_date: "2019-10-01",
+            end_date: "2019-10-31",
+            conwayBattleCreekHighwoodIcon: null,
+            greaterEastSideIcon: null,
+            westSideIcon: null,
+            daytonsBluffIcon: null,
+            paynePhalenIcon: null,
+            northEndIcon: null,
+            thomasDaleFrogtownIcon: null,
+            summitUniversityIcon: null,
+            westSeventhIcon: null,
+            comoIcon: null,
+            hamlineMidwayIcon: null,
+            stAnthonyIcon: null,
+            unionParkIcon: null,
+            macalesterGrovelandIcon: null,
+            highlandIcon:null,
+            summitHillIcon:null,
+            capitolRiverIcon:null,
+
+            // need to add the rest of these, call function on apply filter
             
         },
         computed: {
+            
+            //in incident da
+
+                // loop over the incident data, increment counts based off the nieghborhood
+
+            
         },
         mounted() {
-        this.startMap()
-        this.getCenter()
+        // this.startMap()
+        // this.getCenter()
         this.getNeighborhoodData()
-		//this.setMarkers()
-		codeSearch()
+        codeSearch()
+        
         
         },
         methods :{
@@ -85,15 +113,35 @@ globalcrime_api_url=crime_api_url
                 var corner2=L.latLng(44.8802, -93.003);
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
-                setTimeout(IncidentSearch,100); //this allows app to finish building
-                
+                // setTimeout(IncidentSearch,100); //this allows app to finish building
+                // this.westSideIcon = L.marker(neighborhood_object["West Side"]).addTo(mymap);
+
+            },
+            updatePopups(){
+                //this would get called by the markers?
+                console.log("neighborhood totals computed!")
+                var neighborhoodTotalsArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                console.log(this.incident_data)
+                for( let incident in this.incident_data){
+                    // console.log("I am doing incident: " , this.incident_data[incident].neighborhood_number);
+                        //Conway/Battlecreek/Highwood
+                        neighborhoodTotalsArray[this.incident_data[incident].neighborhood_number -1] += 1;
+                        //need to add it to the correct one
+
+                }
+    
+                console.log("Totals array" + neighborhoodTotalsArray);
                 // var highwoodIcon = L.marker([44.946250, -93.025248]).addTo(mymap);
                 // highwoodIcon.bindPopup("Highwood")
-                var conwayIcon = L.marker(neighborhood_object["Conway/Battlecreek/Highwood"]).addTo(mymap);
-                conwayIcon.bindPopup("Conway/Battlecreek/Highwood").openPopup();
-                var greaterEastSideIcon = L.marker(neighborhood_object["Greater East Side"]).addTo(mymap);
-                greaterEastSideIcon.bindPopup("Greater East Side")
-                var westSideIcon = L.marker(neighborhood_object["West Side"]).addTo(mymap);
+                this.conwayBattleCreekHighwoodIcon = L.marker(neighborhood_object["Conway/Battlecreek/Highwood"]).addTo(mymap);
+                this.conwayBattleCreekHighwoodIcon.bindPopup("Conway/Battlecreek/Highwood" + neighborhoodTotalsArray[0]);
+
+                this.greaterEastSideIcon = L.marker(neighborhood_object["Greater East Side"]).addTo(mymap);
+                this.greaterEastSideIcon.bindPopup("Greater East Side " + neighborhoodTotalsArray[1]);
+                // greaterEastSideIcon.bindPopup("testing");
+                // re run bind pop up with every single time ,only on fiter change
+                    // NEED TO REMOVE EACH VAr DECLARATION PART
+                
                 westSideIcon.bindPopup("West Side")
                 var daytonsBluffIcon = L.marker(neighborhood_object["Dayton's Bluff"]).addTo(mymap);
                 daytonsBluffIcon.bindPopup("Dayton's Bluff")
@@ -123,12 +171,6 @@ globalcrime_api_url=crime_api_url
                 summitHillIcon.bindPopup("Summit Hill");
                 var capitolRiverIcon = L.marker(neighborhood_object["Capitol River"]).addTo(mymap);
                 capitolRiverIcon.bindPopup("Capitol River");
-
-
-
-                // for(neighborhood in neighborhood_object){
-                //     createMapIcon(neighborhood);
-                // }
             },
             getCenter(){
                 mymap.on('moveend', function (event){
@@ -169,7 +211,13 @@ globalcrime_api_url=crime_api_url
 
         }
     });
-	
+    // var countComponent = Vue.component("mapIcons", {
+    //     props: ["count"], 
+    //     template: "<span> {{ count }} </span>"
+    // });
+    IncidentSearch()
+
+    
 
 }
 // IF OUTSIDE DATE RANGE OR DATA DOENST EXIST NEW API CALL, BUT IF PER LOCATION ETC, USE V-IFS FOR TABLE BASED OFF PAGE
@@ -187,23 +235,39 @@ globalcrime_api_url=crime_api_url
 
 function IncidentSearch(event){
     console.log('hello5');
-    let request = {
-        url: globalcrime_api_url+"/incidents?start_date=2019-10-01&end_date=2019-10-31&format=json",
-                // when adding ?start_date=2019-10-01&end_date=2019-10-31 to the query, why does return noting?
-        // has the problem with end date?  maybe logic?
-        dataType: "json",
-        headers: {
-            //"Authorization": auth_data.token_type + " " + auth_data.access_token
-        },
-        success: incidentData
-    };
-    $.ajax(request);
+    var dateToUse;
+    //untested
+    if(app.start_date !== "2019-10-01" && app.end_date !== "2019-10-31"){
+        dateToUse = "start_date="+app.start_date+"&end_date="+app.end_date+"&format=json";
+    }else{
+        dateToUse = "start_date=2019-10-01&end_date=2019-10-31&format=json"
+    }
+    console.log("date tp use " + dateToUse);
+    $.getJSON(globalcrime_api_url+"/incidents?"+dateToUse,incidentData);
+    // let request = {
+    //     url: globalcrime_api_url+"/incidents?"+dateToUse,
+    //             // when adding ?start_date=2019-10-01&end_date=2019-10-31 to the query, why does return noting?
+    //     // has the problem with end date?  maybe logic?
+    //     dataType: "json",
+    //     headers: {
+    //         //"Authorization": auth_data.token_type + " " + auth_data.access_token
+    //     },
+    //     success: incidentData
+    // };
+    // $.ajax(request);
 
 }
 
 function incidentData(data)
 {
+    
+    console.log(data[Object.keys(data)[0]])
     app.incident_data = data;
+
+    if(mymap == null){
+        app.startMap();
+    }
+    app.updatePopups();
 	//console.log(app.search_results);
 	console.log('hello4');
     console.log(data);

@@ -36,7 +36,7 @@
     <div id="app">
         <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->     
 		
-        <div id="mapAndBoxes" class="text-center"> 
+        <div id="mapAndBoxes" class="col-xs-1 center-block"> 
             <div id="mapid">
             </div>
             <input id="search" type="text" v-model="locationDisplayBox" placeholder="Enter Location"></input>
@@ -56,12 +56,12 @@
 		<!--<button class='btn btn-success pull-right' @click="window.location.href = 'about.html';">About</button>-->
 		
 		<label for="startdate">Start date:</label>
-			<input type="date" id="startdate" name="startdatefilter"
+			<input type="date" id="startdate" name="startdatefilter"  v-model="start_date"
 			   value="2019-10-01"
 			   min="2014-08-14">
 			   
 		<label for="enddate">End date:</label>
-			<input type="date" id="enddate" name="enddatefilter"
+			<input type="date" id="enddate" name="enddatefilter" v-model="end_date"
 			   value="2019-10-31"
 			   min="2014-08-14">
 		
@@ -70,7 +70,7 @@
 				value="00:00:00">
 				
 		<label for="endtime">End time:</label>
-			<input type="time" id="endtime" name="endtimefilter"
+			<input type="time" id="endtime" name="endtimefilter" 
 				value="12:00:00">
 		
 		<!--checkbox lists - old
@@ -104,7 +104,7 @@
 
 	
 		
-		<button type="button" @click="MapSearch">Apply Filters</button>
+		<button type="button" @click="IncidentSearch">Apply Filters</button>
 			   
 	
         <div id="CrimeTable">
