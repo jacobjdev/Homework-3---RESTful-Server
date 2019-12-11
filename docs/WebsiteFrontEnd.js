@@ -99,6 +99,14 @@ globalcrime_api_url=crime_api_url
                     console.log("center"+ app.locationDisplayBox)
                 }else{
                     console.log("else on center")
+                    $.getJSON("https://nominatim.openstreetmap.org/reverse?lat="+centerOfMap.lat+"&lon="+centerOfMap.lng+"&format=json", (response) =>{
+                        console.log(response)
+                        // console.log("JOSON RESPPNE" +JSON.parse(response));
+                        var address = response.road + " " + response.city + " " + response.state + " " + response.postcode;
+                        app.locationDisplayBox = address;
+                        // out of memeory what, also why all just nulls
+                        
+                    })
                     //need to do call to convert from address to lat long
                 }
                 })
@@ -226,7 +234,9 @@ function neighborhoodSearch(event){
     
     console.log('hello2');
     let request = {
-        url: globalcrime_api_url+"/neighborhoods",
+        url: globalcrime_api_url+"/neighborhoods?start_date=2019-10-01&end_date=2019-10-31",
+        // when adding ?start_date=2019-10-01&end_date=2019-10-31 to the query, why does return noting?
+        // has the problem with end date?  maybe logic?
         dataType: "json",
         headers: {
             //"Authorization": auth_data.token_type + " " + auth_data.access_token

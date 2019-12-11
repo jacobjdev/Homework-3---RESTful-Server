@@ -316,7 +316,7 @@ app.get('/incidents', (req,res) => {
         //defensive programming what if user provides two start dates?
         var middleDBToAdd2 = "";
         var timeToAdd = "T00:00:00";
-        var middleDBToAdd = req.query.start_date + timeToAdd;
+        var middleDBToAdd2 = req.query.start_date + timeToAdd;
         
         //console.log(middleDBToAdd);
 		//console.log("MDB type of "+typeof(middleDBToAdd));
@@ -339,7 +339,7 @@ if(req.query.hasOwnProperty("end_date")){
     //defensive programming what if user provides two start dates? 
     var middleDBToAdd3 = "";
     var timeToAdd = "T00:00:00";
-    var middleDBToAdd = req.query.end_date + timeToAdd;
+    var middleDBToAdd3 = req.query.end_date + timeToAdd;
     
     //console.log(middleDBToAdd);
     if(!whereStatementUsedYet){
@@ -376,7 +376,7 @@ if(req.query.hasOwnProperty("format") && (req.query.format.toLowerCase() === "xm
 
 
 	var finalDBCall = firstDBCallPart + " " + middlePartDBCallBuilder + " "+lastDBCallPart + limitAmount;
-    //console.log("FINAL DB Call: " + finalDBCall);
+    console.log("FINAL DB Call: " + finalDBCall);
     //console.log("type of finalstring: " + typeof(finalDBCall));
 	
     var incidentObjectToSend  = {};	
@@ -402,7 +402,7 @@ if(req.query.hasOwnProperty("format") && (req.query.format.toLowerCase() === "xm
             //console.log(JSONtoXML.parse("incidents",incidentObject));
             res.type('xml').send(JSONtoXML.parse("incidents", incidentObjectToSend));
         }else{            
-            //console.log(JSON.stringify(incidentObject, null, 4));
+            // console.log(JSON.stringify(incidentObjectToSend, null, 4));
             res.type('json').send(incidentObjectToSend);
         }
     });
