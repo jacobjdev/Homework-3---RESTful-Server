@@ -81,14 +81,54 @@ globalcrime_api_url=crime_api_url
                 accessToken: 'pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA'
                 }).addTo(mymap);
 
-                var corner1=L.latLng(44.9883, -93.207);
-                var corner2=L.latLng(44.8906, -93.004);
+                var corner1=L.latLng(45.0213, -93.236);
+                var corner2=L.latLng(44.8802, -93.003);
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
                 setTimeout(IncidentSearch,100); //this allows app to finish building
-                // setTimeout(setMarkers,100);
-                var highwood = L.marker([44.946250, -93.025248]).addTo(mymap);
-				highwood.bindPopup("Highwood").openPopup();
+                
+                // var highwoodIcon = L.marker([44.946250, -93.025248]).addTo(mymap);
+                // highwoodIcon.bindPopup("Highwood")
+                var conwayIcon = L.marker(neighborhood_object["Conway/Battlecreek/Highwood"]).addTo(mymap);
+                conwayIcon.bindPopup("Conway/Battlecreek/Highwood").openPopup();
+                var greaterEastSideIcon = L.marker(neighborhood_object["Greater East Side"]).addTo(mymap);
+                greaterEastSideIcon.bindPopup("Greater East Side")
+                var westSideIcon = L.marker(neighborhood_object["West Side"]).addTo(mymap);
+                westSideIcon.bindPopup("West Side")
+                var daytonsBluffIcon = L.marker(neighborhood_object["Dayton's Bluff"]).addTo(mymap);
+                daytonsBluffIcon.bindPopup("Dayton's Bluff")
+                var paynePhalenIcon = L.marker(neighborhood_object["Payne/Phalen"]).addTo(mymap);
+                paynePhalenIcon.bindPopup("Payne/Phalen");
+                var northEndIcon = L.marker(neighborhood_object["North End"]).addTo(mymap);
+                northEndIcon.bindPopup("North End");
+                var thomasDaleFrogtownIcon = L.marker(neighborhood_object["Thomas/Dale(Frogtown)"]).addTo(mymap);
+                thomasDaleFrogtownIcon.bindPopup("Thomas/Dale(Frogtown");
+                var summitUniversityIcon = L.marker(neighborhood_object["Summit/University"]).addTo(mymap);
+                summitUniversityIcon.bindPopup("Summit/University");
+                var westSeventhIcon = L.marker(neighborhood_object["West Seventh"]).addTo(mymap);
+                westSeventhIcon.bindPopup("West Seventh");
+                var comoIcon = L.marker(neighborhood_object["Como"]).addTo(mymap);
+                comoIcon.bindPopup("Como");
+                var hamlineMidwayIcon = L.marker(neighborhood_object["Hamline/Midway"]).addTo(mymap);
+                hamlineMidwayIcon.bindPopup("Hamline/Midway");
+                var stAnthonyIcon = L.marker(neighborhood_object["St. Anthony"]).addTo(mymap);
+                stAnthonyIcon.bindPopup("St. Anthony");
+                var unionParkIcon = L.marker(neighborhood_object["Union Park"]).addTo(mymap);
+                unionParkIcon.bindPopup("Union Park");
+                var macalesterGrovelandIcon = L.marker(neighborhood_object["Macalester-Grovelend"]).addTo(mymap);
+                macalesterGrovelandIcon.bindPopup("Macalester-Groveland");
+                var highlandIcon = L.marker(neighborhood_object["Highland"]).addTo(mymap);
+                highlandIcon.bindPopup("Highland");
+                var summitHillIcon = L.marker(neighborhood_object["Summit Hill"]).addTo(mymap);
+                summitHillIcon.bindPopup("Summit Hill");
+                var capitolRiverIcon = L.marker(neighborhood_object["Capitol River"]).addTo(mymap);
+                capitolRiverIcon.bindPopup("Capitol River");
+
+
+
+                // for(neighborhood in neighborhood_object){
+                //     createMapIcon(neighborhood);
+                // }
             },
             getCenter(){
                 mymap.on('moveend', function (event){
@@ -105,7 +145,9 @@ globalcrime_api_url=crime_api_url
                     $.getJSON("https://nominatim.openstreetmap.org/reverse?lat="+centerOfMap.lat+"&lon="+centerOfMap.lng+"&format=json", (response) =>{
                         console.log(response)
                         // console.log("JOSON RESPPNE" +JSON.parse(response));
-                        var address = response.road + " " + response.city + " " + response.state + " " + response.postcode;
+                        
+                        // var address = response.road + " " + response.city + " " + response.state + " " + response.postcode;
+                        var address = response.display_name;
                         app.locationDisplayBox = address;
                         // out of memeory what, also why all just nulls
                         
@@ -122,12 +164,7 @@ globalcrime_api_url=crime_api_url
 			getDataForMarkers(){
 				
 			},
-			// setMarkers(){
-            //     // sleep(100);
-			// 	var highwood = L.marker([44.946250, -93.025248]).addTo(mymap);
-			// 	highwood.bindPopup("Highwood").openPopup();
-            // },
-            // THERE IS SOMETHING with AN ERROR HERE
+			
             
 
         }
@@ -141,10 +178,19 @@ globalcrime_api_url=crime_api_url
 //have separate function down here for api processing call stuff?
 // Rachel port 8011, jacob 8018
 
+
+// function createMapIcon(neighborhoodName){
+//     var neighborhoodName = L.marker(neighborhood_object[neighborhoodName]).addTo(mymap);
+//     console.log("Adding " + neighborhoodName + "with" +(neighborhood_object[neighborhoodName]) + "coordinates");
+//     neighborhoodName.bindPopup(neighborhoodName).openPopup();
+// }
+
 function IncidentSearch(event){
     console.log('hello5');
     let request = {
-        url: globalcrime_api_url+"/incidents",
+        url: globalcrime_api_url+"/incidents?start_date=2019-10-01&end_date=2019-10-31&format=json",
+                // when adding ?start_date=2019-10-01&end_date=2019-10-31 to the query, why does return noting?
+        // has the problem with end date?  maybe logic?
         dataType: "json",
         headers: {
             //"Authorization": auth_data.token_type + " " + auth_data.access_token
@@ -237,9 +283,8 @@ function neighborhoodSearch(event){
     
     console.log('hello2');
     let request = {
-        url: globalcrime_api_url+"/neighborhoods?start_date=2019-10-01&end_date=2019-10-31",
-        // when adding ?start_date=2019-10-01&end_date=2019-10-31 to the query, why does return noting?
-        // has the problem with end date?  maybe logic?
+        url: globalcrime_api_url+"/neighborhoods",
+
         dataType: "json",
         headers: {
             //"Authorization": auth_data.token_type + " " + auth_data.access_token
