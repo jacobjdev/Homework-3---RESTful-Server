@@ -92,9 +92,9 @@ globalcrime_api_url=crime_api_url
         },
         mounted() {
         // this.startMap()
-        // this.getCenter()
         this.getNeighborhoodData()
         codeSearch()
+        // this.getCenter()
         
         
         },
@@ -120,57 +120,69 @@ globalcrime_api_url=crime_api_url
             updatePopups(){
                 //this would get called by the markers?
                 console.log("neighborhood totals computed!")
-                var neighborhoodTotalsArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                var neighborhoodTotalsArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                 console.log(this.incident_data)
                 for( let incident in this.incident_data){
                     // console.log("I am doing incident: " , this.incident_data[incident].neighborhood_number);
                         //Conway/Battlecreek/Highwood
                         neighborhoodTotalsArray[this.incident_data[incident].neighborhood_number -1] += 1;
+                 
                         //need to add it to the correct one
-
+                        // console.log(neighborhoodTotalsArray[16])
                 }
     
                 console.log("Totals array" + neighborhoodTotalsArray);
                 // var highwoodIcon = L.marker([44.946250, -93.025248]).addTo(mymap);
                 // highwoodIcon.bindPopup("Highwood")
                 this.conwayBattleCreekHighwoodIcon = L.marker(neighborhood_object["Conway/Battlecreek/Highwood"]).addTo(mymap);
-                this.conwayBattleCreekHighwoodIcon.bindPopup("Conway/Battlecreek/Highwood" + neighborhoodTotalsArray[0]);
+                this.conwayBattleCreekHighwoodIcon.bindPopup("Conway/Battlecreek/Highwood, crimes: " + neighborhoodTotalsArray[0]);
 
                 this.greaterEastSideIcon = L.marker(neighborhood_object["Greater East Side"]).addTo(mymap);
-                this.greaterEastSideIcon.bindPopup("Greater East Side " + neighborhoodTotalsArray[1]);
-                // greaterEastSideIcon.bindPopup("testing");
-                // re run bind pop up with every single time ,only on fiter change
-                    // NEED TO REMOVE EACH VAr DECLARATION PART
+                this.greaterEastSideIcon.bindPopup("Greater East Side, crimes: " + neighborhoodTotalsArray[1]);
                 this.westSideIcon=L.marker(neighborhood_object["West Side"])
-                this.westSideIcon.bindPopup("West Side"+ neighborhoodTotalsArray[2]);
-                var daytonsBluffIcon = L.marker(neighborhood_object["Dayton's Bluff"]).addTo(mymap);
-                daytonsBluffIcon.bindPopup("Dayton's Bluff")
-                var paynePhalenIcon = L.marker(neighborhood_object["Payne/Phalen"]).addTo(mymap);
-                paynePhalenIcon.bindPopup("Payne/Phalen");
-                var northEndIcon = L.marker(neighborhood_object["North End"]).addTo(mymap);
-                northEndIcon.bindPopup("North End");
-                var thomasDaleFrogtownIcon = L.marker(neighborhood_object["Thomas/Dale(Frogtown)"]).addTo(mymap);
-                thomasDaleFrogtownIcon.bindPopup("Thomas/Dale(Frogtown");
-                var summitUniversityIcon = L.marker(neighborhood_object["Summit/University"]).addTo(mymap);
-                summitUniversityIcon.bindPopup("Summit/University");
-                var westSeventhIcon = L.marker(neighborhood_object["West Seventh"]).addTo(mymap);
-                westSeventhIcon.bindPopup("West Seventh");
-                var comoIcon = L.marker(neighborhood_object["Como"]).addTo(mymap);
-                comoIcon.bindPopup("Como");
-                var hamlineMidwayIcon = L.marker(neighborhood_object["Hamline/Midway"]).addTo(mymap);
-                hamlineMidwayIcon.bindPopup("Hamline/Midway");
-                var stAnthonyIcon = L.marker(neighborhood_object["St. Anthony"]).addTo(mymap);
-                stAnthonyIcon.bindPopup("St. Anthony");
-                var unionParkIcon = L.marker(neighborhood_object["Union Park"]).addTo(mymap);
-                unionParkIcon.bindPopup("Union Park");
-                var macalesterGrovelandIcon = L.marker(neighborhood_object["Macalester-Grovelend"]).addTo(mymap);
-                macalesterGrovelandIcon.bindPopup("Macalester-Groveland");
-                var highlandIcon = L.marker(neighborhood_object["Highland"]).addTo(mymap);
-                highlandIcon.bindPopup("Highland");
-                var summitHillIcon = L.marker(neighborhood_object["Summit Hill"]).addTo(mymap);
-                summitHillIcon.bindPopup("Summit Hill");
-                var capitolRiverIcon = L.marker(neighborhood_object["Capitol River"]).addTo(mymap);
-                capitolRiverIcon.bindPopup("Capitol River");
+                this.westSideIcon.bindPopup("West Side, crimes: "+ neighborhoodTotalsArray[2]);
+
+                this.daytonsBluffIcon = L.marker(neighborhood_object["Dayton's Bluff"]).addTo(mymap);
+                this.daytonsBluffIcon.bindPopup("Dayton's Bluff, crimes: "+neighborhoodTotalsArray[3]);
+
+                this.paynePhalenIcon = L.marker(neighborhood_object["Payne/Phalen"]).addTo(mymap);
+                this.paynePhalenIcon.bindPopup("Payne/Phalen, crimes: "+ neighborhoodTotalsArray[4]);
+
+                this.northEndIcon = L.marker(neighborhood_object["North End"]).addTo(mymap);
+                this.northEndIcon.bindPopup("North End, crimes: "+neighborhoodTotalsArray[5]);
+
+                this.thomasDaleFrogtownIcon = L.marker(neighborhood_object["Thomas/Dale(Frogtown)"]).addTo(mymap);
+                this.thomasDaleFrogtownIcon.bindPopup("Thomas/Dale(Frogtown), crimes: "+ neighborhoodTotalsArray[6]);
+
+                this.summitUniversityIcon = L.marker(neighborhood_object["Summit/University"]).addTo(mymap);
+                this.summitUniversityIcon.bindPopup("Summit/University"+ neighborhoodTotalsArray[7]);
+
+                this.westSeventhIcon = L.marker(neighborhood_object["West Seventh"]).addTo(mymap);
+                this.westSeventhIcon.bindPopup("West Seventh, crimes: "+neighborhoodTotalsArray[8]);
+                
+                this.comoIcon = L.marker(neighborhood_object["Como"]).addTo(mymap);
+                this.comoIcon.bindPopup("Como, crimes: "+ neighborhoodTotalsArray[9]);
+
+                this.hamlineMidwayIcon = L.marker(neighborhood_object["Hamline/Midway"]).addTo(mymap);
+                this.hamlineMidwayIcon.bindPopup("Hamline/Midway, crimes: "+ neighborhoodTotalsArray[10]);
+
+                this.stAnthonyIcon = L.marker(neighborhood_object["St. Anthony"]).addTo(mymap);
+                this.stAnthonyIcon.bindPopup("St. Anthony, crimes: "+ neighborhoodTotalsArray[11]);
+
+                this.unionParkIcon = L.marker(neighborhood_object["Union Park"]).addTo(mymap);
+                this.unionParkIcon.bindPopup("Union Park, crimes: "+ neighborhoodTotalsArray[12]);
+
+                this.macalesterGrovelandIcon = L.marker(neighborhood_object["Macalester-Grovelend"]).addTo(mymap);
+                this.macalesterGrovelandIcon.bindPopup("Macalester-Groveland, crimes: " + neighborhoodTotalsArray[13]);
+
+                this.highlandIcon = L.marker(neighborhood_object["Highland"]).addTo(mymap);
+                this.highlandIcon.bindPopup("Highland, crimes: "+ neighborhoodTotalsArray[14]);
+
+                this.summitHillIcon = L.marker(neighborhood_object["Summit Hill"]).addTo(mymap);
+                this.summitHillIcon.bindPopup("Summit Hill, crimes: "+neighborhoodTotalsArray[15]);
+
+                this.capitolRiverIcon = L.marker(neighborhood_object["Capitol River"]).addTo(mymap);
+                this.capitolRiverIcon.bindPopup("Capitol River, crimes: "+ neighborhoodTotalsArray[16]);
             },
             getCenter(){
                 mymap.on('moveend', function (event){
@@ -211,10 +223,7 @@ globalcrime_api_url=crime_api_url
 
         }
     });
-    // var countComponent = Vue.component("mapIcons", {
-    //     props: ["count"], 
-    //     template: "<span> {{ count }} </span>"
-    // });
+
     IncidentSearch()
 
     
