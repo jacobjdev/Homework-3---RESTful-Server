@@ -130,13 +130,14 @@
                 </thead>
 				<!--  && ((app.northwestMapCorner.lat<neighborhood_object[neighborhood_data['N' +item.neighborhood_number][0]] && app.southeastMapCorner.lon>neighborhood_object[neighborhood_data['N' +item.neighborhood_number][1]]) && (app.northwestMapCorner.lat>neighborhood_object[neighborhood_data['N' +item.neighborhood_number][0]] && app.southeastMapCorner.lon<neighborhood_object[neighborhood_data['N' +item.neighborhood_number][1]]) -->
 				<tbody>
-					<tr v-for="(item,key) in incident_data" v-if="((item.time>=start_time && item.time<=end_time)&& app.incidenttypes.indexOf(item.incident)>=0&& app.neighborhoods.indexOf(neighborhood_data['N' +item.neighborhood_number])>=0)">
+					<tr v-for="(item,key) in incident_data" v-if="((item.time>=start_time && item.time<=end_time) && (app.incidenttypes.indexOf(item.incident)>=0)&& (app.neighborhoods.indexOf(neighborhood_data['N' +item.neighborhood_number])>=0))">
 						<td>{{ key.substring(1) }}</td>
 						<td>{{ item.date }}</td>
 						<td>{{ item.time }}</td>
 						<td>{{ item.incident }}</td>
 						<td>{{ item.police_grid }}</td>
-						<td>{{ neighborhood_data["N" +item.neighborhood_number] }}</td>
+                        <td>{{ neighborhood_data["N" +item.neighborhood_number] }}</td>
+                        <td>{{ neighborhood_object[neighborhood_data['N' +item.neighborhood_number]][0] }}</td>
 						<td>{{ item.block }}</td>
 						<td><input type="checkbox" name="plotbox" v-model="rowchecked" @click="placeSingleMarker" /></td>
 					</tr>			

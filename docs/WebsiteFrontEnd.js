@@ -17,7 +17,7 @@ var neighborhood_object= {
 "Union Park":[44.945576, -93.176630],
 "Macalester-Grovelend":[44.934662, -93.178110],
 "Highland":[44.914196, -93.176787],
-"Summit Hill":[.937127, -93.136825],
+"Summit Hill":[44.937127, -93.136825],
 "Capitol River":[44.947738, -93.093074]};
 
 function Prompt() {
@@ -240,6 +240,7 @@ function getCenter2(){
         app.northwestMapCorner = mymap.getBounds().getNorthWest();
         app.southeastMapCorner = mymap.getBounds().getSouthEast();
         console.log("North west: "+ app.northwestMapCorner + "SouthEast " + app.southeastMapCorner); 
+        console.log()
     })
 }
 
