@@ -31,12 +31,18 @@
 
 </head>
 
+
 <body onload="Prompt()">
+<div class="container">
+<div class="row">
+<div class="col-sm-4"></div>
 
     <div id="app">
+
         <!-- need to figure out how to add the map here.... then also stuff to add boxes to refine search stuff.-->     
 		<!-- w3 schools bootstrap example, bootstrap-->
-        <div id="mapAndBoxes" class="col-xs-1 center-block"> 
+        <!--<div id="mapAndBoxes"> -->
+		<div class="col-sm-4">
             <div id="mapid">
             </div>
             <input id="search" type="text" v-model="locationDisplayBox" placeholder="Enter Location"></input>
@@ -46,7 +52,8 @@
                     <option value="addresstype">Address</option>
             </select>
             <button type="button" @click="MapSearch"> Search</button>
-        </div>
+		</div>
+        <!--</div>-->
 	
 
 		<!--filters-->
@@ -142,5 +149,8 @@
         <label for="name">URL for St. Paul Crime API:</label>
         <input type="text" id="prompt_input" class="text ui-widget-content ui-corner-all" style="width: 320px;"/>
     </div>
+<div class="col-sm-4"></div>
+</div>
+</div>
 </body>
 </html>

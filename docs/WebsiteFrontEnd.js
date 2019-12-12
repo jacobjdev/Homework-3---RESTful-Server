@@ -383,14 +383,27 @@ function codeData(data)
 }
 
 function placeSingleMarker(event){
-	var correctedAddress = app.rowchecked.block.replace('X','0'); // fidn better way,, character to the left of it is number
-	$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +correctedAddress+ "&format=json",(dataResponse) => {
-			console.log(dataResponse[0].lat, dataResponse[0].lon);
-		var latlng3 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);	
+	var address=app.rowchecked.block;
+	var latlng3 = [];
+	console.log('address: '+address);
 
+
+	for (let i=0; i<address.length; i++){
+		if (address.charAt(i)=='X'){
+			if(address.charAt(i-1)>= '0' && address.charAt(i-1)<= '9'){
+				address.replace(address.charAt(i),'0');
+			}
+		}
+	}
+	
+	$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +address+ "&format=json",(dataResponse) => {
+			console.log(dataResponse[0].lat, dataResponse[0].lon);
+			latlng3 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);
+			mymap.eventIcon = L.marker(latlng3).addTo(mymap);
+			mymap.eventIcon.bindPopup(app.rowchecked.incident + app.rowchecked.date + app.rowchecked.time);
 	});
-	mymap.eventIcon = L.marker(latlng3).addTo(mymap);
-    mymap.eventIcon.bindPopup(app.rowchecked.incident + app.rowchecked.date + app.rowchecked.time);
+	
+
 }
 
 
