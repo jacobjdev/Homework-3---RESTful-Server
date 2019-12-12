@@ -122,8 +122,13 @@
 						<th scope="col">Plot?</th>
 		
                 </thead>
+				<!-- && item.incident==app.incidenttypes[0]-->
 				<tbody>
+<<<<<<< Updated upstream
 					<tr v-for="(item,key) in incident_data" v-if="item.time>=start_time && item.time<=end_time">
+=======
+					<tr v-for="(item,key) in incident_data" v-if="(item.time>=start_time && item.time<=end_time)">
+>>>>>>> Stashed changes
 						<td>{{ key.substring(1) }}</td>
 						<td>{{ item.date }}</td>
 						<td>{{ item.time }}</td>
@@ -131,7 +136,7 @@
 						<td>{{ item.police_grid }}</td>
 						<td>{{ neighborhood_data["N" +item.neighborhood_number] }}</td>
 						<td>{{ item.block }}</td>
-						<td><input type="checkbox" name="plotbox" /></td>
+						<td><input type="checkbox" name="plotbox" v-model="rowchecked" @click="placeSingleMarker" /></td>
 					</tr>			
 				</tbody>
 
