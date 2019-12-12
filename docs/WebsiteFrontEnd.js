@@ -1,8 +1,6 @@
 var app;
 var mymap = null;
 var globalcrime_api_url;
-//var neighborhood_array;
-//Why does map zoom back out after clicking search
 var neighborhood_object= {
 "Conway/Battlecreek/Highwood": [44.946250, -93.025248],
 "Greater East Side": [44.976738, -93.027055],
@@ -118,13 +116,11 @@ globalcrime_api_url=crime_api_url
                 console.log(this.incident_data)
                 for( let incident in this.incident_data){
                     // console.log("I am doing incident: " , this.incident_data[incident].neighborhood_number);
-                        neighborhoodTotalsArray[this.incident_data[incident].neighborhood_number -1] += 1;
-                 
+                    neighborhoodTotalsArray[this.incident_data[incident].neighborhood_number -1] += 1;
                 }
     
                 console.log("Totals array" + neighborhoodTotalsArray);
-                // var highwoodIcon = L.marker([44.946250, -93.025248]).addTo(mymap);
-                // highwoodIcon.bindPopup("Highwood")
+
                 this.conwayBattleCreekHighwoodIcon = L.marker(neighborhood_object["Conway/Battlecreek/Highwood"]).addTo(mymap);
                 this.conwayBattleCreekHighwoodIcon.bindPopup("Conway/Battlecreek/Highwood, crimes: " + neighborhoodTotalsArray[0]);
 
@@ -229,30 +225,12 @@ function getCenter2(){
         console.log("else on center")
         $.getJSON("https://nominatim.openstreetmap.org/reverse?lat="+centerOfMap.lat+"&lon="+centerOfMap.lng+"&format=json", (response) =>{
             console.log(response)
-            // console.log("JOSON RESPPNE" +JSON.parse(response));
-            
-            // var address = response.road + " " + response.city + " " + response.state + " " + response.postcode;
             var address = response.display_name;
             app.locationDisplayBox = address;
-            // out of memeory what, also why all just nulls
-            
         })
-        //need to do call to convert from address to lat long
     }
     })
 }
-// IF OUTSIDE DATE RANGE OR DATA DOENST EXIST NEW API CALL, BUT IF PER LOCATION ETC, USE V-IFS FOR TABLE BASED OFF PAGE
-//get crime data function on load 
-
-//have separate function down here for api processing call stuff?
-// Rachel port 8011, jacob 8018
-
-
-// function createMapIcon(neighborhoodName){
-//     var neighborhoodName = L.marker(neighborhood_object[neighborhoodName]).addTo(mymap);
-//     console.log("Adding " + neighborhoodName + "with" +(neighborhood_object[neighborhoodName]) + "coordinates");
-//     neighborhoodName.bindPopup(neighborhoodName).openPopup();
-// }
 
 function IncidentSearch(event){
     console.log('starting incident search');
@@ -268,19 +246,6 @@ function IncidentSearch(event){
     }
     console.log("date tp use " + dateToUse);
     $.getJSON(globalcrime_api_url+"/incidents?"+dateToUse,incidentData);
-    // let request = {
-    //     url: globalcrime_api_url+"/incidents?"+dateToUse,
-    //             // when adding ?start_date=2019-10-01&end_date=2019-10-31 to the query, why does return noting?
-    //     // has the problem with end date?  maybe logic?
-    //     dataType: "json",
-    //     headers: {
-    //         //"Authorization": auth_data.token_type + " " + auth_data.access_token
-    //     },
-    //     success: incidentData
-    // };
-    // $.ajax(request);
-	
-	console.log("This is the types passed in : " + app.incidenttypes + " and is " + typeof(app.incidenttypes));
 }
 
 function incidentData(data)
@@ -306,18 +271,7 @@ function incidentData(data)
 	console.log('processing incident search data');
     console.log(data);
 }
-//incident search function
-/*
-let request = {
-            url: globalcrime_api_url+"/incidents",
-            dataType: "json",
-            headers: {
-                //"Authorization": auth_data.token_type + " " + auth_data.access_token
-            },
-            success: MapData
-			        };
-        $.ajax(request);
-*/
+
 function MapSearch(event)
 {
     if (app.search_type == "latitude/longitude")
@@ -359,21 +313,6 @@ function MapSearch(event)
         app.search_results = [];
     }
 }
-// Rachel port 8011, jacob 8018
-// function MapData(data)
-// {
-//     console.log(" HOW THE HELL WAS THIS CALLED")
-//     var innerData = data
-//     // for(incident in innerData){
-//     //     incident.neighborhood_number = neighborhood_results[incident.neighborhood_number];
-//     //     console.log(incident)
-//     // }
-    
-//     app.search_results = innerData;
-// 	//console.log(app.search_results);
-// 	console.log('hello4');
-//     console.log(data);
-// }
 
 // Rachel port 8011, jacob 8018
 function neighborhoodSearch(event){
