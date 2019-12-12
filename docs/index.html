@@ -139,7 +139,7 @@
                         <td>{{ neighborhood_data["N" +item.neighborhood_number] }}</td>
                         <td>{{ neighborhood_object[neighborhood_data['N' +item.neighborhood_number]][0] }}</td>
 						<td>{{ item.block }}</td>
-						<td><input type="checkbox" name="plotbox" v-model="rowchecked" @click="placeSingleMarker" /></td>
+						<td><input type="checkbox" name="plotbox" v-model="rowchecked[key]" @click="placeSingleMarker(key)" /></td>
 					</tr>			
 				</tbody>
 

@@ -15,7 +15,7 @@ var neighborhood_object= {
 "Hamline/Midway":[44.961524, -93.164176],
 "St. Anthony":[44.966985, -93.191109],
 "Union Park":[44.945576, -93.176630],
-"Macalester-Grovelend":[44.934662, -93.178110],
+"Macalester-Groveland":[44.934662, -93.178110],
 "Highland":[44.914196, -93.176787],
 "Summit Hill":[44.937127, -93.136825],
 "Capitol River":[44.947738, -93.093074]};
@@ -61,7 +61,7 @@ globalcrime_api_url=crime_api_url
             end_date: "2019-10-31",
 			start_time: "00:00:00",
 			end_time: "12:00:00",
-            rowchecked: [],
+            rowchecked: {},
             // add the NW and SE corner data here 
             northwestMapCorner : null,
             southeastMapCorner: null,
@@ -383,27 +383,31 @@ function codeData(data)
 	}
 }
 
-function placeSingleMarker(event){
-	var address=app.rowchecked.block;
+function placeSingleMarker(key){
+	var address=app.incident_data[key].block;
 	var latlng3 = [];
 	console.log('address: '+address);
 
 
-	for (let i=0; i<address.length; i++){
+	for (let i=1; i<address.length; i++){
 		if (address.charAt(i)=='X'){
 			if(address.charAt(i-1)>= '0' && address.charAt(i-1)<= '9'){
-				address.replace(address.charAt(i),'0');
+				address=address.substring(0,i)+"0"+address.substring(i+1);
 			}
 		}
 	}
+	console.log('address2 '+ address);
 	
-	$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +address+ "&format=json",(dataResponse) => {
-			console.log(dataResponse[0].lat, dataResponse[0].lon);
-			latlng3 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);
+	$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +address+ ",St. Paul,MN&format=json",(dataResponse) => {
+			console.log('data response '+JSON.stringify(dataResponse));
+			//onsole.log('Data lat lon '+ dataResponse.lat, dataResponse.lon);
+			//latlng3 = L.latLng(dataResponse[lat],dataResponse[lon]);
+			console.log('latlng3 '+latlng3);
 			mymap.eventIcon = L.marker(latlng3).addTo(mymap);
-			mymap.eventIcon.bindPopup(app.rowchecked.incident + app.rowchecked.date + app.rowchecked.time);
+			mymap.eventIcon.bindPopup(app.incident_data[key] + app.incident_data[key].date + app.incident_data[key].time);
+			console.log('here');
 	});
-	
+
 
 }
 
