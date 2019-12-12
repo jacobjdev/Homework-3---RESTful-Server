@@ -85,18 +85,12 @@ globalcrime_api_url=crime_api_url
         computed: {
             
             //in incident da
-
-                // loop over the incident data, increment counts based off the nieghborhood
-
+            // loop over the incident data, increment counts based off the nieghborhood
             
         },
         mounted() {
-        // this.startMap()
         this.getNeighborhoodData()
-        codeSearch()
-        // this.getCenter()
-        
-        
+        codeSearch()    
         },
         methods :{
             startMap(){
@@ -113,22 +107,16 @@ globalcrime_api_url=crime_api_url
                 var corner2=L.latLng(44.8802, -93.003);
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
-                // setTimeout(IncidentSearch,100); //this allows app to finish building
-                // this.westSideIcon = L.marker(neighborhood_object["West Side"]).addTo(mymap);
-
             },
             updatePopups(){
-                //this would get called by the markers?
+
                 console.log("neighborhood totals computed!")
                 var neighborhoodTotalsArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                 console.log(this.incident_data)
                 for( let incident in this.incident_data){
                     // console.log("I am doing incident: " , this.incident_data[incident].neighborhood_number);
-                        //Conway/Battlecreek/Highwood
                         neighborhoodTotalsArray[this.incident_data[incident].neighborhood_number -1] += 1;
                  
-                        //need to add it to the correct one
-                        // console.log(neighborhoodTotalsArray[16])
                 }
     
                 console.log("Totals array" + neighborhoodTotalsArray);
@@ -139,6 +127,7 @@ globalcrime_api_url=crime_api_url
 
                 this.greaterEastSideIcon = L.marker(neighborhood_object["Greater East Side"]).addTo(mymap);
                 this.greaterEastSideIcon.bindPopup("Greater East Side, crimes: " + neighborhoodTotalsArray[1]);
+                
                 this.westSideIcon=L.marker(neighborhood_object["West Side"])
                 this.westSideIcon.bindPopup("West Side, crimes: "+ neighborhoodTotalsArray[2]);
 
@@ -185,49 +174,69 @@ globalcrime_api_url=crime_api_url
                 this.capitolRiverIcon.bindPopup("Capitol River, crimes: "+ neighborhoodTotalsArray[16]);
             },
             getCenter(){
-                mymap.on('moveend', function (event){
-                    // console.log(document.getElementById("search").value)
-                    // app.search_type = document.getElementById("search").value;
-                    console.log("here "+app.search_type); //why is this blank and why is it this way after map move?
-                    let centerOfMap = mymap.getCenter();
+                // mymap.on('moveend', function (event){
+                //     // console.log(document.getElementById("search").value)
+                //     // app.search_type = document.getElementById("search").value;
+                //     console.log("here "+app.search_type); //why is this blank and why is it this way after map move?
+                //     let centerOfMap = mymap.getCenter();
                     
-                if(app.search_type == "latitude/longitude"){
-                    app.locationDisplayBox = centerOfMap.lat + " , " + centerOfMap.lng;
-                    console.log("center"+ app.locationDisplayBox)
-                }else{
-                    console.log("else on center")
-                    $.getJSON("https://nominatim.openstreetmap.org/reverse?lat="+centerOfMap.lat+"&lon="+centerOfMap.lng+"&format=json", (response) =>{
-                        console.log(response)
-                        // console.log("JOSON RESPPNE" +JSON.parse(response));
+                // if(app.search_type == "latitude/longitude"){
+                //     app.locationDisplayBox = centerOfMap.lat + " , " + centerOfMap.lng;
+                //     console.log("center"+ app.locationDisplayBox)
+                // }else{
+                //     console.log("else on center")
+                //     $.getJSON("https://nominatim.openstreetmap.org/reverse?lat="+centerOfMap.lat+"&lon="+centerOfMap.lng+"&format=json", (response) =>{
+                //         console.log(response)
+                //         // console.log("JOSON RESPPNE" +JSON.parse(response));
                         
-                        // var address = response.road + " " + response.city + " " + response.state + " " + response.postcode;
-                        var address = response.display_name;
-                        app.locationDisplayBox = address;
-                        // out of memeory what, also why all just nulls
+                //         // var address = response.road + " " + response.city + " " + response.state + " " + response.postcode;
+                //         var address = response.display_name;
+                //         app.locationDisplayBox = address;
+                //         // out of memeory what, also why all just nulls
                         
-                    })
-                    //need to do call to convert from address to lat long
-                }
-                })
+                //     })
+                //     //need to do call to convert from address to lat long
+                // }
+                // })
 
 
             },
             getNeighborhoodData(){
                 neighborhoodSearch() 
             },
-			getDataForMarkers(){
-				
-			},
-			
             
 
         }
     });
 
-    IncidentSearch()
+    IncidentSearch();
+}
 
-    
-
+function getCenter2(){
+    mymap.on('moveend', function (event){
+        // console.log(document.getElementById("search").value)
+        // app.search_type = document.getElementById("search").value;
+        console.log("here "+app.search_type); //why is this blank and why is it this way after map move?
+        let centerOfMap = mymap.getCenter();
+        
+    if(app.search_type == "latitude/longitude"){
+        app.locationDisplayBox = centerOfMap.lat + " , " + centerOfMap.lng;
+        console.log("center"+ app.locationDisplayBox)
+    }else{
+        console.log("else on center")
+        $.getJSON("https://nominatim.openstreetmap.org/reverse?lat="+centerOfMap.lat+"&lon="+centerOfMap.lng+"&format=json", (response) =>{
+            console.log(response)
+            // console.log("JOSON RESPPNE" +JSON.parse(response));
+            
+            // var address = response.road + " " + response.city + " " + response.state + " " + response.postcode;
+            var address = response.display_name;
+            app.locationDisplayBox = address;
+            // out of memeory what, also why all just nulls
+            
+        })
+        //need to do call to convert from address to lat long
+    }
+    })
 }
 // IF OUTSIDE DATE RANGE OR DATA DOENST EXIST NEW API CALL, BUT IF PER LOCATION ETC, USE V-IFS FOR TABLE BASED OFF PAGE
 //get crime data function on load 
@@ -243,7 +252,7 @@ globalcrime_api_url=crime_api_url
 // }
 
 function IncidentSearch(event){
-    console.log('hello5');
+    console.log('starting incident search');
     var dateToUse;
     //untested
     if(app.start_date !== "2019-10-01" && app.end_date !== "2019-10-31"){
@@ -277,8 +286,9 @@ function incidentData(data)
         app.startMap();
     }
     app.updatePopups();
+    getCenter2();
 	//console.log(app.search_results);
-	console.log('hello4');
+	console.log('processing incident search data');
     console.log(data);
 }
 //incident search function
@@ -297,7 +307,7 @@ function MapSearch(event)
 {
     if (app.search_type == "latitude/longitude")
     {
-		console.log('hello2');
+		console.log('starting latitude longitude map search');
 
 			let split=app.locationDisplayBox.split(',');
 			console.log(split);
@@ -330,24 +340,25 @@ function MapSearch(event)
 	}
     else
     {
-		console.log('hello3');
+		console.log('idk how it got here');
         app.search_results = [];
     }
 }
 // Rachel port 8011, jacob 8018
-function MapData(data)
-{
-    var innerData = data
-    // for(incident in innerData){
-    //     incident.neighborhood_number = neighborhood_results[incident.neighborhood_number];
-    //     console.log(incident)
-    // }
+// function MapData(data)
+// {
+//     console.log(" HOW THE HELL WAS THIS CALLED")
+//     var innerData = data
+//     // for(incident in innerData){
+//     //     incident.neighborhood_number = neighborhood_results[incident.neighborhood_number];
+//     //     console.log(incident)
+//     // }
     
-    app.search_results = innerData;
-	//console.log(app.search_results);
-	console.log('hello4');
-    console.log(data);
-}
+//     app.search_results = innerData;
+// 	//console.log(app.search_results);
+// 	console.log('hello4');
+//     console.log(data);
+// }
 
 // Rachel port 8011, jacob 8018
 function neighborhoodSearch(event){
