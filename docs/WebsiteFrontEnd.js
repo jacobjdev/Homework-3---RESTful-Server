@@ -265,7 +265,7 @@ function incidentData(data)
 	for(code in app.code_data){
 		app.incidenttypes.push(app.code_data[code])
 	}
-	console.log("THIS IS TEMP ARRAY "+ temparray);
+	//console.log("THIS IS TEMP ARRAY "+ temparray);
 	//console.log(app.search_results);
 	console.log('processing incident search data');
     console.log(data);
