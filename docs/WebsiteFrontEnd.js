@@ -346,6 +346,10 @@ function neighborhoodData(data)
 	//console.log(app.search_results);
 	console.log('proessing neighbrhood data');
     console.log(data);
+	for(neighborhood in app.neighborhood_data){
+		app.neighborhoods.push(app.neighborhood_data[neighborhood])
+	}
+	console.log('neighborhoods: '+app.neighborhoods);
 }
 
 // Rachel port 8011, jacob 8018
