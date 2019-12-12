@@ -399,13 +399,18 @@ function placeSingleMarker(key){
 	console.log('address2 '+ address);
 	
 	$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +address+ ",St. Paul,MN&format=json",(dataResponse) => {
+		if(dataResponse.length<1){
+			alert("could not locate address");
+		}else{
 			console.log('data response '+JSON.stringify(dataResponse));
-			//onsole.log('Data lat lon '+ dataResponse.lat, dataResponse.lon);
-			//latlng3 = L.latLng(dataResponse[lat],dataResponse[lon]);
+			console.log('Data lat lon '+ dataResponse[0].lat, dataResponse[0].lon);
+			latlng3 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);
 			console.log('latlng3 '+latlng3);
 			mymap.eventIcon = L.marker(latlng3).addTo(mymap);
-			mymap.eventIcon.bindPopup(app.incident_data[key] + app.incident_data[key].date + app.incident_data[key].time);
+			//mymap.eventIcon.bindPopup(app.incident_data[key] + app.incident_data[key].date + app.incident_data[key].time);
+			mymap.eventIcon.bindPopup("this is awful");
 			console.log('here');
+		}
 	});
 
 
