@@ -54,7 +54,7 @@ globalcrime_api_url=crime_api_url
             search_results: [],
             incident_data: [],
             neighborhood_results: [],
-            code_data: [],
+            code_data2: [],
             neighborhood_data: {},
 			neighborhoods: [],
 			code_data: {},
@@ -109,6 +109,7 @@ globalcrime_api_url=crime_api_url
                 var corner2=L.latLng(44.8802, -93.003);
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
+				
             },
             updatePopups(){
 
@@ -278,7 +279,8 @@ function IncidentSearch(event){
     //     success: incidentData
     // };
     // $.ajax(request);
-
+	
+	console.log("This is the types passed in : " + app.incidenttypes + " and is " + typeof(app.incidenttypes));
 }
 
 function incidentData(data)
@@ -292,6 +294,14 @@ function incidentData(data)
     }
     app.updatePopups();
     getCenter2();
+	var temparray = [];
+	for(code in app.code_data){
+		temparray.push(app.code_data[code])
+	}
+	for(code in app.code_data){
+		app.incidenttypes.push(app.code_data[code])
+	}
+	console.log("THIS IS TEMP ARRAY "+ temparray);
 	//console.log(app.search_results);
 	console.log('processing incident search data');
     console.log(data);

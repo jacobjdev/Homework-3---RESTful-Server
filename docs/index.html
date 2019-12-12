@@ -123,7 +123,7 @@
 		
                 </thead>
 				<tbody>
-					<tr v-for="(item,key) in incident_data" v-if="item.time>=start_time && item.time<=end_time">
+					<tr v-for="(item,key) in incident_data" v-if="(item.time>=start_time && item.time<=end_time) && item.incident==app.incidenttypes[0]">
 						<td>{{ key.substring(1) }}</td>
 						<td>{{ item.date }}</td>
 						<td>{{ item.time }}</td>
