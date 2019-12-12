@@ -130,40 +130,6 @@ globalcrime_api_url=crime_api_url
                 this.greaterEastSideIcon.bindPopup("Greater East Side, crimes: " + neighborhoodTotalsArray[1]);
                 
                 this.westSideIcon=L.marker(neighborhood_object["West Side"])
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-                this.westSideIcon.bindPopup("West Side"+ neighborhoodTotalsArray[2]);
-                var daytonsBluffIcon = L.marker(neighborhood_object["Dayton's Bluff"]).addTo(mymap);
-                daytonsBluffIcon.bindPopup("Dayton's Bluff")
-                var paynePhalenIcon = L.marker(neighborhood_object["Payne/Phalen"]).addTo(mymap);
-                paynePhalenIcon.bindPopup("Payne/Phalen");
-                var northEndIcon = L.marker(neighborhood_object["North End"]).addTo(mymap);
-                northEndIcon.bindPopup("North End");
-                var thomasDaleFrogtownIcon = L.marker(neighborhood_object["Thomas/Dale(Frogtown)"]).addTo(mymap);
-                thomasDaleFrogtownIcon.bindPopup("Thomas/Dale(Frogtown");
-                var summitUniversityIcon = L.marker(neighborhood_object["Summit/University"]).addTo(mymap);
-                summitUniversityIcon.bindPopup("Summit/University");
-                var westSeventhIcon = L.marker(neighborhood_object["West Seventh"]).addTo(mymap);
-                westSeventhIcon.bindPopup("West Seventh");
-                var comoIcon = L.marker(neighborhood_object["Como"]).addTo(mymap);
-                comoIcon.bindPopup("Como");
-                var hamlineMidwayIcon = L.marker(neighborhood_object["Hamline/Midway"]).addTo(mymap);
-                hamlineMidwayIcon.bindPopup("Hamline/Midway");
-                var stAnthonyIcon = L.marker(neighborhood_object["St. Anthony"]).addTo(mymap);
-                stAnthonyIcon.bindPopup("St. Anthony");
-                var unionParkIcon = L.marker(neighborhood_object["Union Park"]).addTo(mymap);
-                unionParkIcon.bindPopup("Union Park");
-                var macalesterGrovelandIcon = L.marker(neighborhood_object["Macalester-Grovelend"]).addTo(mymap);
-                macalesterGrovelandIcon.bindPopup("Macalester-Groveland");
-                var highlandIcon = L.marker(neighborhood_object["Highland"]).addTo(mymap);
-                highlandIcon.bindPopup("Highland");
-                var summitHillIcon = L.marker(neighborhood_object["Summit Hill"]).addTo(mymap);
-                summitHillIcon.bindPopup("Summit Hill");
-                var capitolRiverIcon = L.marker(neighborhood_object["Capitol River"]).addTo(mymap);
-                capitolRiverIcon.bindPopup("Capitol River");
-=======
->>>>>>> sidestuff2tofixsincegithubdesktopdoesntdostashes
                 this.westSideIcon.bindPopup("West Side, crimes: "+ neighborhoodTotalsArray[2]);
 
                 this.daytonsBluffIcon = L.marker(neighborhood_object["Dayton's Bluff"]).addTo(mymap);
@@ -179,11 +145,7 @@ globalcrime_api_url=crime_api_url
                 this.thomasDaleFrogtownIcon.bindPopup("Thomas/Dale(Frogtown), crimes: "+ neighborhoodTotalsArray[6]);
 
                 this.summitUniversityIcon = L.marker(neighborhood_object["Summit/University"]).addTo(mymap);
-<<<<<<< HEAD
-                this.summitUniversityIcon.bindPopup("Summit/University"+ neighborhoodTotalsArray[7]);
-=======
-                this.summitUniversityIcon.bindPopup("Summit/University, crimes"+ neighborhoodTotalsArray[7]);
->>>>>>> sidestuff2tofixsincegithubdesktopdoesntdostashes
+                this.summitUniversityIcon.bindPopup("Summit/University, crimes: "+ neighborhoodTotalsArray[7]);
 
                 this.westSeventhIcon = L.marker(neighborhood_object["West Seventh"]).addTo(mymap);
                 this.westSeventhIcon.bindPopup("West Seventh, crimes: "+neighborhoodTotalsArray[8]);
@@ -211,10 +173,6 @@ globalcrime_api_url=crime_api_url
 
                 this.capitolRiverIcon = L.marker(neighborhood_object["Capitol River"]).addTo(mymap);
                 this.capitolRiverIcon.bindPopup("Capitol River, crimes: "+ neighborhoodTotalsArray[16]);
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> sidestuff2tofixsincegithubdesktopdoesntdostashes
             },
             getCenter(){
                 // mymap.on('moveend', function (event){
@@ -302,38 +260,14 @@ function incidentData(data)
         app.startMap();
     }
     app.updatePopups();
-<<<<<<< HEAD
     getCenter2();
-	var temparray = [];
-	for(code in app.code_data){
-		temparray.push(app.code_data[code])
-	}
+
 	for(code in app.code_data){
 		app.incidenttypes.push(app.code_data[code])
 	}
 	console.log("THIS IS TEMP ARRAY "+ temparray);
 	//console.log(app.search_results);
 	console.log('processing incident search data');
-=======
-<<<<<<< Updated upstream
-	//console.log(app.search_results);
-	console.log('hello4');
-=======
-    getCenter2();
-	/*
-	var temparray = [];
-	for(code in app.code_data){
-		temparray.push(app.code_data[code])
-	}
-	for(code in app.code_data){
-		app.incidenttypes.push(app.code_data[code])
-	}
-	console.log("THIS IS TEMP ARRAY "+ temparray);
-	//console.log(app.search_results);
-	*/
-	console.log('processing incident search data');
->>>>>>> Stashed changes
->>>>>>> sidestuff2tofixsincegithubdesktopdoesntdostashes
     console.log(data);
 }
 
