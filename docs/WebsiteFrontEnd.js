@@ -61,7 +61,11 @@ globalcrime_api_url=crime_api_url
             end_date: "2019-10-31",
 			start_time: "00:00:00",
 			end_time: "12:00:00",
-			rowchecked: [],
+            rowchecked: [],
+            // add the NW and SE corner data here 
+            northwestMapCorner : null,
+            southeastMapCorner: null,
+
             conwayBattleCreekHighwoodIcon: null,
             greaterEastSideIcon: null,
             westSideIcon: null,
@@ -220,17 +224,22 @@ function getCenter2(){
         console.log("here "+app.search_type); //why is this blank and why is it this way after map move?
         let centerOfMap = mymap.getCenter();
         
-    if(app.search_type == "latitude/longitude"){
-        app.locationDisplayBox = centerOfMap.lat + " , " + centerOfMap.lng;
-        console.log("center"+ app.locationDisplayBox)
-    }else{
-        console.log("else on center")
-        $.getJSON("https://nominatim.openstreetmap.org/reverse?lat="+centerOfMap.lat+"&lon="+centerOfMap.lng+"&format=json", (response) =>{
-            console.log(response)
-            var address = response.display_name;
-            app.locationDisplayBox = address;
-        })
-    }
+        // update corner
+        if(app.search_type == "latitude/longitude"){
+            app.locationDisplayBox = centerOfMap.lat + " , " + centerOfMap.lng;
+            console.log("center"+ app.locationDisplayBox)
+        }else{
+            console.log("else on center")
+            $.getJSON("https://nominatim.openstreetmap.org/reverse?lat="+centerOfMap.lat+"&lon="+centerOfMap.lng+"&format=json", (response) =>{
+                console.log(response)
+                var address = response.display_name;
+                app.locationDisplayBox = address;
+            })
+        }
+        console.log("mymap", mymap)
+        app.northwestMapCorner = mymap.getBounds().getNorthWest();
+        app.southeastMapCorner = mymap.getBounds().getSouthEast();
+        console.log("North west: "+ app.northwestMapCorner + "SouthEast " + app.southeastMapCorner); 
     })
 }
 
@@ -262,9 +271,7 @@ function incidentData(data)
     app.updatePopups();
     getCenter2();
 
-	for(code in app.code_data){
-		app.incidenttypes.push(app.code_data[code])
-	}
+	
 	//console.log("THIS IS TEMP ARRAY "+ temparray);
 	//console.log(app.search_results);
 	console.log('processing incident search data');
@@ -366,10 +373,13 @@ function codeData(data)
 	//console.log(app.search_results);
 	console.log('processing code data');
     console.log('code data '+data);
+    for(code in app.code_data){
+		app.incidenttypes.push(app.code_data[code])
+	}
 }
 
 function placeSingleMarker(event){
-	var correctedAddress = app.rowchecked.block.replace('X','0');
+	var correctedAddress = app.rowchecked.block.replace('X','0'); // fidn better way,, character to the left of it is number
 	$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +correctedAddress+ "&format=json",(dataResponse) => {
 			console.log(dataResponse[0].lat, dataResponse[0].lon);
 		var latlng3 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);	
