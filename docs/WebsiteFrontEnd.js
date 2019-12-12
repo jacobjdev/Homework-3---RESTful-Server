@@ -2,7 +2,7 @@ var app;
 var mymap = null;
 var globalcrime_api_url;
 //var neighborhood_array;
-
+//Why does map zoom back out after clicking search
 var neighborhood_object= {
 "Conway/Battlecreek/Highwood": [44.946250, -93.025248],
 "Greater East Side": [44.976738, -93.027055],
@@ -141,8 +141,8 @@ globalcrime_api_url=crime_api_url
                 // greaterEastSideIcon.bindPopup("testing");
                 // re run bind pop up with every single time ,only on fiter change
                     // NEED TO REMOVE EACH VAr DECLARATION PART
-                
-                westSideIcon.bindPopup("West Side")
+                this.westSideIcon=L.marker(neighborhood_object["West Side"])
+                this.westSideIcon.bindPopup("West Side"+ neighborhoodTotalsArray[2]);
                 var daytonsBluffIcon = L.marker(neighborhood_object["Dayton's Bluff"]).addTo(mymap);
                 daytonsBluffIcon.bindPopup("Dayton's Bluff")
                 var paynePhalenIcon = L.marker(neighborhood_object["Payne/Phalen"]).addTo(mymap);
