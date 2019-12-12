@@ -61,6 +61,8 @@ globalcrime_api_url=crime_api_url
             incidenttypes: [],
             start_date: "2019-10-01",
             end_date: "2019-10-31",
+			start_time: "00:00:00",
+			end_time: "12:00:00",
             conwayBattleCreekHighwoodIcon: null,
             greaterEastSideIcon: null,
             westSideIcon: null,
@@ -254,9 +256,12 @@ function getCenter2(){
 function IncidentSearch(event){
     console.log('starting incident search');
     var dateToUse;
-    //untested
-    if(app.start_date !== "2019-10-01" && app.end_date !== "2019-10-31"){
+	if(app.start_date !== "2019-10-01" || app.end_date !== "2019-10-31"){
         dateToUse = "start_date="+app.start_date+"&end_date="+app.end_date+"&format=json";
+		console.log("sdate: "+app.start_date);
+		console.log("edate: "+app.end_date);
+		//console.log("stime: "+app.start_time);
+		//console.log("etime: "+app.end_time);
     }else{
         dateToUse = "start_date=2019-10-01&end_date=2019-10-31&format=json"
     }
