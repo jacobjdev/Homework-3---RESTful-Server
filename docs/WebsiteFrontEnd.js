@@ -285,7 +285,7 @@ function MapSearch(event)
 			//}else{
 				latlng = L.latLng(parseFloat(split[0]), parseFloat(split[1]));
 			//}
-			mymap.setView(latlng,11);
+			mymap.setView(latlng,16);
 			
 
 		//console.log('results: '+ app.search_results);
@@ -294,14 +294,14 @@ function MapSearch(event)
 		
 		//if data response.length <1
 		$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +app.locationDisplayBox+ "&format=json",(dataResponse) => {
-			console.log(dataResponse[0].lat, dataResponse[0].lon);
-		var latlng2;
+			console.log("Converted "+dataResponse[0].lat, dataResponse[0].lon);
+		    var latlng2;
 			//if (app.locationDisplayBox<1){
 				//latlng2=L.latLng(44.95167902304322 , -93.0758285522461);
 			//}else{
 				latlng2 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);
 			//}
-			mymap.setView(latlng2,5);	
+			mymap.setView(latlng2,16);	
 
 		});
 	
