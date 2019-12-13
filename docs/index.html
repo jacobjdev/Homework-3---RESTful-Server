@@ -153,7 +153,12 @@
                         (app.southeastMapCorner.lon>neighborhood_object[neighborhood_data['N' +item.neighborhood_number]][1]) &&
                     --> 
 				<tbody>
-					<tr v-for="(item,key) in incident_data" :class="'C'+item.code" v-if="((item.time>=start_time && item.time<=end_time) && (app.incidenttypes.indexOf(item.incident)>=0)&& (app.neighborhoods.indexOf(neighborhood_data['N' +item.neighborhood_number])>=0))">
+                    <tr v-for="(item,key) in incident_data" :class="'C'+item.code" v-if="((item.time>=start_time && item.time<=end_time) && (app.incidenttypes.indexOf(item.incident)>=0)&& (app.neighborhoods.indexOf(neighborhood_data['N' +item.neighborhood_number])>=0)
+                        && 
+                        (app.northwestMapCorner.lat>neighborhood_object[neighborhood_data['N' +item.neighborhood_number]][0]) &&
+                        (app.northwestMapCorner.lng<neighborhood_object[neighborhood_data['N' +item.neighborhood_number]][1]) &&
+                        (app.southeastMapCorner.lat<neighborhood_object[neighborhood_data['N' +item.neighborhood_number]][0]) &&
+                        (app.southeastMapCorner.lng>neighborhood_object[neighborhood_data['N' +item.neighborhood_number]][1]))">
 						<td>{{ key.substring(1) }}</td>
 						<td>{{ item.date }}</td>
 						<td>{{ item.time }}</td>
