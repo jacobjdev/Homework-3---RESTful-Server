@@ -406,10 +406,20 @@ function placeSingleMarker(key){
 			console.log('Data lat lon '+ dataResponse[0].lat, dataResponse[0].lon);
 			latlng3 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);
 			console.log('latlng3 '+latlng3);
-			mymap.eventIcon = L.marker(latlng3).addTo(mymap);
-			//mymap.eventIcon.bindPopup(app.incident_data[key] + app.incident_data[key].date + app.incident_data[key].time);
-			mymap.eventIcon.bindPopup(app.incident_data[key].incident +", " + app.incident_data[key].date + ", "+ app.incident_data[key].time);
 			
+			mymap.eventIcon = L.marker(latlng3).addTo(mymap);
+			
+			let btn = document.createElement('button');
+			btn.innerText = 'Delete Marker';
+	
+
+			//mymap.eventIcon.bindPopup(app.incident_data[key] + app.incident_data[key].date + app.incident_data[key].time);
+			mymap.eventIcon.bindPopup(app.incident_data[key].incident +", " + app.incident_data[key].date + ", "+ app.incident_data[key].time + btn);
+			//let btn = document.createElement('button');
+				//btn.innerText = 'Delete Marker';
+				//btn.onclick =  function() {
+				//mymap.removeLayer(mp);
+
 		
 			console.log('here');
 		}
