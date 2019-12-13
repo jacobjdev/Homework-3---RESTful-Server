@@ -287,7 +287,8 @@ function MapSearch(event)
 			console.log(split);
 			var latlng;
 			if (split.length<2){
-				latlng=L.latLng(44.95167902304322 , -93.0758285522461);
+				alert("Could not find location. Please enter a different latitude/longitude.")
+				//latlng=L.latLng(44.95167902304322 , -93.0758285522461);
 			}else{
 				latlng = L.latLng(parseFloat(split[0]), parseFloat(split[1]));
 			}
@@ -302,8 +303,9 @@ function MapSearch(event)
 		$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +app.locationDisplayBox+ "&format=json",(dataResponse) => {
 			console.log("Converted "+dataResponse[0].lat, dataResponse[0].lon);
 		    var latlng2;
-			if (app.locationDisplayBox.length<1){
-				latlng2=L.latLng(44.95167902304322 , -93.0758285522461);
+			if (app.locationDisplayBox.length<2){
+				alert("Could not find location. Please enter a different address.")
+				//latlng2=L.latLng(44.95167902304322 , -93.0758285522461);
 			}else{
 				latlng2 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);
 			}
@@ -398,7 +400,7 @@ function placeSingleMarker(key){
 	
 	$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +address+ ",St. Paul,MN&format=json",(dataResponse) => {
 		if(dataResponse.length<1){
-			alert("could not locate address");
+			alert("Could not locate address");
 		}else{
 			console.log('data response '+JSON.stringify(dataResponse));
 			console.log('Data lat lon '+ dataResponse[0].lat, dataResponse[0].lon);
