@@ -63,8 +63,8 @@ globalcrime_api_url=crime_api_url
 			end_time: "12:00:00",
             rowchecked: {},
             // add the NW and SE corner data here 
-            northwestMapCorner: (45.0067, -93.247),
-            southeastMapCorner: (44.8742, -92.954),
+            northwestMapCorner : (45.0213, -93.236),
+            southeastMapCorner: (44.8802, -93.003),
 
             conwayBattleCreekHighwoodIcon: null,
             greaterEastSideIcon: null,
@@ -84,7 +84,8 @@ globalcrime_api_url=crime_api_url
             summitHillIcon:null,
             capitolRiverIcon:null,
 			eventIcon:null
- 
+
+            
         },
         computed: {
             
@@ -130,7 +131,7 @@ globalcrime_api_url=crime_api_url
                 this.greaterEastSideIcon = L.marker(neighborhood_object["Greater East Side"]).addTo(mymap);
                 this.greaterEastSideIcon.bindPopup("Greater East Side, crimes: " + neighborhoodTotalsArray[1]);
                 
-                this.westSideIcon=L.marker(neighborhood_object["West Side"])
+                this.westSideIcon=L.marker(neighborhood_object["West Side"]).addTo(mymap);
                 this.westSideIcon.bindPopup("West Side, crimes: "+ neighborhoodTotalsArray[2]);
 
                 this.daytonsBluffIcon = L.marker(neighborhood_object["Dayton's Bluff"]).addTo(mymap);
@@ -242,7 +243,6 @@ function getCenter2(){
 }
 
 function IncidentSearch(event){
-    
     console.log('starting incident search');
     var dateToUse;
 	if(app.start_date !== "2019-10-01" || app.end_date !== "2019-10-31"){
@@ -256,7 +256,6 @@ function IncidentSearch(event){
     }
     console.log("date tp use " + dateToUse);
     $.getJSON(globalcrime_api_url+"/incidents?"+dateToUse,incidentData);
-
 }
 
 function incidentData(data)
@@ -264,10 +263,10 @@ function incidentData(data)
     
     console.log(data[Object.keys(data)[0]])
     app.incident_data = data;
+
     if(mymap == null){
         app.startMap();
     }
- 
     app.updatePopups();
     getCenter2();
 
@@ -287,27 +286,27 @@ function MapSearch(event)
 			let split=app.locationDisplayBox.split(',');
 			console.log(split);
 			var latlng;
-			//if (split.length<2){
-				//latlng=L.latLng(44.95167902304322 , -93.0758285522461);
-			//}else{
+			if (split.length<2){
+				latlng=L.latLng(44.95167902304322 , -93.0758285522461);
+			}else{
 				latlng = L.latLng(parseFloat(split[0]), parseFloat(split[1]));
-			//}
+			}
 			mymap.setView(latlng,16);
 			
 
 		//console.log('results: '+ app.search_results);
     }else if (app.search_type == "addresstype"){
 		console.log("address");
-		
+		var latlng2;
 		//if data response.length <1
 		$.getJSON("https://nominatim.openstreetmap.org/search.php?q=" +app.locationDisplayBox+ "&format=json",(dataResponse) => {
 			console.log("Converted "+dataResponse[0].lat, dataResponse[0].lon);
 		    var latlng2;
-			//if (app.locationDisplayBox<1){
-				//latlng2=L.latLng(44.95167902304322 , -93.0758285522461);
-			//}else{
+			if (app.locationDisplayBox.length<1){
+				latlng2=L.latLng(44.95167902304322 , -93.0758285522461);
+			}else{
 				latlng2 = L.latLng(dataResponse[0].lat,dataResponse[0].lon);
-			//}
+			}
 			mymap.setView(latlng2,16);	
 
 		});
@@ -408,6 +407,8 @@ function placeSingleMarker(key){
 			mymap.eventIcon = L.marker(latlng3).addTo(mymap);
 			//mymap.eventIcon.bindPopup(app.incident_data[key] + app.incident_data[key].date + app.incident_data[key].time);
 			mymap.eventIcon.bindPopup(app.incident_data[key].incident +", " + app.incident_data[key].date + ", "+ app.incident_data[key].time);
+			
+		
 			console.log('here');
 		}
 	});
