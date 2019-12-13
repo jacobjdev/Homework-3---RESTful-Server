@@ -63,8 +63,8 @@ globalcrime_api_url=crime_api_url
 			end_time: "12:00:00",
             rowchecked: {},
             // add the NW and SE corner data here 
-            northwestMapCorner : null,
-            southeastMapCorner: null,
+            northwestMapCorner : (45.0213, -93.236),
+            southeastMapCorner: (44.8802, -93.003),
 
             conwayBattleCreekHighwoodIcon: null,
             greaterEastSideIcon: null,
@@ -85,13 +85,11 @@ globalcrime_api_url=crime_api_url
             capitolRiverIcon:null,
 			eventIcon:null
 
-            // need to add the rest of these, call function on apply filter
             
         },
         computed: {
             
-            //in incident da
-            // loop over the incident data, increment counts based off the nieghborhood
+
             
         },
         mounted() {
@@ -109,8 +107,8 @@ globalcrime_api_url=crime_api_url
                 accessToken: 'pk.eyJ1IjoiampqYTM4MCIsImEiOiJjazN0ZjJiYWMwMjlpM2VvMXBpMjgzM2FhIn0.ULokQFAtfcbyUp9AR8-IjA'
                 }).addTo(mymap);
 
-                var corner1=L.latLng(45.0213, -93.236);
-                var corner2=L.latLng(44.8802, -93.003);
+                var corner1=L.latLng(45.0067, -93.247);
+                var corner2=L.latLng(44.8742, -92.954);
                 var bounds = L.latLngBounds(corner1, corner2);
                 mymap.setMaxBounds(bounds);
 				
