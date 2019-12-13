@@ -63,8 +63,8 @@ globalcrime_api_url=crime_api_url
 			end_time: "12:00:00",
             rowchecked: {},
             // add the NW and SE corner data here 
-            northwestMapCorner : (45.0213, -93.236),
-            southeastMapCorner: (44.8802, -93.003),
+            northwestMapCorner: (45.0067, -93.247),
+            southeastMapCorner: (44.8742, -92.954),
 
             conwayBattleCreekHighwoodIcon: null,
             greaterEastSideIcon: null,
@@ -84,8 +84,7 @@ globalcrime_api_url=crime_api_url
             summitHillIcon:null,
             capitolRiverIcon:null,
 			eventIcon:null
-
-            
+ 
         },
         computed: {
             
@@ -243,6 +242,7 @@ function getCenter2(){
 }
 
 function IncidentSearch(event){
+    
     console.log('starting incident search');
     var dateToUse;
 	if(app.start_date !== "2019-10-01" || app.end_date !== "2019-10-31"){
@@ -256,6 +256,7 @@ function IncidentSearch(event){
     }
     console.log("date tp use " + dateToUse);
     $.getJSON(globalcrime_api_url+"/incidents?"+dateToUse,incidentData);
+
 }
 
 function incidentData(data)
@@ -263,10 +264,10 @@ function incidentData(data)
     
     console.log(data[Object.keys(data)[0]])
     app.incident_data = data;
-
     if(mymap == null){
         app.startMap();
     }
+ 
     app.updatePopups();
     getCenter2();
 
