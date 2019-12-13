@@ -166,7 +166,7 @@ globalcrime_api_url=crime_api_url
                 this.unionParkIcon = L.marker(neighborhood_object["Union Park"]).addTo(mymap);
                 this.unionParkIcon.bindPopup("Union Park, crimes: "+ neighborhoodTotalsArray[12]);
 
-                this.macalesterGrovelandIcon = L.marker(neighborhood_object["Macalester-Grovelend"]).addTo(mymap);
+                this.macalesterGrovelandIcon = L.marker(neighborhood_object["Macalester-Groveland"]).addTo(mymap);
                 this.macalesterGrovelandIcon.bindPopup("Macalester-Groveland, crimes: " + neighborhoodTotalsArray[13]);
 
                 this.highlandIcon = L.marker(neighborhood_object["Highland"]).addTo(mymap);
@@ -408,7 +408,7 @@ function placeSingleMarker(key){
 			console.log('latlng3 '+latlng3);
 			mymap.eventIcon = L.marker(latlng3).addTo(mymap);
 			//mymap.eventIcon.bindPopup(app.incident_data[key] + app.incident_data[key].date + app.incident_data[key].time);
-			mymap.eventIcon.bindPopup("this is awful");
+			mymap.eventIcon.bindPopup(app.incident_data[key].incident +", " + app.incident_data[key].date + ", "+ app.incident_data[key].time);
 			console.log('here');
 		}
 	});
