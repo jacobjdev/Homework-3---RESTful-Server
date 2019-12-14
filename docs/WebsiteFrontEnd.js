@@ -60,7 +60,7 @@ globalcrime_api_url=crime_api_url
             start_date: "2019-10-01",
             end_date: "2019-10-31",
 			start_time: "00:00:00",
-			end_time: "12:00:00",
+			end_time: "24:00:00",
             rowchecked: {},
             // add the NW and SE corner data here 
             northwestMapCorner : (45.0213, -93.236),
@@ -409,12 +409,12 @@ function placeSingleMarker(key){
 			
 			mymap.eventIcon = L.marker(latlng3).addTo(mymap);
 			
-			let btn = document.createElement('button');
-			btn.innerText = 'Delete Marker';
+			//let btn = document.createElement('button');
+			//btn.innerText = 'Delete Marker';
 	
 
 			//mymap.eventIcon.bindPopup(app.incident_data[key] + app.incident_data[key].date + app.incident_data[key].time);
-			mymap.eventIcon.bindPopup(app.incident_data[key].incident +", " + app.incident_data[key].date + ", "+ app.incident_data[key].time + btn);
+			mymap.eventIcon.bindPopup(app.incident_data[key].incident +", " + app.incident_data[key].date + ", "+ app.incident_data[key].time);
 			//let btn = document.createElement('button');
 				//btn.innerText = 'Delete Marker';
 				//btn.onclick =  function() {

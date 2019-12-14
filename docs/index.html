@@ -65,12 +65,12 @@
 		
 		<label for="starttime">Start time:</label>
 			<input type="time" id="starttime" name="starttimefilter" v-model="start_time"
-				value="00:00:00">
+				min="00:00:00" max="24:00:00" value="00:00:00">
 		<!--show incidents >= start_time-->
 				
 		<label for="endtime">End time:</label>
 			<input type="time" id="endtime" name="endtimefilter" v-model="end_time"
-				value="12:00:00">			
+				min="00:00:00" max="23:59:00" value="23:59:00">		
 		<!--show incidents <= end_time-->
 		
 		<!--checkbox lists - old
