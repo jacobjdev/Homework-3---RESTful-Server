@@ -60,8 +60,9 @@ globalcrime_api_url=crime_api_url
             start_date: "2019-10-01",
             end_date: "2019-10-31",
 			start_time: "00:00:00",
-			end_time: "24:00:00",
+			end_time: "23:59:00",
             rowchecked: {},
+            uniqueIncidentType:[],
             // add the NW and SE corner data here 
             northwestMapCorner : (45.0213, -93.236),
             southeastMapCorner: (44.8802, -93.003),
@@ -215,6 +216,16 @@ globalcrime_api_url=crime_api_url
     IncidentSearch();
 }
 
+
+
+
+
+// var crimetable = document.getElementById("CrimeTableForUpdates");
+// setTimeout(function() {crimetable.addEventListener("change", function(){
+//     app.updatePopups();
+// });}, 5000);
+
+
 function getCenter2(){
     mymap.on('moveend', function (event){
         // console.log(document.getElementById("search").value)
@@ -263,10 +274,23 @@ function incidentData(data)
     
     console.log(data[Object.keys(data)[0]])
     app.incident_data = data;
-	for(incident in app.incident_data){
-		//console.log('incident '+app.incident_data[incident]);
-		app.incidenttypes.push(app.incident_data[incident]);
+
+
+    //This is to make a list of one per incident type in the scroll bar
+    console.log("Incident data length; " + Object.keys(app.incident_data).length)
+    for(incident in app.incident_data){
+        // console.log("checking incident : " , incident , "with type incident: ", app.incident_data[incident].incident);
+        if(app.uniqueIncidentType.indexOf(app.incident_data[incident].incident)<0){
+            app.uniqueIncidentType.push(app.incident_data[incident].incident)
+        }
+    }
+    console.log("this is final list uniques" , app.uniqueIncidentType);
+
+    for(incident in app.uniqueIncidentType){
+		app.incidenttypes.push(app.uniqueIncidentType[incident])
 	}
+
+
 
     if(mymap == null){
         app.startMap();
@@ -274,11 +298,16 @@ function incidentData(data)
     app.updatePopups();
     getCenter2();
 
+
+    
+
+    
+
 	
 	//console.log("THIS IS TEMP ARRAY "+ temparray);
 	//console.log(app.search_results);
 	console.log('processing incident search data');
-    console.log(data);
+    console.log("This is data consoled out ", data);
 }
 
 function MapSearch(event)
