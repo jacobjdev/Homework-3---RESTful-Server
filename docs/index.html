@@ -100,22 +100,22 @@
 		<select id="neighborhoodlist" multiple v-model="neighborhoods">
 			  <option v-for="item in neighborhood_data">{{ item }}</option>
 		</select>
-		<button type="button" @click="MapSearch"> Select all neighborhoods</button>
 		</div>
+		<button type="button" @click="MapSearch"> Select all neighborhoods</button>
 		
-		<div class="float-right">
+		<div class="float-left">
 		<label for="incidentlist">Select incident type(s):</label>
 		<select id="incidentlist" multiple v-model="incidenttypes"> <!--v-if item.incident type=="theft" -- if selected add to array-->
 			  <!--<option v-for="item in code_data">{{ item }}</option>-->
               <!-- <option v-for="item in incident_data" v-if="incidenttypes.indexOf(item.incident)<0">{{ item.incident }}</option> -->
               <option v-for="(item, key) in uniqueIncidentType">{{ item }}</option>		 
 		</select>
-		<button type="button" @click="MapSearch"> Select all incident types</button>
 		</div>
+		<button type="button" @click="MapSearch"> Select all incident types</button>
 
 	
 		
-		<button type="button" @click="IncidentSearch">Apply Filters</button>
+		<button type="button" @click="IncidentSearch">Filter dates</button>
 			   
         <!--update table when apply filter button-->
         

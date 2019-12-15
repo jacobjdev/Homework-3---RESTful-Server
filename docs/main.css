@@ -64,3 +64,8 @@
 	top: 0;
     left: 0;
 }
+
+.second{
+	position:relative;
+	top: 50px;
+}
