@@ -263,6 +263,10 @@ function incidentData(data)
     
     console.log(data[Object.keys(data)[0]])
     app.incident_data = data;
+	for(incident in app.incident_data){
+		console.log('incident '+app.incident_data[incident]);
+		app.incidenttypes.push(app.incident_data[incident]);
+	}
 
     if(mymap == null){
         app.startMap();
@@ -378,9 +382,11 @@ function codeData(data)
 	//console.log(app.search_results);
 	console.log('processing code data');
     console.log('code data '+data);
+	/*
     for(code in app.code_data){
 		app.incidenttypes.push(app.code_data[code])
 	}
+	*/
 }
 
 function placeSingleMarker(key){

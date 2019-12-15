@@ -105,7 +105,8 @@
 		<div class="float-right">
 		<label for="incidentlist">Select incident type(s):</label>
 		<select id="incidentlist" multiple v-model="incidenttypes"> <!--v-if item.incident type=="theft" -- if selected add to array-->
-			  <option v-for="item in code_data">{{ item }}</option>	  
+			  <!--<option v-for="item in code_data">{{ item }}</option>-->
+			  <option v-for="item in incident_data">{{ item.incident }}</option>	 
 		</select>
 		</div>
 
@@ -120,7 +121,7 @@
                         <th >Case Number</th> <!--scope="col"-->
                         <th>Date</th>
 						<th>Time</th>
-						<!--<th>Code</th>-->
+						<th>Code</th>
                         <th >Incident Type</th>
                         <th >Police Grid</th>
                         <th >Neighborhood</th>
@@ -154,7 +155,7 @@
 						<td>{{ key.substring(1) }}</td>
 						<td>{{ item.date }}</td>
 						<td>{{ item.time }}</td>
-						<!--<td>{{ item.code }}</td>-->
+						<td>{{ item.code }}</td>
 						<td>{{ item.incident }}</td>
 						<!--<td>{{ code_data["C"+item.code] }}</td>-->
 						<td>{{ item.police_grid }}</td>
