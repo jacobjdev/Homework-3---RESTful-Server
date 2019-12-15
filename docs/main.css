@@ -38,17 +38,29 @@
 
 .column {
   float: left;
-  width: 33.33%;
+  width: 50%;
+  padding: 10px;
 }
 
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+.row {
+  display: flex;
 }
+
 
 #aboutPageBody{
   font-family: Arial;
   padding: 10px;
   background: #F1F1F1;
+}
+
+.floatright{
+	float: right;
+	top: 0;
+    right: 0;
+}
+
+.floatleft{
+	float: left;
+	top: 0;
+    left: 0;
 }
