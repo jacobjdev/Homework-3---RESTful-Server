@@ -18,38 +18,37 @@
 
 .C500,.C300,.C311,.C314,.C371,.C1401,.C1415,.C374,.C351,.C341,.C373,.C540,.C523,.C530,.C543,.C521,.C515,.C510,.C513,.C520,.C511,.C533,.C551,.C546,.C550,.C555,.C531,.C525,.C541,
 .C560,.C535,.C343,.C321,.C553,.C344,.C700,.C710,.C712,.C1400,.C1410,.C630,.C631,.C614,.C630,.C641,
-.C693,.C691,.C692,.C640,.C651{
+.C693,.C691,.C692,.C640,.C651,.C545,.C711,.C720,.C1420,.C1430{
 	background-color:lightBlue;
 }
 .C9954,.C9959,.C1800,.C1811,.C1813,.C1835,.C1843,.C1812,.C1814,.C1814,.C1880,.C1820,.C2619{
 	 background-color:lightGreen;
 }
 .C110,.C120,.C901,.C971,.C900,.C933,.C903,.C905,.C400,.C410,.C420,.C430,.C440,.C862,.C861,.C412,
-.C451,.C441,.C422,.C432,.C450,.C421,.C431{
+.C451,.C441,.C422,.C432,.C450,.C421,.C431,.C210,.C220{
 	background-color:#ff7d66;
 }
 
-/*
-murder
-.AC120{
-}
-rape
-.AC210{
-}
-rape
-.AC300{
-}
-rape
-.AC311{
-}
-robbery
-.AC312{
-}
-robbery
-.AC313{
-}
-robbery
-.AC314{
-}
-*/
 
+.header {
+  background-color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#aboutPageBody{
+  font-family: Arial;
+  padding: 10px;
+  background: #F1F1F1;
+}

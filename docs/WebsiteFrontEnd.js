@@ -264,7 +264,7 @@ function incidentData(data)
     console.log(data[Object.keys(data)[0]])
     app.incident_data = data;
 	for(incident in app.incident_data){
-		console.log('incident '+app.incident_data[incident]);
+		//console.log('incident '+app.incident_data[incident]);
 		app.incidenttypes.push(app.incident_data[incident]);
 	}
 
