@@ -101,7 +101,7 @@
 			  <option v-for="item in neighborhood_data">{{ item }}</option>
 		</select>
 		</div>
-		<button type="button" @click="MapSearch"> Select all neighborhoods</button>
+		<button type="button" @click="selectAllNeighborhoodTypesButton"> Select all neighborhoods</button>
 		
 		<div class="float-left">
 		<label for="incidentlist">Select incident type(s):</label>
@@ -111,7 +111,7 @@
               <option v-for="(item, key) in uniqueIncidentType">{{ item }}</option>		 
 		</select>
 		</div>
-		<button type="button" @click="MapSearch"> Select all incident types</button>
+		<button type="button" @click="selectAllIncidentTypesButton"> Select all incident types</button>
 
 	
 		

@@ -357,7 +357,6 @@ function MapSearch(event)
 // Rachel port 8011, jacob 8018
 function neighborhoodSearch(event){
     
-    //maybe need to remove this?
     
     console.log('hello2');
     let request = {
@@ -411,11 +410,7 @@ function codeData(data)
 	//console.log(app.search_results);
 	console.log('processing code data');
     console.log('code data '+data);
-	/*
-    for(code in app.code_data){
-		app.incidenttypes.push(app.code_data[code])
-	}
-	*/
+	
 }
 
 function placeSingleMarker(key){
@@ -444,16 +439,9 @@ function placeSingleMarker(key){
 			
 			mymap.eventIcon = L.marker(latlng3).addTo(mymap);
 			
-			//let btn = document.createElement('button');
-			//btn.innerText = 'Delete Marker';
-	
-
-			//mymap.eventIcon.bindPopup(app.incident_data[key] + app.incident_data[key].date + app.incident_data[key].time);
+			
 			mymap.eventIcon.bindPopup(app.incident_data[key].incident +", " + app.incident_data[key].date + ", "+ app.incident_data[key].time);
-			//let btn = document.createElement('button');
-				//btn.innerText = 'Delete Marker';
-				//btn.onclick =  function() {
-				//mymap.removeLayer(mp);
+
 
 		
 			console.log('here');
@@ -462,5 +450,18 @@ function placeSingleMarker(key){
 
 
 }
+
+function selectAllIncidentTypesButton(){
+    for(incident in app.uniqueIncidentType){
+		app.incidenttypes.push(app.uniqueIncidentType[incident])
+	}
+}
+
+function selectAllNeighborhoodTypesButton(){
+    for(neighborhood in app.neighborhood_data){
+		app.neighborhoods.push(app.neighborhood_data[neighborhood])
+	}
+}
+
 
 
