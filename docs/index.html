@@ -100,6 +100,7 @@
 		<select id="neighborhoodlist" multiple v-model="neighborhoods">
 			  <option v-for="item in neighborhood_data">{{ item }}</option>
 		</select>
+		<button type="button" @click="MapSearch"> Select all neighborhoods</button>
 		</div>
 		
 		<div class="float-right">
@@ -109,6 +110,7 @@
               <!-- <option v-for="item in incident_data" v-if="incidenttypes.indexOf(item.incident)<0">{{ item.incident }}</option> -->
               <option v-for="(item, key) in uniqueIncidentType">{{ item }}</option>		 
 		</select>
+		<button type="button" @click="MapSearch"> Select all incident types</button>
 		</div>
 
 	
