@@ -283,9 +283,7 @@ function incidentData(data)
     }
     console.log("this is final list uniques" , app.uniqueIncidentType);
 
-    for(incident in app.uniqueIncidentType){
-		app.incidenttypes.push(app.uniqueIncidentType[incident])
-	}
+    selectAllIncidentTypesButton();
 
 
     if(mymap == null){
@@ -369,9 +367,7 @@ function neighborhoodData(data)
 	//console.log(app.search_results);
 	console.log('proessing neighbrhood data');
     console.log(data);
-	for(neighborhood in app.neighborhood_data){
-		app.neighborhoods.push(app.neighborhood_data[neighborhood])
-	}
+	selectAllNeighborhoodTypesButton();
 	console.log('neighborhoods: '+app.neighborhoods);
 }
 
