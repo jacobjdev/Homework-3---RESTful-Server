@@ -220,10 +220,7 @@ globalcrime_api_url=crime_api_url
 
 
 
-// var crimetable = document.getElementById("CrimeTableForUpdates");
-// setTimeout(function() {crimetable.addEventListener("change", function(){
-//     app.updatePopups();
-// });}, 5000);
+
 
 
 function getCenter2(){
@@ -291,18 +288,11 @@ function incidentData(data)
 	}
 
 
-
     if(mymap == null){
         app.startMap();
     }
     app.updatePopups();
     getCenter2();
-
-
-    
-
-    
-
 	
 	//console.log("THIS IS TEMP ARRAY "+ temparray);
 	//console.log(app.search_results);
@@ -462,6 +452,4 @@ function selectAllNeighborhoodTypesButton(){
 		app.neighborhoods.push(app.neighborhood_data[neighborhood])
 	}
 }
-
-
 
